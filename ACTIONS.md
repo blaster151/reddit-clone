@@ -3,6 +3,9 @@
 - Implemented the usePosts custom hook for fetching posts with loading and error state, and added a unit test for it using React Testing Library and MSW. 
 - Implemented a basic /api/posts API route that returns a static array of posts for frontend and hook integration. 
 - Implemented and tested the /api/posts/create API route for creating posts, returning the created post as JSON. 
+- Implemented CreatePostForm component with React Hook Form, Zod validation, and comprehensive unit tests including form validation, submission handling, and error states.
+- Implemented CommentForm component with React Hook Form, Zod validation, support for nested comments, and comprehensive unit tests including form validation and submission handling.
+- Implemented useVotes custom hook with optimistic updates, error handling, vote state management, and comprehensive unit tests for both posts and comments.
 - next: Core React framework for SSR, routing, and API routes.
 - react, react-dom: Main UI library for building interactive components.
 - tailwindcss: Utility-first CSS framework for rapid UI styling.
