@@ -51,3 +51,15 @@
 - Implemented upvote/downvote button logic in PostCard component, including unit tests for voting interactions and edge cases. 
 - Implemented upvote/downvote button logic in CommentCard component, including unit tests for voting interactions and edge cases. 
 - Implemented SubredditSidebar component to display a list of subreddits, empty state, and create community button. Added unit tests for all states. 
+- Implemented AuthUI component with login and register forms, validation, and unit tests for rendering, mode switching, validation, and submission. 
+- Implemented UserProfile component to display username, email, karma, and join date, with unit tests for rendering all fields. 
+- Implemented SubredditPage component to display subreddit name, description, and a list of posts for that subreddit, with loading, error, not found, empty, and populated states. Added unit tests for all states. 
+- Implemented PostDetailPage component to display the full post content and a comment thread for that post, with loading, error, not found, and populated states. Added unit tests for all states. 
+- Ensured all major UI components (PostFeed, CommentThread, SubredditPage, PostDetailPage, SubredditSidebar, etc.) have proper loading and error states, with unit tests for these states. 
+- Implemented pagination (Load More button) in PostFeed component, with unit tests for paginated loading and edge cases. 
+- Integrated useVotes hook into PostCard component for voting logic, with unit tests for voting interactions and optimistic updates. 
+- Integrated useVotes hook into CommentCard component for voting logic, with unit tests for voting interactions and optimistic updates. 
+- Ensured PostCard and CommentCard voting buttons show proper loading/disabled states during vote submission, with unit tests for these states. 
+- Added vote count animations and visual feedback to PostCard component, with unit tests for animation trigger and feedback. 
+- Implemented proper error boundaries and loading states with reusable LoadingSpinner and Skeleton components, improved PostFeed and CommentThread loading UX, and added loading states for voting operations in Comment component. 
+- Implemented comprehensive search functionality with filters, including useSearch hook with debouncing, SearchBar component with dropdown results and filter panel, SearchResults page component, enhanced search API with filtering and sorting, and comprehensive unit tests for all search components. 

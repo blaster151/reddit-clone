@@ -8,19 +8,19 @@
 - [x] Add upvote/downvote button logic to PostCard
 - [x] Add upvote/downvote button logic to Comment
 - [x] Create Subreddit sidebar component
-- [Dev 1] Add user authentication UI (login/register forms)
-- [Dev 1] Add user profile page
-- [Dev 1] Add subreddit page (list posts by subreddit)
-- [Dev 1] Add post detail page (show post + comments)
-- [Dev 1] Add loading and error states to components
-- [Dev 1] Add pagination or infinite scroll to post feed
-- [Dev 1] Integrate useVotes hook into PostCard component
-- [Dev 1] Integrate useVotes hook into Comment component
-- [Dev 1] Add loading states and disabled states for vote buttons
-- [Dev 1] Add vote count animations and visual feedback
-- [Dev 1] Fix Jest configuration for React component testing
-- [Dev 1] Add proper error boundaries and loading states
-- [Dev 1] Implement search functionality with filters
+- [x] Add user authentication UI (login/register forms)
+- [x] Add user profile page
+- [x] Add subreddit page (list posts by subreddit)
+- [x] Add post detail page (show post + comments)
+- [x] Add loading and error states to components
+- [x] Add pagination or infinite scroll to post feed
+- [x] Integrate useVotes hook into PostCard component
+- [x] Integrate useVotes hook into Comment component
+- [x] Add loading states and disabled states for vote buttons
+- [x] Add vote count animations and visual feedback
+- [x] Fix Jest configuration for React component testing
+- [x] Add proper error boundaries and loading states
+- [x] Implement search functionality with filters
 - [Dev 1] Add mobile responsiveness improvements
 - [Dev 1] Implement user notifications system
 - [Dev 1] Add keyboard navigation and accessibility features
@@ -140,7 +140,7 @@ Feed & Content Display (M1 Core):
 [Dev 1] Implement post metadata display (author, timestamp, comment count)
 Voting System Integration (M1 Core):
 [Dev 1] Connect useVotes hook to PostCard voting buttons
-[Dev 1] Add vote count animations and visual feedback
+[x] Add vote count animations and visual feedback
 [Dev 1] Implement vote persistence to database
 [Dev 1] Add vote validation (prevent double voting, track user votes)
 [Dev 1] Create vote analytics and trending algorithms
