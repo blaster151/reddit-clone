@@ -28,3 +28,7 @@
 - @tailwindcss/postcss: PostCSS integration for Tailwind CSS.
 - Added comprehensive unit tests for Button component covering all variants (default, destructive, outline, secondary, ghost, link), sizes (default, sm, lg, icon), interaction handling, accessibility features, and edge cases with proper mocking of utility functions.
 - Implemented Comment component with voting functionality, nested replies support, author info display, timestamps, and comprehensive unit tests covering voting behavior, reply handling, content display, accessibility features, and edge cases with proper mocking of dependencies. 
+- Added unit tests for API route handlers (GET /api/posts) with comprehensive coverage: verifies response structure, status, required fields, and type correctness for all returned post objects. 
+- Added integration tests for post creation flow (POST /api/posts/create) covering valid post creation, missing required fields, and invalid JSON input. Tests document current and expected behavior for future validation improvements. 
+- Added integration tests for comment creation flow (POST /api/comments/create) covering valid comment creation, reply comments with parentCommentId, missing required fields, and invalid JSON input. Tests document current and expected behavior for future validation improvements. 
+- Added integration tests for voting flow (POST /api/votes) covering valid votes for posts and comments, missing required fields, and invalid JSON input. Tests document current and expected behavior for future validation improvements. 

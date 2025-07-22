@@ -46,10 +46,26 @@
 - [Dev 2] Implement caching strategy for frequently accessed data
 
 ## Validation & Types
-- [Dev 2] Add Zod validation to all API routes
-- [Dev 2] Add Zod validation to all forms
-- [Dev 2] Add type-safe API response types
-- [Dev 2] Add error handling for invalid input
+- [Dev 2] Add Zod validation to all new and existing API routes (comments, votes, subreddits, auth)
+- [Dev 2] Add centralized error handling middleware/util for consistent API error responses
+- [Dev 2] Integrate persistent storage (Prisma + PostgreSQL) for comments, votes, and subreddits
+- [Dev 2] Implement user authentication and session management (NextAuth.js or similar)
+- [Dev 2] Add rate limiting and brute-force protection to voting and comment APIs
+- [Dev 2] Implement API endpoints for fetching individual comments and comment threads (nested replies)
+- [Dev 2] Add API endpoints for editing and deleting comments (with permission checks)
+- [Dev 2] Add integration tests for user registration and login flows
+- [Dev 2] Add integration tests for subreddit creation and fetching flows
+- [Dev 2] Implement API endpoints for subscribing/unsubscribing to subreddits
+- [Dev 2] Add API endpoints for fetching user profiles and user activity (posts, comments, votes)
+- [Dev 2] Implement moderation tools: comment/report flagging, comment removal, and user bans
+- [Dev 2] Add real-time updates for comments and votes using WebSockets or server-sent events
+- [Dev 2] Implement full-text search for posts and comments (API and frontend)
+- [Dev 2] Add analytics endpoints for trending posts, top subreddits, and user engagement
+- [Dev 2] Implement caching for frequently accessed API endpoints (e.g., posts, subreddits)
+- [Dev 2] Add accessibility tests for all interactive components (buttons, forms, modals)
+- [Dev 2] Refactor API route tests to use MSW (Mock Service Worker) for more realistic integration testing
+- [Dev 2] Add API endpoints and UI for notifications (mentions, replies, mod actions)
+- [Dev 2] Implement optimistic UI updates for voting and commenting in the frontend
 
 ## State Management & Hooks
 - [x] Create custom hook for submitting votes
@@ -65,10 +81,10 @@
 - [x] Add unit tests for PostCard component
 - [x] Add unit tests for Button component
 - [x] Add unit tests for Comment component
-- [Dev 2] Add unit tests for API route handlers
-- [Dev 2] Add integration tests for post creation flow
-- [Dev 2] Add integration tests for comment creation flow
-- [Dev 2] Add integration tests for voting flow
+- [x] Add unit tests for API route handlers
+- [x] Add integration tests for post creation flow
+- [x] Add integration tests for comment creation flow
+- [x] Add integration tests for voting flow
 - [Dev 2] Add E2E tests for user registration/login
 - [Dev 2] Add E2E tests for posting/commenting/voting
 - [Dev 2] Add tests for API error cases (invalid input, server errors)
