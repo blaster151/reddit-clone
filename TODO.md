@@ -86,3 +86,54 @@
 - [Dev 1] Add dark mode support
 - [Dev 1] Implement internationalization (i18n)
 - [Dev 1] Add analytics and user behavior tracking
+
+Authentication & User Management (M1 Core):
+- [Dev 2] Implement NextAuth.js v4 with credentials provider
+- [Dev 2] Set up user registration form with email/password
+- [Dev 2] Implement email verification flow for new accounts
+- [Dev 2] Add password reset functionality via email
+- [Dev 2] Create user session management and protected routes
+- [Dev 2] Add rate limiting for registration/login attempts
+- Database & Data Layer (M1 Foundation):
+- [Dev 2] Set up PostgreSQL database with Prisma ORM
+- [Dev 2] Create database schema for users, posts, comments, votes, communities
+- [Dev 2] Implement database migrations and seeding
+- [Dev 2] Add database connection pooling and error handling
+- Post Detail & Navigation (M1 Core):
+- [Dev 1] Create individual post detail page with dynamic routing (/posts/[id])
+- [Dev 1] Implement post detail page with full post content and metadata
+- [Dev 1] Add breadcrumb navigation from feed to post detail
+- [Dev 1] Create post sharing functionality (copy link, social share)
+- Comment System (M1 Core):
+- [Dev 1] Implement nested comment threading (replies to replies)
+- [Dev 1] Add comment sorting options (new, top, controversial)
+- [Dev 1] Create comment collapse/expand functionality for long threads
+- [Dev 1] Add comment pagination or "load more" for posts with many comments
+- Community Structure (M1 Foundation):
+- [Dev 1] Create basic subreddit/community pages with filtering
+- [Dev 1] Implement community sidebar with description and moderator info
+
+Feed & Content Display (M1 Core):
+[Dev 1] Implement feed sorting options (New, Top, Hot, Rising)
+[Dev 1] Add feed pagination or infinite scroll for large post lists
+[Dev 1] Create empty state UI for feeds with no posts
+[Dev 1] Add post preview truncation for long content in feed view
+[Dev 1] Implement post metadata display (author, timestamp, comment count)
+Voting System Integration (M1 Core):
+[Dev 1] Connect useVotes hook to PostCard voting buttons
+[Dev 1] Add vote count animations and visual feedback
+[Dev 1] Implement vote persistence to database
+[Dev 1] Add vote validation (prevent double voting, track user votes)
+[Dev 1] Create vote analytics and trending algorithms
+User Experience & Navigation (M1 Polish):
+[Dev 1] Add loading states for all async operations (posts, comments, votes)
+[Dev 1] Implement optimistic UI updates for better perceived performance
+[Dev 1] Create responsive design for mobile devices
+[Dev 1] Add keyboard navigation support for accessibility
+[Dev 1] Implement proper focus management for forms and modals
+Content Management (M1 Core):
+[Dev 1] Add post editing functionality for authors
+[Dev 1] Implement post deletion with confirmation
+[Dev 1] Create comment editing and deletion features
+[Dev 1] Add content moderation flags (report inappropriate content)
+[Dev 1] Implement content validation and sanitization
