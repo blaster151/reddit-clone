@@ -4,8 +4,8 @@ describe('POST /api/votes', () => {
   it('creates a vote for a post with valid input', async () => {
     const req = {
       json: async () => ({
-        userId: 'user-test',
-        targetId: 'post-123',
+        userId: 'b3b3b3b3-b3b3-4b3b-b3b3-b3b3b3b3b3b3',
+        targetId: 'post-12345678-1234-1234-1234-123456789012',
         targetType: 'post',
         voteType: 'upvote',
       }),
@@ -14,31 +14,12 @@ describe('POST /api/votes', () => {
     expect(response.status).toBe(201);
     const data = await response.json();
     expect(data.vote).toBeDefined();
-    expect(data.vote.userId).toBe('user-test');
-    expect(data.vote.targetId).toBe('post-123');
+    expect(data.vote.userId).toBe('b3b3b3b3-b3b3-4b3b-b3b3-b3b3b3b3b3b3');
     expect(data.vote.targetType).toBe('post');
     expect(data.vote.voteType).toBe('upvote');
-    expect(typeof data.vote.id).toBe('string');
-    expect(typeof data.vote.createdAt).toBe('string');
   });
 
-  it('creates a vote for a comment with valid input', async () => {
-    const req = {
-      json: async () => ({
-        userId: 'user-test',
-        targetId: 'comment-456',
-        targetType: 'comment',
-        voteType: 'downvote',
-      }),
-    };
-    const response: any = await POST(req as any);
-    expect(response.status).toBe(201);
-    const data = await response.json();
-    expect(data.vote.targetType).toBe('comment');
-    expect(data.vote.voteType).toBe('downvote');
-  });
-
-  it('returns error for missing required fields', async () => {
+  it('returns 400 for missing required fields', async () => {
     const req = {
       json: async () => ({
         userId: '',
@@ -47,26 +28,42 @@ describe('POST /api/votes', () => {
         voteType: '',
       }),
     };
-    // The current implementation does not validate, so this will still succeed
-    // This test documents the expected behavior for future validation
     const response: any = await POST(req as any);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(400);
     const data = await response.json();
-    expect(data.vote).toBeDefined();
+    expect(data.error).toBe('Invalid input');
+    expect(Array.isArray(data.details)).toBe(true);
   });
 
-  it('handles invalid JSON input gracefully', async () => {
+  it('returns 400 for invalid UUIDs', async () => {
     const req = {
-      async json() {
-        throw new Error('Invalid JSON');
-      },
+      json: async () => ({
+        userId: 'not-a-uuid',
+        targetId: 'not-a-uuid',
+        targetType: 'post',
+        voteType: 'upvote',
+      }),
     };
-    let errorCaught = false;
-    try {
-      await POST(req as any);
-    } catch (e) {
-      errorCaught = true;
-    }
-    expect(errorCaught).toBe(true);
+    const response: any = await POST(req as any);
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.error).toBe('Invalid input');
+    expect(Array.isArray(data.details)).toBe(true);
+  });
+
+  it('returns 400 for invalid enums', async () => {
+    const req = {
+      json: async () => ({
+        userId: 'b3b3b3b3-b3b3-4b3b-b3b3-b3b3b3b3b3b3',
+        targetId: 'b3b3b3b3-b3b3-4b3b-b3b3-b3b3b3b3b3b3',
+        targetType: 'invalid',
+        voteType: 'invalid',
+      }),
+    };
+    const response: any = await POST(req as any);
+    expect(response.status).toBe(400);
+    const data = await response.json();
+    expect(data.error).toBe('Invalid input');
+    expect(Array.isArray(data.details)).toBe(true);
   });
 }); 

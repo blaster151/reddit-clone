@@ -77,6 +77,7 @@ export const createCommentSchema = z.object({
 });
 
 export const voteSchemaInput = z.object({
+  userId: z.string().uuid(),
   targetId: z.string().uuid(),
   targetType: z.enum(['post', 'comment']),
   voteType: z.enum(['upvote', 'downvote']),

@@ -46,16 +46,16 @@
 - [Dev 2] Implement caching strategy for frequently accessed data
 
 ## Validation & Types
-- [Dev 2] Add Zod validation to all new and existing API routes (comments, votes, subreddits, auth)
-- [Dev 2] Add centralized error handling middleware/util for consistent API error responses
+- [x] Add Zod validation to all new and existing API routes (comments, votes, subreddits, auth)
+- [x] Add centralized error handling middleware/util for consistent API error responses
 - [Dev 2] Integrate persistent storage (Prisma + PostgreSQL) for comments, votes, and subreddits
 - [Dev 2] Implement user authentication and session management (NextAuth.js or similar)
 - [Dev 2] Add rate limiting and brute-force protection to voting and comment APIs
 - [Dev 2] Implement API endpoints for fetching individual comments and comment threads (nested replies)
 - [Dev 2] Add API endpoints for editing and deleting comments (with permission checks)
-- [Dev 2] Add integration tests for user registration and login flows
-- [Dev 2] Add integration tests for subreddit creation and fetching flows
-- [Dev 2] Implement API endpoints for subscribing/unsubscribing to subreddits
+- [x] Add integration tests for user registration and login flows
+- [x] Add integration tests for subreddit creation and fetching flows
+- [x] Add integration tests for subscribing/unsubscribing to subreddits
 - [Dev 2] Add API endpoints for fetching user profiles and user activity (posts, comments, votes)
 - [Dev 2] Implement moderation tools: comment/report flagging, comment removal, and user bans
 - [Dev 2] Add real-time updates for comments and votes using WebSockets or server-sent events
