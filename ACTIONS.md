@@ -1,0 +1,22 @@
+- Scaffolded a TypeScript-first Next.js Reddit clone: set up project with Tailwind, ESLint, Zod validation, reusable UI components, type definitions, utility functions, and connected/pushed to a new GitHub repository. 
+- Added unit tests for the sanitizeInput utility function in src/lib/__tests__/utils.test.ts to ensure input sanitization works as expected. 
+- Implemented the usePosts custom hook for fetching posts with loading and error state, and added a unit test for it using React Testing Library and MSW. 
+- Implemented a basic /api/posts API route that returns a static array of posts for frontend and hook integration. 
+- Implemented and tested the /api/posts/create API route for creating posts, returning the created post as JSON. 
+- next: Core React framework for SSR, routing, and API routes.
+- react, react-dom: Main UI library for building interactive components.
+- tailwindcss: Utility-first CSS framework for rapid UI styling.
+- clsx: Utility for conditionally joining classNames in React components.
+- tailwind-merge: Utility to intelligently merge Tailwind CSS class names.
+- lucide-react: Icon library for modern, customizable SVG icons in the UI.
+- zod: TypeScript-first schema validation for API and form data.
+- react-hook-form: Form state management and validation in React.
+- @hookform/resolvers: Integrates Zod (and other schema libs) with react-hook-form.
+- uuid: Generate unique IDs for posts, users, etc.
+- @types/uuid: TypeScript types for uuid.
+- eslint, eslint-config-next, @eslint/eslintrc: Linting and code quality tools.
+- typescript, @types/node, @types/react, @types/react-dom: TypeScript and type definitions for type safety.
+- jest, ts-jest, @types/jest: Unit and integration testing framework for TypeScript.
+- @testing-library/react, @testing-library/jest-dom: Testing utilities for React components and DOM assertions.
+- msw: Mock Service Worker for API mocking in tests.
+- @tailwindcss/postcss: PostCSS integration for Tailwind CSS. 
