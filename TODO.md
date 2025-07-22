@@ -77,8 +77,8 @@
 - [Dev 2] Add performance tests for high-traffic scenarios
 
 ## Miscellaneous
-- [Dev 1] Add error boundary component
-- [Dev 1] Add 404 and error pages
+- [x] Add error boundary component
+- [x] Add 404 and error pages
 - [Dev 1] Add SEO meta tags to pages
 - [Dev 1] Add favicon and branding
 - [Dev 1] Add README instructions for setup and contribution

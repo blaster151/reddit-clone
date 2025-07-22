@@ -6,6 +6,9 @@
 - Implemented CreatePostForm component with React Hook Form, Zod validation, and comprehensive unit tests including form validation, submission handling, and error states.
 - Implemented CommentForm component with React Hook Form, Zod validation, support for nested comments, and comprehensive unit tests including form validation and submission handling.
 - Implemented useVotes custom hook with optimistic updates, error handling, vote state management, and comprehensive unit tests for both posts and comments.
+- Implemented ErrorBoundary component with comprehensive error handling, fallback UI, development/production mode detection, and unit tests for error catching and recovery.
+- Implemented 404 Not Found page with user-friendly error message, navigation options (Go Home, Search, Go Back), contact support link, and comprehensive unit tests for rendering and functionality.
+- Implemented global Error page component with error handling, reset functionality, development/production mode detection, error digest support, and comprehensive unit tests for error recovery.
 - next: Core React framework for SSR, routing, and API routes.
 - react, react-dom: Main UI library for building interactive components.
 - tailwindcss: Utility-first CSS framework for rapid UI styling.
