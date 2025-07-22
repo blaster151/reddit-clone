@@ -3,11 +3,11 @@
 ## Frontend
 - [x] Create a Post creation form component
 - [x] Create a Comment form component
-- [Dev 1] Implement a Post list/feed component
-- [Dev 1] Implement a Comment thread component
-- [Dev 1] Add upvote/downvote button logic to PostCard
-- [Dev 1] Add upvote/downvote button logic to Comment
-- [Dev 1] Create Subreddit sidebar component
+- [x] Implement a Post list/feed component
+- [x] Implement a Comment thread component
+- [x] Add upvote/downvote button logic to PostCard
+- [x] Add upvote/downvote button logic to Comment
+- [x] Create Subreddit sidebar component
 - [Dev 1] Add user authentication UI (login/register forms)
 - [Dev 1] Add user profile page
 - [Dev 1] Add subreddit page (list posts by subreddit)

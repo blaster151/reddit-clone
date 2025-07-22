@@ -45,3 +45,9 @@
 - Implemented HTTP caching for posts and subreddits API endpoints (GET /api/posts, GET /api/subreddits/[id]), with tests verifying Cache-Control headers are set correctly. 
 - Implemented automated accessibility tests for Button and CommentForm components using jest-axe, ensuring no accessibility violations in default and disabled states. 
 - Refactored API route tests to use MSW (Mock Service Worker) for more realistic integration testing, with a demo test for the posts API route mocking /api/posts. 
+- @tailwindcss/postcss: PostCSS integration for Tailwind CSS. 
+- Implemented PostFeed component to display a list of posts using PostCard and usePosts, with loading, error, and empty states. Added comprehensive unit tests for all states. 
+- Implemented CommentThread component to display a thread of comments (including nested replies) for a post, with loading, error, and empty states. Added unit tests for all states. 
+- Implemented upvote/downvote button logic in PostCard component, including unit tests for voting interactions and edge cases. 
+- Implemented upvote/downvote button logic in CommentCard component, including unit tests for voting interactions and edge cases. 
+- Implemented SubredditSidebar component to display a list of subreddits, empty state, and create community button. Added unit tests for all states. 
