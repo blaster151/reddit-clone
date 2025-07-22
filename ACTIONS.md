@@ -25,4 +25,6 @@
 - jest, ts-jest, @types/jest: Unit and integration testing framework for TypeScript.
 - @testing-library/react, @testing-library/jest-dom: Testing utilities for React components and DOM assertions.
 - msw: Mock Service Worker for API mocking in tests.
-- @tailwindcss/postcss: PostCSS integration for Tailwind CSS. 
+- @tailwindcss/postcss: PostCSS integration for Tailwind CSS.
+- Added comprehensive unit tests for Button component covering all variants (default, destructive, outline, secondary, ghost, link), sizes (default, sm, lg, icon), interaction handling, accessibility features, and edge cases with proper mocking of utility functions.
+- Implemented Comment component with voting functionality, nested replies support, author info display, timestamps, and comprehensive unit tests covering voting behavior, reply handling, content display, accessibility features, and edge cases with proper mocking of dependencies. 

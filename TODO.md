@@ -62,8 +62,9 @@
 - [Dev 1] Create custom hook for user preferences
 
 ## Testing
-- [Dev 2] Add unit tests for PostCard component
-- [Dev 2] Add unit tests for Comment component
+- [x] Add unit tests for PostCard component
+- [x] Add unit tests for Button component
+- [x] Add unit tests for Comment component
 - [Dev 2] Add unit tests for API route handlers
 - [Dev 2] Add integration tests for post creation flow
 - [Dev 2] Add integration tests for comment creation flow
