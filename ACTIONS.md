@@ -37,3 +37,11 @@
 - Implemented integration tests for user registration and login flows (POST /api/auth/register, POST /api/auth/login) covering valid input, missing fields, invalid email, and short password cases. 
 - Implemented integration tests for subreddit creation and fetching flows (POST /api/subreddits/create, GET /api/subreddits/[id]) covering valid input, missing fields, invalid name, long description, valid id, and not found cases. 
 - Implemented integration tests for subscribing/unsubscribing to subreddits (POST /api/subreddits/subscribe, POST /api/subreddits/unsubscribe) covering valid input and missing fields. 
+- Implemented API endpoints and integration tests for fetching user profiles and user activity (GET /api/users/[id], GET /api/users/[id]/activity) covering valid and invalid user IDs. 
+- Implemented moderation tools: comment/report flagging (POST /api/moderation/flag), comment removal (POST /api/moderation/remove-comment), and user bans (POST /api/moderation/ban-user), with integration tests for valid input and error cases. 
+- Implemented a real-time SSE endpoint for comments and votes (GET /api/realtime), with a test verifying event streaming and correct SSE format for comment and vote events. 
+- Implemented a full-text search API endpoint for posts and comments (POST /api/search), with integration tests for valid queries, missing query, and invalid type. 
+- Implemented analytics endpoints for trending posts (GET /api/analytics/trending-posts), top subreddits (GET /api/analytics/top-subreddits), and user engagement (GET /api/analytics/user-engagement), with integration tests for all endpoints. 
+- Implemented HTTP caching for posts and subreddits API endpoints (GET /api/posts, GET /api/subreddits/[id]), with tests verifying Cache-Control headers are set correctly. 
+- Implemented automated accessibility tests for Button and CommentForm components using jest-axe, ensuring no accessibility violations in default and disabled states. 
+- Refactored API route tests to use MSW (Mock Service Worker) for more realistic integration testing, with a demo test for the posts API route mocking /api/posts. 

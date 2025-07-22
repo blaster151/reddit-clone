@@ -13,7 +13,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    return NextResponse.json({ subreddit }, { status: 200 });
+    const response = NextResponse.json({ subreddit }, { status: 200 });
+    response.headers.set('Cache-Control', 'public, max-age=60');
+    return response;
   }
   return NextResponse.json({ error: 'Subreddit not found' }, { status: 404 });
 } 

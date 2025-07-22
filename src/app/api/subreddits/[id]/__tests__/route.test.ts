@@ -17,4 +17,10 @@ describe('GET /api/subreddits/[id]', () => {
     const data = await response.json();
     expect(data.error).toBe('Subreddit not found');
   });
+
+  it('sets Cache-Control header for caching', async () => {
+    const req = {};
+    const response: any = await GET(req as any, { params: { id: 'test-id' } });
+    expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
+  });
 }); 

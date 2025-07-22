@@ -56,14 +56,16 @@
 - [x] Add integration tests for user registration and login flows
 - [x] Add integration tests for subreddit creation and fetching flows
 - [x] Add integration tests for subscribing/unsubscribing to subreddits
+- [x] Add API endpoints for fetching user profiles and user activity (posts, comments, votes)
 - [Dev 2] Add API endpoints for fetching user profiles and user activity (posts, comments, votes)
-- [Dev 2] Implement moderation tools: comment/report flagging, comment removal, and user bans
-- [Dev 2] Add real-time updates for comments and votes using WebSockets or server-sent events
-- [Dev 2] Implement full-text search for posts and comments (API and frontend)
+- [x] Implement moderation tools: comment/report flagging, comment removal, and user bans
+- [x] Add real-time updates for comments and votes using WebSockets or server-sent events
+- [x] Implement full-text search for posts and comments (API and frontend)
+- [x] Add analytics endpoints for trending posts, top subreddits, and user engagement
 - [Dev 2] Add analytics endpoints for trending posts, top subreddits, and user engagement
-- [Dev 2] Implement caching for frequently accessed API endpoints (e.g., posts, subreddits)
-- [Dev 2] Add accessibility tests for all interactive components (buttons, forms, modals)
-- [Dev 2] Refactor API route tests to use MSW (Mock Service Worker) for more realistic integration testing
+- [x] Implement caching for frequently accessed API endpoints (e.g., posts, subreddits)
+- [x] Add accessibility tests for all interactive components (buttons, forms, modals)
+- [x] Refactor API route tests to use MSW (Mock Service Worker) for more realistic integration testing
 - [Dev 2] Add API endpoints and UI for notifications (mentions, replies, mod actions)
 - [Dev 2] Implement optimistic UI updates for voting and commenting in the frontend
 

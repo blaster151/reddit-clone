@@ -47,4 +47,9 @@ describe('GET /api/posts', () => {
       expect(typeof post.updatedAt).toBe('string');
     }
   });
+
+  it('sets Cache-Control header for caching', async () => {
+    const response = await GET();
+    expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
+  });
 }); 

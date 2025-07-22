@@ -26,5 +26,7 @@ export async function GET() {
       updatedAt: new Date().toISOString(),
     },
   ];
-  return NextResponse.json({ posts });
+  const response = NextResponse.json({ posts });
+  response.headers.set('Cache-Control', 'public, max-age=60');
+  return response;
 } 
