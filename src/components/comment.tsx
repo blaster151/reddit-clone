@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Comment as CommentType, VoteType } from '@/types';
 import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { formatRelativeTime, formatNumber } from '@/lib/utils';
 import { ArrowBigUp, ArrowBigDown, MessageCircle, MoreHorizontal } from 'lucide-react';
+import { useVotes } from '@/hooks/useVotes';
 
 interface CommentProps {
   comment: CommentType;
@@ -20,7 +22,7 @@ export function Comment({
   onVote,
   onReply,
   currentUserId,
-  userVote,
+  userVote: initialUserVote,
   isNested = false,
   maxDepth = 5,
   currentDepth = 0,
@@ -28,14 +30,25 @@ export function Comment({
   const [isExpanded, setIsExpanded] = useState(true);
   const [showReplies, setShowReplies] = useState(true);
 
-  const score = comment.upvotes - comment.downvotes;
-  const hasReplies = false; // This would be determined by checking for child comments
+  // Integrate useVotes hook for voting functionality
+  const {
+    upvotes,
+    downvotes,
+    score,
+    userVote,
+    isSubmitting,
+    submitVote,
+  } = useVotes({
+    targetId: comment.id,
+    targetType: 'comment',
+    initialUpvotes: comment.upvotes,
+    initialDownvotes: comment.downvotes,
+    onVoteChange: (voteType) => {
+      if (onVote && voteType) onVote(comment.id, voteType);
+    },
+  });
 
-  const handleVote = (voteType: VoteType) => {
-    if (onVote) {
-      onVote(comment.id, voteType);
-    }
-  };
+  const hasReplies = false; // This would be determined by checking for child comments
 
   const handleReply = () => {
     if (onReply) {
@@ -65,10 +78,15 @@ export function Comment({
             className={`h-6 w-6 p-0 hover:bg-orange-100 ${
               isUpvoted ? 'text-orange-500' : 'text-gray-400'
             }`}
-            onClick={() => handleVote('upvote')}
+            onClick={() => submitVote('upvote')}
+            disabled={isSubmitting}
             aria-label="Upvote comment"
           >
-            <ArrowBigUp className="h-4 w-4" />
+            {isSubmitting ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <ArrowBigUp className="h-4 w-4" />
+            )}
           </Button>
           
           <span className="text-sm font-medium text-gray-700">
@@ -81,10 +99,15 @@ export function Comment({
             className={`h-6 w-6 p-0 hover:bg-blue-100 ${
               isDownvoted ? 'text-blue-500' : 'text-gray-400'
             }`}
-            onClick={() => handleVote('downvote')}
+            onClick={() => submitVote('downvote')}
+            disabled={isSubmitting}
             aria-label="Downvote comment"
           >
-            <ArrowBigDown className="h-4 w-4" />
+            {isSubmitting ? (
+              <LoadingSpinner size="sm" />
+            ) : (
+              <ArrowBigDown className="h-4 w-4" />
+            )}
           </Button>
         </div>
 

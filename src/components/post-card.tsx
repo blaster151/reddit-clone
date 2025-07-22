@@ -4,7 +4,8 @@ import { Post } from '@/types';
 import { formatRelativeTime, formatNumber } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { ArrowBigUp, ArrowBigDown, MessageCircle, Share } from 'lucide-react';
-import { useState } from 'react';
+import { useVotes } from '@/hooks/useVotes';
+import { useState, useEffect, useRef } from 'react';
 
 interface PostCardProps {
   post: Post;
@@ -12,96 +13,82 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, onVote }: PostCardProps) {
-  const [upvotes, setUpvotes] = useState(post.upvotes);
-  const [downvotes, setDownvotes] = useState(post.downvotes);
-  const [userVote, setUserVote] = useState<'upvote' | 'downvote' | null>(null);
+  // Integrate useVotes hook
+  const {
+    upvotes,
+    downvotes,
+    score,
+    userVote,
+    isSubmitting,
+    submitVote,
+  } = useVotes({
+    targetId: post.id,
+    targetType: 'post',
+    initialUpvotes: post.upvotes,
+    initialDownvotes: post.downvotes,
+    onVoteChange: (voteType) => {
+      if (onVote && voteType) onVote(post.id, voteType);
+    },
+  });
 
-  const handleVote = (voteType: 'upvote' | 'downvote') => {
-    if (userVote === voteType) {
-      // Remove vote
-      setUserVote(null);
-      if (voteType === 'upvote') {
-        setUpvotes(upvotes - 1);
-      } else {
-        setDownvotes(downvotes - 1);
-      }
-    } else {
-      // Add or change vote
-      if (userVote === 'upvote') {
-        setUpvotes(upvotes - 1);
-      } else if (userVote === 'downvote') {
-        setDownvotes(downvotes - 1);
-      }
+  const [flash, setFlash] = useState(false);
+  const prevScore = useRef(score);
 
-      setUserVote(voteType);
-      if (voteType === 'upvote') {
-        setUpvotes(upvotes + 1);
-      } else {
-        setDownvotes(downvotes + 1);
-      }
+  useEffect(() => {
+    if (score !== prevScore.current) {
+      setFlash(true);
+      const timeout = setTimeout(() => setFlash(false), 400);
+      prevScore.current = score;
+      return () => clearTimeout(timeout);
     }
-
-    onVote?.(post.id, voteType);
-  };
-
-  const score = upvotes - downvotes;
+  }, [score]);
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
-      <div className="flex gap-3">
-        {/* Voting */}
-        <div className="flex flex-col items-center gap-1">
+      <div className="flex items-start gap-4">
+        <div className="flex flex-col items-center mr-2">
           <Button
-            variant="ghost"
+            aria-label="upvote"
             size="icon"
-            className={`h-8 w-8 p-0 hover:bg-orange-100 ${
-              userVote === 'upvote' ? 'text-orange-500' : 'text-gray-400'
-            }`}
-            onClick={() => handleVote('upvote')}
+            className={`mb-1 ${userVote === 'upvote' ? 'text-orange-500' : ''}`}
+            onClick={() => submitVote('upvote')}
+            disabled={isSubmitting}
           >
-            <ArrowBigUp className="h-5 w-5" />
+            <ArrowBigUp />
           </Button>
-          <span className="text-sm font-medium text-gray-900">{formatNumber(score)}</span>
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`h-8 w-8 p-0 hover:bg-blue-100 ${
-              userVote === 'downvote' ? 'text-blue-500' : 'text-gray-400'
+          <div
+            className={`font-bold text-center min-w-[2rem] transition-colors duration-300 ${
+              flash ? 'bg-yellow-200 animate-pulse' : ''
             }`}
-            onClick={() => handleVote('downvote')}
+            data-testid="post-score"
           >
-            <ArrowBigDown className="h-5 w-5" />
+            {formatNumber(score)}
+          </div>
+          <Button
+            aria-label="downvote"
+            size="icon"
+            className={`mt-1 ${userVote === 'downvote' ? 'text-blue-500' : ''}`}
+            onClick={() => submitVote('downvote')}
+            disabled={isSubmitting}
+          >
+            <ArrowBigDown />
           </Button>
         </div>
-
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-            <span className="font-medium text-gray-900">r/subreddit</span>
-            <span>•</span>
-            <span>Posted by u/username</span>
-            <span>•</span>
-            <span>{formatRelativeTime(post.createdAt)}</span>
+        <div className="flex-1">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="font-semibold text-sm text-gray-700">{post.authorId}</span>
+            <span className="text-xs text-gray-400">•</span>
+            <span className="text-xs text-gray-500">{formatRelativeTime(post.createdAt)}</span>
           </div>
-
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
-            {post.title}
-          </h3>
-
-          {post.content && (
-            <p className="text-gray-700 mb-4 line-clamp-3">{post.content}</p>
-          )}
-
-          {/* Actions */}
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <button className="flex items-center gap-1 hover:text-gray-700 transition-colors">
-              <MessageCircle className="h-4 w-4" />
-              <span>{formatNumber(0)} Comments</span>
-            </button>
-            <button className="flex items-center gap-1 hover:text-gray-700 transition-colors">
-              <Share className="h-4 w-4" />
-              <span>Share</span>
-            </button>
+          <div className="text-lg font-bold mb-1">{post.title}</div>
+          <div className="text-gray-700 mb-2 line-clamp-3">{post.content}</div>
+          <div className="flex items-center gap-4 text-xs text-gray-500">
+            <span className="flex items-center gap-1">
+              <MessageCircle className="w-4 h-4" /> 0
+            </span>
+            <span className="flex items-center gap-1">
+              <Share className="w-4 h-4" /> Share
+            </span>
           </div>
         </div>
       </div>

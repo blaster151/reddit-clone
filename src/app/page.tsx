@@ -1,8 +1,8 @@
 import { PostCard } from '@/components/post-card';
 import { Post } from '@/types';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Plus, Search } from 'lucide-react';
+import { SearchBar } from '@/components/search-bar';
+import { Plus } from 'lucide-react';
 
 // Sample data for demonstration
 const samplePosts: Post[] = [
@@ -42,6 +42,12 @@ const samplePosts: Post[] = [
 ];
 
 export default function Home() {
+  const handleSearchResult = (result: any) => {
+    // Handle search result selection
+    console.log('Selected search result:', result);
+    // In a real app, this would navigate to the post or comment
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -50,13 +56,11 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <h1 className="text-2xl font-bold text-orange-500">reddit</h1>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-                <Input
-                  placeholder="Search Reddit"
-                  className="pl-10 w-80 bg-gray-100 border-gray-200 focus:bg-white"
-                />
-              </div>
+              <SearchBar 
+                placeholder="Search Reddit"
+                className="w-80"
+                onResultSelect={handleSearchResult}
+              />
             </div>
             <Button className="bg-orange-500 hover:bg-orange-600">
               <Plus className="h-4 w-4 mr-2" />
@@ -105,18 +109,22 @@ export default function Home() {
 
             {/* Create Post */}
             <div className="bg-white border border-gray-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Create a post</h3>
-              <div className="space-y-3">
-                <Button variant="outline" className="w-full justify-start">
-                  📝 Text
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  🖼️ Image & Video
-                </Button>
-                <Button variant="outline" className="w-full justify-start">
-                  🔗 Link
-                </Button>
-              </div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Create a Post</h3>
+              <Button className="w-full bg-orange-500 hover:bg-orange-600">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Post
+              </Button>
+            </div>
+
+            {/* Community Rules */}
+            <div className="bg-white border border-gray-200 rounded-lg p-4">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Community Rules</h3>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li>1. Be respectful and civil</li>
+                <li>2. No spam or self-promotion</li>
+                <li>3. Stay on topic</li>
+                <li>4. Follow Reddit's content policy</li>
+              </ul>
             </div>
           </div>
         </div>
