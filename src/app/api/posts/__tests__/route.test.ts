@@ -52,4 +52,38 @@ describe('GET /api/posts', () => {
     const response = await GET();
     expect(response.headers.get('Cache-Control')).toBe('public, max-age=60');
   });
+
+  it('returns paginated posts (default page 1, pageSize 10)', async () => {
+    const req = { url: 'http://localhost/api/posts' };
+    const response: any = await GET(req as any);
+    const data = await response.json();
+    expect(Array.isArray(data.posts)).toBe(true);
+    expect(data.page).toBe(1);
+    expect(data.pageSize).toBe(10);
+    expect(data.total).toBeGreaterThan(0);
+  });
+
+  it('returns paginated posts (page 1, pageSize 1)', async () => {
+    const req = { url: 'http://localhost/api/posts?page=1&pageSize=1' };
+    const response: any = await GET(req as any);
+    const data = await response.json();
+    expect(data.posts.length).toBe(1);
+    expect(data.page).toBe(1);
+    expect(data.pageSize).toBe(1);
+    expect(data.totalPages).toBeGreaterThan(0);
+  });
+
+  it('returns filtered posts by subredditId', async () => {
+    const req = { url: 'http://localhost/api/posts?subredditId=s1' };
+    const response: any = await GET(req as any);
+    const data = await response.json();
+    expect(data.posts.every((p: any) => p.subredditId === 's1')).toBe(true);
+  });
+
+  it('returns empty array for out-of-range page', async () => {
+    const req = { url: 'http://localhost/api/posts?page=100&pageSize=10' };
+    const response: any = await GET(req as any);
+    const data = await response.json();
+    expect(data.posts.length).toBe(0);
+  });
 }); 

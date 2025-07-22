@@ -1,8 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  // Parse query params
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+  const subredditId = searchParams.get('subredditId');
+
   // Static posts for demonstration
-  const posts = [
+  let posts = [
     {
       id: '1',
       title: 'Hello World',
@@ -26,7 +32,23 @@ export async function GET() {
       updatedAt: new Date().toISOString(),
     },
   ];
-  const response = NextResponse.json({ posts });
+
+  // Filtering
+  if (subredditId) {
+    posts = posts.filter((p) => p.subredditId === subredditId);
+  }
+
+  // Pagination
+  const start = (page - 1) * pageSize;
+  const paginated = posts.slice(start, start + pageSize);
+
+  const response = NextResponse.json({
+    posts: paginated,
+    page,
+    pageSize,
+    total: posts.length,
+    totalPages: Math.ceil(posts.length / pageSize),
+  });
   response.headers.set('Cache-Control', 'public, max-age=60');
   return response;
 } 
