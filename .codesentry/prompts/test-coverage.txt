@@ -1,0 +1,6 @@
+Analyze this codebase and identify missing unit or integration tests.
+Focus on:
+- Untested branches or early returns
+- High-risk functions without assertions
+- Business logic without validation
+Use [‼] for critical issues.

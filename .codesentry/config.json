@@ -1,0 +1,8 @@
+{
+  "snapshotIntervalMinutes": 15,
+  "gptSubmissionIntervalMinutes": 30,
+  "projectRoot": ".",
+  "openaiApiKey": "REPLACE_ME",
+  "charterFile": "session-charter.md",
+  "diffStrategy": "git"
+}

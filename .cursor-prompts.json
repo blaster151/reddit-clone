@@ -1,0 +1,6 @@
+{
+  "missing-tests": "// GPT: What test cases are missing for this function?",
+  "validate-invariants": "// GPT: What invariants are implied but not enforced here?",
+  "doc-decisions": "// GPT: Add to DECISIONS_MADE.md — what did we choose and why?",
+  "next-3": "// GPT: What are our next 3 microsteps? Implement all 3."
+}

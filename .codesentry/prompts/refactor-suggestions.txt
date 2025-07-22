@@ -1,0 +1,6 @@
+Suggest ways to simplify, modularize, or clarify recent code changes.
+Look for:
+- Duplicated patterns
+- Long functions or deep nesting
+- Type-safety violations
+Use triage tags [‼], [!], [~].

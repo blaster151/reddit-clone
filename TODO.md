@@ -1,0 +1,2 @@
+- [ ] Dev1: Refactor `sanitizeInput()` to accept typed args
+- [ ] Dev2: Add zod schema to shared/validation.ts
