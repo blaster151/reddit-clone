@@ -1,10 +1,44 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
+/**
+ * Utility function to merge Tailwind CSS classes with proper conflict resolution
+ * 
+ * Combines clsx for conditional classes and tailwind-merge for deduplication
+ * and conflict resolution of Tailwind CSS classes.
+ * 
+ * @param inputs - Class values to merge (strings, objects, arrays, etc.)
+ * @returns Merged class string with conflicts resolved
+ * 
+ * @example
+ * ```tsx
+ * const className = cn(
+ *   'bg-red-500',
+ *   isActive && 'bg-blue-500',
+ *   'text-white'
+ * );
+ * // Result: 'bg-blue-500 text-white' (if isActive is true)
+ * ```
+ */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Sanitizes user input to prevent XSS attacks
+ * 
+ * Removes potentially dangerous HTML tags, JavaScript protocols,
+ * and event handlers from user input.
+ * 
+ * @param input - Raw user input string
+ * @returns Sanitized string safe for display
+ * 
+ * @example
+ * ```tsx
+ * const safeInput = sanitizeInput('<script>alert("xss")</script>Hello');
+ * // Result: 'Hello'
+ * ```
+ */
 export function sanitizeInput(input: string): string {
   // Remove HTML tags and potentially dangerous content
   return input
@@ -14,6 +48,20 @@ export function sanitizeInput(input: string): string {
     .trim();
 }
 
+/**
+ * Formats a date into a readable string with date and time
+ * 
+ * Uses Intl.DateTimeFormat for locale-aware formatting.
+ * 
+ * @param date - Date object to format
+ * @returns Formatted date string (e.g., "Jan 15, 2024, 02:30 PM")
+ * 
+ * @example
+ * ```tsx
+ * const formatted = formatDate(new Date('2024-01-15T14:30:00'));
+ * // Result: "Jan 15, 2024, 02:30 PM"
+ * ```
+ */
 export function formatDate(date: Date): string {
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
@@ -24,6 +72,21 @@ export function formatDate(date: Date): string {
   }).format(date);
 }
 
+/**
+ * Formats a date into a relative time string
+ * 
+ * Converts dates into human-readable relative time strings like
+ * "2h ago", "3d ago", "1w ago", etc.
+ * 
+ * @param date - Date to format relative to current time
+ * @returns Relative time string
+ * 
+ * @example
+ * ```tsx
+ * const relative = formatRelativeTime(new Date(Date.now() - 3600000));
+ * // Result: "1h ago"
+ * ```
+ */
 export function formatRelativeTime(date: Date): string {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
@@ -61,6 +124,22 @@ export function formatRelativeTime(date: Date): string {
   return `${diffInYears}y ago`;
 }
 
+/**
+ * Formats numbers into abbreviated form for display
+ * 
+ * Converts large numbers into K (thousands) and M (millions) format
+ * for better readability in UI components.
+ * 
+ * @param num - Number to format
+ * @returns Abbreviated number string
+ * 
+ * @example
+ * ```tsx
+ * formatNumber(1500);    // "1.5K"
+ * formatNumber(2500000); // "2.5M"
+ * formatNumber(500);     // "500"
+ * ```
+ */
 export function formatNumber(num: number): string {
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + 'M';

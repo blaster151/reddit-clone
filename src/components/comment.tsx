@@ -6,17 +6,54 @@ import { formatRelativeTime, formatNumber } from '@/lib/utils';
 import { ArrowBigUp, ArrowBigDown, MessageCircle, MoreHorizontal } from 'lucide-react';
 import { useVotes } from '@/hooks/useVotes';
 
+/**
+ * Props for the Comment component
+ */
 interface CommentProps {
+  /** Comment data to display */
   comment: CommentType;
+  /** Optional callback when user votes on the comment */
   onVote?: (commentId: string, voteType: VoteType) => void;
+  /** Optional callback when user replies to the comment */
   onReply?: (commentId: string) => void;
+  /** ID of the currently authenticated user */
   currentUserId?: string;
+  /** Initial vote state for the current user */
   userVote?: VoteType | null;
+  /** Whether this comment is nested within another comment */
   isNested?: boolean;
+  /** Maximum nesting depth allowed */
   maxDepth?: number;
+  /** Current nesting depth of this comment */
   currentDepth?: number;
 }
 
+/**
+ * Comment component for displaying individual comments in a thread
+ * 
+ * This component renders a complete comment with:
+ * - Comment content and metadata
+ * - Voting functionality with optimistic updates
+ * - Reply functionality
+ * - Nested comment support with depth limits
+ * - Loading states for vote submission
+ * - Accessibility features
+ * 
+ * @param props - Component props
+ * @returns JSX element representing a comment
+ * 
+ * @example
+ * ```tsx
+ * <Comment 
+ *   comment={commentData}
+ *   currentUserId="user-123"
+ *   onVote={(commentId, voteType) => handleVote(commentId, voteType)}
+ *   onReply={(commentId) => openReplyForm(commentId)}
+ *   isNested={true}
+ *   currentDepth={1}
+ * />
+ * ```
+ */
 export function Comment({
   comment,
   onVote,
@@ -50,16 +87,25 @@ export function Comment({
 
   const hasReplies = false; // This would be determined by checking for child comments
 
+  /**
+   * Handles reply button click
+   */
   const handleReply = () => {
     if (onReply) {
       onReply(comment.id);
     }
   };
 
+  /**
+   * Toggles the expanded state of the comment
+   */
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
   };
 
+  /**
+   * Toggles the visibility of reply comments
+   */
   const toggleReplies = () => {
     setShowReplies(!showReplies);
   };

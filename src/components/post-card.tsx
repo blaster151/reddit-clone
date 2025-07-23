@@ -8,15 +8,48 @@ import { useVotes } from '@/hooks/useVotes';
 import { useState, useEffect, useRef } from 'react';
 import { ModerationActions } from './moderation-actions';
 
+/**
+ * Props for the PostCard component
+ */
 interface PostCardProps {
+  /** Post data to display */
   post: Post;
+  /** Optional callback when user votes on the post */
   onVote?: (postId: string, voteType: 'upvote' | 'downvote') => void;
+  /** Whether the current user is a moderator */
   isModerator?: boolean;
+  /** Callback when a post is removed by moderator */
   onRemove?: (postId: string, reason: string) => void;
+  /** Callback when a user is banned by moderator */
   onBanUser?: (userId: string, reason: string, isPermanent: boolean) => void;
+  /** Callback when a user is muted by moderator */
   onMuteUser?: (userId: string, reason: string, isPermanent: boolean) => void;
 }
 
+/**
+ * PostCard component for displaying individual posts in a feed
+ * 
+ * This component renders a complete post card with:
+ * - Post title, content, and metadata
+ * - Voting functionality with optimistic updates
+ * - Comment count and sharing options
+ * - Moderation actions for moderators
+ * - Visual feedback for vote changes
+ * - Special display for removed posts
+ * 
+ * @param props - Component props
+ * @returns JSX element representing a post card
+ * 
+ * @example
+ * ```tsx
+ * <PostCard 
+ *   post={postData}
+ *   isModerator={true}
+ *   onVote={(postId, voteType) => console.log(`${voteType} on ${postId}`)}
+ *   onRemove={(postId, reason) => handlePostRemoval(postId, reason)}
+ * />
+ * ```
+ */
 export function PostCard({ 
   post, 
   onVote, 
@@ -46,6 +79,9 @@ export function PostCard({
   const [flash, setFlash] = useState(false);
   const prevScore = useRef(score);
 
+  /**
+   * Effect to trigger flash animation when score changes
+   */
   useEffect(() => {
     if (score !== prevScore.current) {
       setFlash(true);
