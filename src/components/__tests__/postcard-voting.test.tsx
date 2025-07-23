@@ -9,6 +9,7 @@ const mockPost = {
   subredditId: 'sub1',
   upvotes: 10,
   downvotes: 2,
+  isRemoved: false,
   createdAt: new Date('2024-01-01T10:00:00Z'),
   updatedAt: new Date('2024-01-01T10:00:00Z'),
 };

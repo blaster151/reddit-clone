@@ -313,6 +313,7 @@ describe('Post Creation Flow Integration', () => {
       subredditId: '1',
       upvotes: 0,
       downvotes: 0,
+      isRemoved: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
@@ -362,6 +363,7 @@ describe('Post Creation Flow Integration', () => {
       subredditId: '1',
       upvotes: 0,
       downvotes: 0,
+      isRemoved: false,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

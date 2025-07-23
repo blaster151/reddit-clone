@@ -100,6 +100,20 @@ export function PostCard({
 
   /**
    * Effect to trigger flash animation when score changes
+   * 
+   * @example
+   * ```tsx
+   * // This effect runs automatically when the score changes
+   * // It adds a yellow background flash for 400ms
+   * useEffect(() => {
+   *   if (score !== prevScore.current) {
+   *     setFlash(true);
+   *     const timeout = setTimeout(() => setFlash(false), 400);
+   *     prevScore.current = score;
+   *     return () => clearTimeout(timeout);
+   *   }
+   * }, [score]);
+   * ```
    */
   useEffect(() => {
     if (score !== prevScore.current) {

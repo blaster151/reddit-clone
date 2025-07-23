@@ -66,6 +66,21 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
    * Handles input value changes and manages dropdown visibility
    * 
    * @param value - New input value
+   * 
+   * @example
+   * ```tsx
+   * // Update search query and show dropdown if query has content
+   * const handleInputChange = (value: string) => {
+   *   setQuery(value);
+   *   setIsDropdownOpen(value.length > 0);
+   * };
+   * 
+   * // Usage in JSX
+   * <input 
+   *   onChange={(e) => handleInputChange(e.target.value)}
+   *   placeholder="Search..."
+   * />
+   * ```
    */
   const handleInputChange = (value: string) => {
     setQuery(value);
@@ -78,6 +93,21 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
    * Calls the onResultSelect callback and closes the dropdown
    * 
    * @param result - Selected search result
+   * 
+   * @example
+   * ```tsx
+   * // Handle result selection and cleanup
+   * const handleResultClick = (result: any) => {
+   *   onResultSelect?.(result);
+   *   setIsDropdownOpen(false);
+   *   setQuery('');
+   * };
+   * 
+   * // Usage in JSX
+   * <div onClick={() => handleResultClick(searchResult)}>
+   *   {searchResult.title}
+   * </div>
+   * ```
    */
   const handleResultClick = (result: any) => {
     onResultSelect?.(result);
@@ -90,6 +120,25 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
    * 
    * @param key - Filter key to update
    * @param value - New filter value
+   * 
+   * @example
+   * ```tsx
+   * // Update specific filter
+   * const handleFilterChange = (key: keyof SearchFilter, value: any) => {
+   *   updateFilters({ [key]: value });
+   * };
+   * 
+   * // Usage examples
+   * handleFilterChange('type', 'post');
+   * handleFilterChange('subreddit', 'programming');
+   * handleFilterChange('dateRange', 'week');
+   * 
+   * // Usage in JSX
+   * <select onChange={(e) => handleFilterChange('type', e.target.value)}>
+   *   <option value="post">Posts</option>
+   *   <option value="comment">Comments</option>
+   * </select>
+   * ```
    */
   const handleFilterChange = (key: keyof SearchFilter, value: any) => {
     updateFilters({ [key]: value });
@@ -114,6 +163,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
               size="sm"
               onClick={() => handleInputChange('')}
               className="h-6 w-6 p-0 sm:h-8 sm:w-8"
+              aria-label="Clear search"
             >
               <X className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
@@ -123,6 +173,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
             className={`h-6 px-2 sm:h-8 sm:px-3 ${showFilters ? 'bg-orange-100 text-orange-600' : ''}`}
+            aria-label="Filter search results"
           >
             <Filter className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>

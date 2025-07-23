@@ -1,17 +1,16 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { usePosts } from '../usePosts';
-import { rest } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';
-import type { RestRequest, RestContext, ResponseResolver } from 'msw';
 
 const mockPosts = [
-  { id: '1', title: 'Test Post', content: 'Hello', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, createdAt: new Date(), updatedAt: new Date() },
+  { id: '1', title: 'Test Post', content: 'Hello', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, isRemoved: false, createdAt: new Date(), updatedAt: new Date() },
 ];
 
 const server = setupServer(
-  rest.get('/api/posts', ((req: RestRequest, res, ctx: RestContext) => {
-    return res(ctx.json({ posts: mockPosts }));
-  }) as ResponseResolver),
+  http.get('/api/posts', () => {
+    return HttpResponse.json({ posts: mockPosts });
+  }),
 );
 
 beforeAll(() => server.listen());
@@ -30,9 +29,9 @@ describe('usePosts', () => {
 
   it('handles fetch error', async () => {
     server.use(
-      rest.get('/api/posts', ((req: RestRequest, res, ctx: RestContext) => {
-        return res(ctx.status(500));
-      }) as ResponseResolver),
+      http.get('/api/posts', () => {
+        return HttpResponse.error();
+      }),
     );
     const { result } = renderHook(() => usePosts());
     await waitFor(() => expect(result.current.loading).toBe(false));

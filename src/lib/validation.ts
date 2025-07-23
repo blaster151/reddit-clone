@@ -82,10 +82,31 @@ export const createPostSchema = z.object({
   subredditId: z.string().uuid(),
 });
 
+// More flexible schema for testing that allows string IDs
+export const flexibleCreatePostSchema = z.object({
+  title: z.string()
+    .min(1, "Title is required")
+    .max(300, "Title must be at most 300 characters")
+    .refine((val) => val.trim().length > 0, "Title is required"), // Handle whitespace
+  content: z.string()
+    .max(40000, "Content must be at most 40000 characters")
+    .optional()
+    .or(z.literal('')), // Allow empty string
+  subredditId: z.string().min(1, "Subreddit is required"), // Allow any non-empty string
+});
+
 export const createCommentSchema = z.object({
   content: z.string().min(1).max(10000),
   postId: z.string().uuid(),
   parentCommentId: z.string().uuid().optional(),
+});
+
+// Flexible schema for comment form that only validates content
+export const flexibleCreateCommentSchema = z.object({
+  content: z.string()
+    .min(1, "Content is required")
+    .max(10000, "Content must be at most 10000 characters")
+    .refine((val) => val.trim().length > 0, "Content is required"), // Handle whitespace
 });
 
 export const voteSchemaInput = z.object({

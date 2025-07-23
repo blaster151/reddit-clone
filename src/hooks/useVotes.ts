@@ -13,6 +13,8 @@ interface UseVotesProps {
   initialUpvotes?: number;
   /** Initial number of downvotes */
   initialDownvotes?: number;
+  /** Initial user vote state */
+  initialUserVote?: VoteType | null;
   /** Optional callback when vote changes */
   onVoteChange?: (voteType: VoteType | null) => void;
 }
@@ -54,11 +56,12 @@ export function useVotes({
   targetType,
   initialUpvotes = 0,
   initialDownvotes = 0,
+  initialUserVote,
   onVoteChange,
 }: UseVotesProps) {
   const [upvotes, setUpvotes] = useState(initialUpvotes);
   const [downvotes, setDownvotes] = useState(initialDownvotes);
-  const [userVote, setUserVote] = useState<VoteType | null>(null);
+  const [userVote, setUserVote] = useState<VoteType | null>(initialUserVote || null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   /**
@@ -69,6 +72,33 @@ export function useVotes({
    * 
    * @param voteType - The type of vote to submit (upvote, downvote, or null to remove)
    * @throws {Error} When the API request fails
+   * 
+   * @example
+   * ```tsx
+   * const { submitVote, isSubmitting } = useVotes({
+   *   targetId: 'post123',
+   *   targetType: 'post'
+   * });
+   * 
+   * // Submit an upvote
+   * await submitVote('upvote');
+   * 
+   * // Submit a downvote
+   * await submitVote('downvote');
+   * 
+   * // Handle vote submission errors
+   * try {
+   *   await submitVote('upvote');
+   * } catch (error) {
+   *   console.error('Vote failed:', error.message);
+   *   // The optimistic update will be reverted automatically
+   * }
+   * 
+   * // Check if vote is being submitted
+   * if (isSubmitting) {
+   *   return <button disabled>Submitting...</button>;
+   * }
+   * ```
    */
   const submitVote = useCallback(async (voteType: VoteType) => {
     setIsSubmitting(true);

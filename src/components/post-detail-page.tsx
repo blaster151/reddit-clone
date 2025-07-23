@@ -1,30 +1,7 @@
 import { useEffect, useState } from 'react';
 import { PostCard } from './post-card';
 import { CommentThread } from './comment-thread';
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  authorId: string;
-  subredditId: string;
-  upvotes: number;
-  downvotes: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-interface Comment {
-  id: string;
-  content: string;
-  authorId: string;
-  postId: string;
-  parentCommentId?: string;
-  upvotes: number;
-  downvotes: number;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { Post, Comment } from '@/types';
 
 interface PostDetailPageProps {
   postId: string;

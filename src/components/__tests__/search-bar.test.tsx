@@ -5,6 +5,15 @@ import * as useSearchModule from '@/hooks/useSearch';
 // Mock the useSearch hook
 jest.mock('@/hooks/useSearch');
 
+// Mock the LoadingSpinner component
+jest.mock('@/components/ui/loading-spinner', () => ({
+  LoadingSpinner: ({ text, size }: any) => (
+    <div className={`loading-spinner-${size}`}>
+      {text || 'Loading...'}
+    </div>
+  ),
+}));
+
 describe('SearchBar', () => {
   const mockUseSearch = {
     query: '',
@@ -15,6 +24,8 @@ describe('SearchBar', () => {
     filters: {
       type: 'all',
       sortBy: 'relevance',
+      dateRange: 'all',
+      subreddit: '',
     },
     updateFilters: jest.fn(),
     clearSearch: jest.fn(),
@@ -47,7 +58,7 @@ describe('SearchBar', () => {
     });
 
     render(<SearchBar />);
-    expect(screen.getByText('Searching...')).toBeInTheDocument();
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
   it('shows clear button when query is not empty', () => {
@@ -57,7 +68,7 @@ describe('SearchBar', () => {
     });
 
     render(<SearchBar />);
-    expect(screen.getByRole('button', { name: /clear/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /clear search/i })).toBeInTheDocument();
   });
 
   it('clears query when clear button is clicked', () => {
@@ -67,7 +78,7 @@ describe('SearchBar', () => {
     });
 
     render(<SearchBar />);
-    const clearButton = screen.getByRole('button', { name: /clear/i });
+    const clearButton = screen.getByRole('button', { name: /clear search/i });
     
     fireEvent.click(clearButton);
     
@@ -76,7 +87,7 @@ describe('SearchBar', () => {
 
   it('toggles filters panel when filter button is clicked', () => {
     render(<SearchBar />);
-    const filterButton = screen.getByRole('button', { name: /filter/i });
+    const filterButton = screen.getByRole('button', { name: /filter search results/i });
     
     fireEvent.click(filterButton);
     
@@ -86,7 +97,7 @@ describe('SearchBar', () => {
 
   it('updates filters when filter options change', () => {
     render(<SearchBar />);
-    const filterButton = screen.getByRole('button', { name: /filter/i });
+    const filterButton = screen.getByRole('button', { name: /filter search results/i });
     
     fireEvent.click(filterButton);
     
@@ -118,6 +129,10 @@ describe('SearchBar', () => {
 
     render(<SearchBar />);
     
+    // Focus the input to trigger dropdown
+    const input = screen.getByPlaceholderText('Search Reddit');
+    fireEvent.focus(input);
+    
     expect(screen.getByText('Test Post')).toBeInTheDocument();
     expect(screen.getByText('Test content')).toBeInTheDocument();
   });
@@ -146,6 +161,10 @@ describe('SearchBar', () => {
 
     render(<SearchBar onResultSelect={onResultSelect} />);
     
+    // Focus the input to trigger dropdown
+    const input = screen.getByPlaceholderText('Search Reddit');
+    fireEvent.focus(input);
+    
     const resultItem = screen.getByText('Test Post');
     fireEvent.click(resultItem);
     
@@ -161,22 +180,27 @@ describe('SearchBar', () => {
 
     render(<SearchBar />);
     
-    expect(screen.getByText(/no results found/i)).toBeInTheDocument();
+    // Focus the input to trigger dropdown
+    const input = screen.getByPlaceholderText('Search Reddit');
+    fireEvent.focus(input);
+    
+    expect(screen.getByText(/no results found for/i)).toBeInTheDocument();
   });
 
   it('applies custom className', () => {
     render(<SearchBar className="custom-class" />);
-    const container = screen.getByPlaceholderText('Search Reddit').closest('div');
-    expect(container).toHaveClass('custom-class');
+    const container = screen.getByPlaceholderText('Search Reddit').closest('.relative');
+    expect(container?.parentElement).toHaveClass('custom-class');
   });
 
   it('handles keyboard navigation', () => {
     render(<SearchBar />);
     const input = screen.getByPlaceholderText('Search Reddit');
     
-    fireEvent.focus(input);
+    // Focus the input
+    input.focus();
     
-    // Should show dropdown if there are results
+    // Should focus the input
     expect(input).toHaveFocus();
   });
 }); 

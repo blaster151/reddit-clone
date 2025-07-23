@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reddit Clone Documentation</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="icon" type="image/svg+xml" href="/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>Reddit Clone Documentation</h1>
+        <p>Comprehensive documentation for the Reddit clone project</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#components">Components</a></li>
+            <li><a href="#hooks">Hooks</a></li>
+            <li><a href="#api">API Routes</a></li>
+            <li><a href="#utilities">Utilities</a></li>
+            <li><a href="#testing">Testing</a></li>
+            <li><a href="#deployment">Deployment</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li><a href="#overview">Project Overview</a></li>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#components">UI Components</a></li>
+                <li><a href="#hooks">Custom Hooks</a></li>
+                <li><a href="#api">API Documentation</a></li>
+                <li><a href="#utilities">Utility Functions</a></li>
+                <li><a href="#testing">Testing Guide</a></li>
+                <li><a href="#deployment">Deployment</a></li>
+            </ul>
+
+            <h3>Search</h3>
+            <input type="text" class="search-box" placeholder="Search documentation...">
+
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a href="https://github.com/your-username/reddit-clone" target="_blank">GitHub Repository</a></li>
+                <li><a href="https://nextjs.org/docs" target="_blank">Next.js Docs</a></li>
+                <li><a href="https://react.dev" target="_blank">React Docs</a></li>
+                <li><a href="https://tailwindcss.com/docs" target="_blank">Tailwind CSS</a></li>
+            </ul>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="content">
+            <section id="overview">
+                <h1>Reddit Clone Documentation</h1>
+                
+                <div class="alert alert-info">
+                    <strong>Welcome!</strong> This documentation provides comprehensive information about the Reddit Clone project, including components, hooks, API routes, and utilities.
+                </div>
+
+                <h2>Project Overview</h2>
+                <p>The Reddit Clone is a modern, full-stack web application built with Next.js, TypeScript, and React. It provides a complete Reddit-like experience with posts, comments, voting, user authentication, and more.</p>
+
+                <div class="card">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li><strong>📝 Posts & Comments:</strong> Create, read, and interact with posts and comments</li>
+                        <li><strong>👍 Voting System:</strong> Upvote and downvote posts and comments with optimistic updates</li>
+                        <li><strong>🔍 Search:</strong> Full-text search with filters and real-time results</li>
+                        <li><strong>👥 User Authentication:</strong> Secure login, registration, and session management</li>
+                        <li><strong>🏷️ Subreddits:</strong> Create and join communities</li>
+                        <li><strong>🛡️ Moderation:</strong> Comprehensive moderation tools for community management</li>
+                        <li><strong>📊 Analytics:</strong> User engagement and trending content analytics</li>
+                        <li><strong>⚡ Real-time Updates:</strong> Server-Sent Events for live updates</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="getting-started">
+                <h2>Getting Started</h2>
+                
+                <div class="component-showcase">
+                    <h4>Quick Setup</h4>
+                    <p>Get the project running in minutes:</p>
+                    
+                    <pre><code># Clone the repository
+git clone https://github.com/your-username/reddit-clone.git
+cd reddit-clone
+
+# Install dependencies
+npm install
+
+# Set up environment
+cp .env.example .env.local
+
+# Start development server
+npm run dev</code></pre>
+                </div>
+
+                <div class="card">
+                    <h3>Prerequisites</h3>
+                    <ul>
+                        <li>Node.js 18+</li>
+                        <li>npm or yarn</li>
+                        <li>Git</li>
+                        <li>PostgreSQL (optional, can use SQLite for development)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="components">
+                <h2>UI Components</h2>
+                
+                <p>The project includes a comprehensive set of reusable React components:</p>
+
+                <div class="card">
+                    <h3>Core UI Components</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Description</th>
+                                <th>Usage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>Button</code></td>
+                                <td>Reusable button with multiple variants</td>
+                                <td>Forms, actions, navigation</td>
+                            </tr>
+                            <tr>
+                                <td><code>Input</code></td>
+                                <td>Styled input field with validation</td>
+                                <td>Forms, search, data entry</td>
+                            </tr>
+                            <tr>
+                                <td><code>LoadingSpinner</code></td>
+                                <td>Loading indicator component</td>
+                                <td>Async operations, data fetching</td>
+                            </tr>
+                            <tr>
+                                <td><code>Skeleton</code></td>
+                                <td>Loading skeleton for content</td>
+                                <td>Content placeholders</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card">
+                    <h3>Feature Components</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Component</th>
+                                <th>Description</th>
+                                <th>Features</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>PostCard</code></td>
+                                <td>Individual post display</td>
+                                <td>Voting, moderation, metadata</td>
+                            </tr>
+                            <tr>
+                                <td><code>Comment</code></td>
+                                <td>Comment with nested replies</td>
+                                <td>Voting, replies, moderation</td>
+                            </tr>
+                            <tr>
+                                <td><code>SearchBar</code></td>
+                                <td>Advanced search interface</td>
+                                <td>Filters, real-time results</td>
+                            </tr>
+                            <tr>
+                                <td><code>AuthUI</code></td>
+                                <td>Authentication forms</td>
+                                <td>Login, register, validation</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>Component Example</h4>
+                    <p>Here's how to use the Button component:</p>
+                    
+                    <pre><code>import { Button } from '@/components/ui/button';
+
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;Button variant="default"&gt;Default Button&lt;/Button&gt;
+      &lt;Button variant="destructive"&gt;Delete&lt;/Button&gt;
+      &lt;Button variant="outline"&gt;Outline Button&lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="hooks">
+                <h2>Custom Hooks</h2>
+                
+                <p>Custom React hooks provide reusable state management and business logic:</p>
+
+                <div class="card">
+                    <h3>Available Hooks</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Hook</th>
+                                <th>Purpose</th>
+                                <th>Features</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>useAuth</code></td>
+                                <td>Authentication state management</td>
+                                <td>Login, register, logout, session</td>
+                            </tr>
+                            <tr>
+                                <td><code>usePosts</code></td>
+                                <td>Post data fetching and management</td>
+                                <td>Pagination, filtering, caching</td>
+                            </tr>
+                            <tr>
+                                <td><code>useComments</code></td>
+                                <td>Comment data and CRUD operations</td>
+                                <td>Threading, pagination, moderation</td>
+                            </tr>
+                            <tr>
+                                <td><code>useVotes</code></td>
+                                <td>Voting functionality</td>
+                                <td>Optimistic updates, error handling</td>
+                            </tr>
+                            <tr>
+                                <td><code>useSearch</code></td>
+                                <td>Search functionality</td>
+                                <td>Debouncing, filters, real-time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>Hook Example</h4>
+                    <p>Using the useAuth hook:</p>
+                    
+                    <pre><code>import { useAuth } from '@/hooks/useAuth';
+
+function LoginForm() {
+  const { login, isLoading, error } = useAuth();
+  
+  const handleSubmit = async (credentials) => {
+    try {
+      await login(credentials);
+      // User is now logged in
+    } catch (error) {
+      // Handle login error
+    }
+  };
+  
+  return (
+    &lt;form onSubmit={handleSubmit}&gt;
+      {error && &lt;div className="error"&gt;{error}&lt;/div&gt;}
+      &lt;button type="submit" disabled={isLoading}&gt;
+        {isLoading ? 'Logging in...' : 'Login'}
+      &lt;/button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="api">
+                <h2>API Routes</h2>
+                
+                <p>Next.js API routes provide the backend functionality:</p>
+
+                <div class="card">
+                    <h3>Available Endpoints</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Endpoint</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="api-method get">GET</span></td>
+                                <td><code>/api/posts</code></td>
+                                <td>Fetch paginated posts</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method post">POST</span></td>
+                                <td><code>/api/posts/create</code></td>
+                                <td>Create new post</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method get">GET</span></td>
+                                <td><code>/api/comments</code></td>
+                                <td>Fetch comments for post</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method post">POST</span></td>
+                                <td><code>/api/comments/create</code></td>
+                                <td>Create new comment</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method post">POST</span></td>
+                                <td><code>/api/votes</code></td>
+                                <td>Submit vote on post/comment</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method post">POST</span></td>
+                                <td><code>/api/auth/login</code></td>
+                                <td>User authentication</td>
+                            </tr>
+                            <tr>
+                                <td><span class="api-method post">POST</span></td>
+                                <td><code>/api/search</code></td>
+                                <td>Full-text search</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>API Example</h4>
+                    <p>Fetching posts from the API:</p>
+                    
+                    <pre><code>// GET /api/posts
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+  
+  // Fetch posts from database
+  const posts = await prisma.post.findMany({
+    skip: (page - 1) * pageSize,
+    take: pageSize,
+    include: { author: true, subreddit: true }
+  });
+  
+  return NextResponse.json({
+    posts,
+    page,
+    pageSize,
+    total: await prisma.post.count(),
+    totalPages: Math.ceil(await prisma.post.count() / pageSize)
+  });
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="utilities">
+                <h2>Utility Functions</h2>
+                
+                <p>Helper functions for common operations:</p>
+
+                <div class="card">
+                    <h3>Available Utilities</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Function</th>
+                                <th>Purpose</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>cn()</code></td>
+                                <td>Merge CSS classes</td>
+                                <td><code>cn('bg-red', isActive && 'bg-blue')</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>sanitizeInput()</code></td>
+                                <td>Prevent XSS attacks</td>
+                                <td><code>sanitizeInput(userInput)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>formatDate()</code></td>
+                                <td>Format dates</td>
+                                <td><code>formatDate(new Date())</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>formatRelativeTime()</code></td>
+                                <td>Relative time strings</td>
+                                <td><code>formatRelativeTime(date)</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>formatNumber()</code></td>
+                                <td>Abbreviate numbers</td>
+                                <td><code>formatNumber(1500) // "1.5K"</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>Utility Example</h4>
+                    <p>Using utility functions:</p>
+                    
+                    <pre><code>import { cn, formatRelativeTime, formatNumber } from '@/lib/utils';
+
+function PostCard({ post, className }) {
+  return (
+    &lt;div className={cn('post-card', className)}&gt;
+      &lt;h3&gt;{post.title}&lt;/h3&gt;
+      &lt;p&gt;{post.content}&lt;/p&gt;
+      &lt;div className="metadata"&gt;
+        &lt;span&gt;{formatRelativeTime(post.createdAt)}&lt;/span&gt;
+        &lt;span&gt;{formatNumber(post.upvotes)} upvotes&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                </div>
+            </section>
+
+            <section id="testing">
+                <h2>Testing Guide</h2>
+                
+                <p>The project includes comprehensive testing with Jest and React Testing Library:</p>
+
+                <div class="card">
+                    <h3>Testing Types</h3>
+                    <ul>
+                        <li><strong>Unit Tests:</strong> Individual functions and components</li>
+                        <li><strong>Integration Tests:</strong> API routes and data flow</li>
+                        <li><strong>Accessibility Tests:</strong> Using jest-axe</li>
+                        <li><strong>Performance Tests:</strong> Load testing and benchmarks</li>
+                    </ul>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>Test Example</h4>
+                    <p>Testing a React component:</p>
+                    
+                    <pre><code>import { render, screen, fireEvent } from '@testing-library/react';
+import { PostCard } from '@/components/post-card';
+
+describe('PostCard', () => {
+  it('renders post information correctly', () => {
+    const mockPost = {
+      id: '1',
+      title: 'Test Post',
+      content: 'Test content',
+      upvotes: 10,
+      downvotes: 2
+    };
+
+    render(&lt;PostCard post={mockPost} /&gt;);
+    
+    expect(screen.getByText('Test Post')).toBeInTheDocument();
+    expect(screen.getByText('Test content')).toBeInTheDocument();
+    expect(screen.getByText('8')).toBeInTheDocument(); // score
+  });
+
+  it('handles vote clicks', () => {
+    const mockOnVote = jest.fn();
+    const mockPost = { id: '1', title: 'Test', content: 'Test' };
+    
+    render(&lt;PostCard post={mockPost} onVote={mockOnVote} /&gt;);
+    
+    fireEvent.click(screen.getByLabelText(/upvote/i));
+    expect(mockOnVote).toHaveBeenCalledWith('1', 'upvote');
+  });
+});</code></pre>
+                </div>
+
+                <div class="alert alert-success">
+                    <strong>Running Tests:</strong> Use <code>npm test</code> to run all tests, <code>npm run test:watch</code> for watch mode, or <code>npm run test:coverage</code> for coverage reports.
+                </div>
+            </section>
+
+            <section id="deployment">
+                <h2>Deployment</h2>
+                
+                <p>Deploy your Reddit Clone application to various platforms:</p>
+
+                <div class="card">
+                    <h3>Recommended: Vercel</h3>
+                    <ol>
+                        <li>Push your code to GitHub</li>
+                        <li>Connect your repository to Vercel</li>
+                        <li>Set environment variables in Vercel dashboard</li>
+                        <li>Deploy automatically on push to main branch</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Other Platforms</h3>
+                    <ul>
+                        <li><strong>Netlify:</strong> Static hosting with serverless functions</li>
+                        <li><strong>Railway:</strong> Full-stack deployment</li>
+                        <li><strong>DigitalOcean:</strong> App Platform</li>
+                        <li><strong>AWS:</strong> Elastic Beanstalk or ECS</li>
+                    </ul>
+                </div>
+
+                <div class="component-showcase">
+                    <h4>Environment Variables</h4>
+                    <p>Set these in your deployment platform:</p>
+                    
+                    <pre><code># Database
+DATABASE_URL="postgresql://user:password@host:5432/dbname"
+
+# Authentication
+NEXTAUTH_SECRET="your-super-secret-key"
+NEXTAUTH_URL="https://your-domain.com"
+
+# Optional: API Keys
+REDDIT_API_KEY="your-reddit-api-key"</code></pre>
+                </div>
+            </section>
+
+            <section id="contributing">
+                <h2>Contributing</h2>
+                
+                <p>We welcome contributions! Here's how to get started:</p>
+
+                <div class="card">
+                    <h3>Development Guidelines</h3>
+                    <ul>
+                        <li>Follow TypeScript strict mode</li>
+                        <li>Write comprehensive tests</li>
+                        <li>Use JSDoc for documentation</li>
+                        <li>Follow the established code style</li>
+                        <li>Ensure accessibility compliance</li>
+                    </ul>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Need Help?</strong> Check the <a href="https://github.com/your-username/reddit-clone/issues">GitHub Issues</a> or join our community discussions.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../static/scripts.js"></script>
+</body>
+</html>
