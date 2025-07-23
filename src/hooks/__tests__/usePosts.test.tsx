@@ -1,24 +1,24 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { usePosts } from '../usePosts';
-import { http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
+
+// Mock fetch globally
+global.fetch = jest.fn();
 
 const mockPosts = [
-  { id: '1', title: 'Test Post', content: 'Hello', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, isRemoved: false, createdAt: new Date(), updatedAt: new Date() },
+  { id: '1', title: 'Test Post', content: 'Hello', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, score: 1, isRemoved: false, createdAt: new Date(), updatedAt: new Date() },
 ];
 
-const server = setupServer(
-  http.get('/api/posts', () => {
-    return HttpResponse.json({ posts: mockPosts });
-  }),
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
-
 describe('usePosts', () => {
+  beforeEach(() => {
+    (global.fetch as jest.Mock).mockClear();
+  });
+
   it('fetches posts and updates state', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ posts: mockPosts }),
+    });
+
     const { result } = renderHook(() => usePosts());
     expect(result.current.loading).toBe(true);
     await waitFor(() => expect(result.current.loading).toBe(false));
@@ -28,11 +28,8 @@ describe('usePosts', () => {
   });
 
   it('handles fetch error', async () => {
-    server.use(
-      http.get('/api/posts', () => {
-        return HttpResponse.error();
-      }),
-    );
+    (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+
     const { result } = renderHook(() => usePosts());
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBeDefined();

@@ -15,7 +15,11 @@ export function LoadingSpinner({ size = 'md', className, text }: LoadingSpinnerP
   };
 
   return (
-    <div className={cn('flex items-center justify-center gap-2', className)}>
+    <div 
+      className={cn('flex items-center justify-center gap-2', className)}
+      role="status"
+      aria-hidden="true"
+    >
       <Loader2 className={cn('animate-spin text-orange-500', sizeClasses[size])} />
       {text && <span className="text-sm text-gray-600">{text}</span>}
     </div>

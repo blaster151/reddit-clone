@@ -80,11 +80,16 @@ describe('useVotes Integration Tests', () => {
   });
 
   it('handles vote change from upvote to downvote', async () => {
-    const mockResponse = { success: true, vote: { type: 'downvote', count: 6 } };
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve(mockResponse),
-    });
+    // Mock responses for both API calls
+    (global.fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ success: true, vote: { type: 'upvote', count: 43 } }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ success: true, vote: { type: 'downvote', count: 6 } }),
+      });
 
     const { result } = renderHook(() =>
       useVotes({

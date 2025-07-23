@@ -3,7 +3,23 @@ import { Button } from '../button';
 
 // Mock the cn utility function
 jest.mock('@/lib/utils', () => ({
-  cn: jest.fn((...classes) => classes.filter(Boolean).join(' ')),
+  cn: (...inputs: any[]) => {
+    // Simple mock that joins all inputs as strings
+    return inputs
+      .filter(Boolean)
+      .map(input => {
+        if (typeof input === 'string') return input;
+        if (typeof input === 'object' && input !== null) {
+          if (Array.isArray(input)) return input.join(' ');
+          return Object.entries(input)
+            .filter(([_, value]) => value)
+            .map(([key]) => key)
+            .join(' ');
+        }
+        return '';
+      })
+      .join(' ');
+  }
 }));
 
 describe('Button Component', () => {
@@ -46,37 +62,44 @@ describe('Button Component', () => {
     it('applies default variant styles', () => {
       render(<Button variant="default">Default</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-primary', 'text-primary-foreground');
+      expect(button.className).toContain('bg-primary');
+      expect(button.className).toContain('text-primary-foreground');
     });
 
     it('applies destructive variant styles', () => {
       render(<Button variant="destructive">Delete</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-destructive', 'text-destructive-foreground');
+      expect(button.className).toContain('bg-destructive');
+      expect(button.className).toContain('text-destructive-foreground');
     });
 
     it('applies outline variant styles', () => {
       render(<Button variant="outline">Outline</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('border', 'border-input', 'bg-background');
+      expect(button.className).toContain('border');
+      expect(button.className).toContain('border-input');
+      expect(button.className).toContain('bg-background');
     });
 
     it('applies secondary variant styles', () => {
       render(<Button variant="secondary">Secondary</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('bg-secondary', 'text-secondary-foreground');
+      expect(button.className).toContain('bg-secondary');
+      expect(button.className).toContain('text-secondary-foreground');
     });
 
     it('applies ghost variant styles', () => {
       render(<Button variant="ghost">Ghost</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('hover:bg-accent', 'hover:text-accent-foreground');
+      expect(button.className).toContain('hover:bg-accent');
+      expect(button.className).toContain('hover:text-accent-foreground');
     });
 
     it('applies link variant styles', () => {
       render(<Button variant="link">Link</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('text-primary', 'underline-offset-4');
+      expect(button.className).toContain('text-primary');
+      expect(button.className).toContain('underline-offset-4');
     });
   });
 
@@ -84,25 +107,32 @@ describe('Button Component', () => {
     it('applies default size styles', () => {
       render(<Button size="default">Default Size</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('h-10', 'px-4', 'py-2');
+      expect(button.className).toContain('h-10');
+      expect(button.className).toContain('px-4');
+      expect(button.className).toContain('py-2');
     });
 
     it('applies small size styles', () => {
       render(<Button size="sm">Small</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('h-9', 'rounded-md', 'px-3');
+      expect(button.className).toContain('h-9');
+      expect(button.className).toContain('rounded-md');
+      expect(button.className).toContain('px-3');
     });
 
     it('applies large size styles', () => {
       render(<Button size="lg">Large</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('h-11', 'rounded-md', 'px-8');
+      expect(button.className).toContain('h-11');
+      expect(button.className).toContain('rounded-md');
+      expect(button.className).toContain('px-8');
     });
 
     it('applies icon size styles', () => {
       render(<Button size="icon">Icon</Button>);
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('h-10', 'w-10');
+      expect(button.className).toContain('h-10');
+      expect(button.className).toContain('w-10');
     });
   });
 
@@ -213,9 +243,9 @@ describe('Button Component', () => {
         </Button>
       );
       const button = screen.getByRole('button');
-      expect(button).toHaveClass('custom-class');
-      expect(button).toHaveClass('bg-destructive');
-      expect(button).toHaveClass('h-11');
+      expect(button.className).toContain('custom-class');
+      expect(button.className).toContain('bg-destructive');
+      expect(button.className).toContain('h-11');
     });
   });
 

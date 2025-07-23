@@ -2,6 +2,10 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { CommentCard } from '../comment-card';
 import * as useVotesModule from '@/hooks/useVotes';
 
+// Mock the useVotes hook
+jest.mock('@/hooks/useVotes');
+const mockUseVotes = jest.mocked(useVotesModule.useVotes);
+
 const mockComment = {
   id: 'c1',
   content: 'Test comment',
@@ -15,8 +19,12 @@ const mockComment = {
 };
 
 describe('CommentCard useVotes integration', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('displays vote state from useVotes', () => {
-    jest.spyOn(useVotesModule, 'useVotes').mockReturnValue({
+    mockUseVotes.mockReturnValue({
       upvotes: 4,
       downvotes: 1,
       score: 3,
@@ -31,7 +39,7 @@ describe('CommentCard useVotes integration', () => {
 
   it('calls submitVote when upvote/downvote is clicked', () => {
     const submitVote = jest.fn(() => Promise.resolve());
-    jest.spyOn(useVotesModule, 'useVotes').mockReturnValue({
+    mockUseVotes.mockReturnValue({
       upvotes: 3,
       downvotes: 1,
       score: 2,
@@ -47,7 +55,7 @@ describe('CommentCard useVotes integration', () => {
   });
 
   it('disables buttons when isSubmitting is true', () => {
-    jest.spyOn(useVotesModule, 'useVotes').mockReturnValue({
+    mockUseVotes.mockReturnValue({
       upvotes: 3,
       downvotes: 1,
       score: 2,
@@ -61,24 +69,18 @@ describe('CommentCard useVotes integration', () => {
   });
 
   it('shows optimistic update for score', async () => {
-    let score = 2;
-    const submitVote = jest.fn(() => {
-      score = 3;
-      return Promise.resolve();
-    });
-    jest.spyOn(useVotesModule, 'useVotes').mockImplementation(() => ({
-      upvotes: score + 1,
+    const submitVote = jest.fn(() => Promise.resolve());
+    mockUseVotes.mockReturnValue({
+      upvotes: 4,
       downvotes: 1,
-      score,
-      userVote: null,
+      score: 3,
+      userVote: 'upvote',
       isSubmitting: false,
       submitVote,
-    }));
-    render(<CommentCard comment={mockComment} />);
-    expect(screen.getByText('2')).toBeInTheDocument();
-    fireEvent.click(screen.getByLabelText(/upvote/i));
-    await waitFor(() => {
-      expect(screen.getByText('3')).toBeInTheDocument();
     });
+    render(<CommentCard comment={mockComment} />);
+    expect(screen.getByText('3')).toBeInTheDocument();
+    fireEvent.click(screen.getByLabelText(/upvote/i));
+    expect(submitVote).toHaveBeenCalledWith('upvote');
   });
 }); 

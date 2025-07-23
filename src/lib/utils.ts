@@ -63,6 +63,11 @@ export function sanitizeInput(input: string): string {
  * ```
  */
 export function formatDate(date: Date): string {
+  // Handle invalid dates
+  if (!date || isNaN(date.getTime())) {
+    return 'Invalid date';
+  }
+  
   return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'short',
@@ -88,8 +93,50 @@ export function formatDate(date: Date): string {
  * ```
  */
 export function formatRelativeTime(date: Date): string {
+  // Handle invalid dates, null, or undefined
+  if (!date || isNaN(date.getTime())) {
+    return 'Invalid date';
+  }
+  
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+
+  // Handle future dates
+  if (diffInSeconds < 0) {
+    const absDiffInSeconds = Math.abs(diffInSeconds);
+    
+    if (absDiffInSeconds < 60) {
+      return 'just now';
+    }
+
+    const absDiffInMinutes = Math.floor(absDiffInSeconds / 60);
+    if (absDiffInMinutes < 60) {
+      return `in ${absDiffInMinutes}m`;
+    }
+
+    const absDiffInHours = Math.floor(absDiffInMinutes / 60);
+    if (absDiffInHours < 24) {
+      return `in ${absDiffInHours}h`;
+    }
+
+    const absDiffInDays = Math.floor(absDiffInHours / 24);
+    if (absDiffInDays < 7) {
+      return `in ${absDiffInDays}d`;
+    }
+
+    const absDiffInWeeks = Math.floor(absDiffInDays / 7);
+    if (absDiffInWeeks < 4) {
+      return `in ${absDiffInWeeks}w`;
+    }
+
+    const absDiffInMonths = Math.floor(absDiffInDays / 30);
+    if (absDiffInMonths < 12) {
+      return `in ${absDiffInMonths}mo`;
+    }
+
+    const absDiffInYears = Math.floor(absDiffInDays / 365);
+    return `in ${absDiffInYears}y`;
+  }
 
   if (diffInSeconds < 60) {
     return 'just now';

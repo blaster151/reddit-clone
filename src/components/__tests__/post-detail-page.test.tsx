@@ -59,8 +59,9 @@ describe('PostDetailPage', () => {
         fetchComments={fetchComments}
       />
     );
+    
     await screen.findByText('Test Post');
     expect(screen.getByText('Full post content')).toBeInTheDocument();
-    expect(screen.getByText(/comments/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /comments/i })).toBeInTheDocument();
   });
 }); 

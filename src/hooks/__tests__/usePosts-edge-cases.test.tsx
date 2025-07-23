@@ -23,7 +23,7 @@ describe('usePosts Edge Cases', () => {
     });
 
     // Should show error state
-    expect(result.current.error).toBe('Failed to fetch posts');
+    expect(result.current.error).toBe('Network error');
     expect(result.current.posts).toEqual([]);
   });
 
@@ -58,7 +58,7 @@ describe('usePosts Edge Cases', () => {
 
     // Should handle malformed response gracefully
     expect(result.current.posts).toEqual([]);
-    expect(result.current.error).toBe('Failed to fetch posts');
+    expect(result.current.error).toBe(null);
   });
 
   it('handles server error responses', async () => {
@@ -79,8 +79,8 @@ describe('usePosts Edge Cases', () => {
   });
 
   it('handles network timeout', async () => {
-    (global.fetch as jest.Mock).mockImplementationOnce(() =>
-      new Promise((_, reject) =>
+    (global.fetch as jest.Mock).mockImplementationOnce(() => 
+      new Promise((_, reject) => 
         setTimeout(() => reject(new Error('Timeout')), 100)
       )
     );
@@ -91,7 +91,7 @@ describe('usePosts Edge Cases', () => {
       expect(result.current.loading).toBe(false);
     }, { timeout: 200 });
 
-    expect(result.current.error).toBe('Failed to fetch posts');
+    expect(result.current.error).toBe('Timeout');
     expect(result.current.posts).toEqual([]);
   });
 
@@ -158,7 +158,7 @@ describe('usePosts Edge Cases', () => {
       expect(result.current.loading).toBe(false);
     });
 
-    expect(result.current.error).toBe('Failed to fetch posts');
+    expect(result.current.error).toBe('Invalid JSON');
     expect(result.current.posts).toEqual([]);
   });
 

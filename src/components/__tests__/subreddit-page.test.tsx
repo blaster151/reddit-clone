@@ -6,6 +6,9 @@ describe('SubredditPage', () => {
     id: '1',
     name: 'reactjs',
     description: 'React community',
+    memberCount: 1000,
+    onlineCount: 50,
+    createdAt: new Date('2020-01-01T00:00:00Z'),
   };
   const posts = [
     {
@@ -16,6 +19,8 @@ describe('SubredditPage', () => {
       subredditId: '1',
       upvotes: 10,
       downvotes: 2,
+      score: 8,
+      isRemoved: false,
       createdAt: new Date('2024-01-01T10:00:00Z'),
       updatedAt: new Date('2024-01-01T10:00:00Z'),
     },

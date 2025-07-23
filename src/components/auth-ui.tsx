@@ -64,12 +64,14 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
     <div className="max-w-sm mx-auto bg-white border border-gray-200 rounded-lg p-6 mt-8">
       <div className="flex justify-center mb-4">
         <button
+          type="button"
           className={`px-4 py-2 rounded-l ${mode === 'login' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}
           onClick={() => setMode('login')}
         >
           Login
         </button>
         <button
+          type="button"
           className={`px-4 py-2 rounded-r ${mode === 'register' ? 'bg-orange-500 text-white' : 'bg-gray-100'}`}
           onClick={() => setMode('register')}
         >
@@ -78,8 +80,9 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
       </div>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Username</label>
+          <label htmlFor="username" className="block text-sm font-medium mb-1">Username</label>
           <input
+            id="username"
             className="w-full border rounded px-3 py-2"
             value={username}
             onChange={e => setUsername(e.target.value)}
@@ -88,8 +91,9 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
         </div>
         {mode === 'register' && (
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
             <input
+              id="email"
               className="w-full border rounded px-3 py-2"
               value={email}
               onChange={e => setEmail(e.target.value)}
@@ -99,8 +103,9 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
           </div>
         )}
         <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Password</label>
+          <label htmlFor="password" className="block text-sm font-medium mb-1">Password</label>
           <input
+            id="password"
             className="w-full border rounded px-3 py-2"
             value={password}
             onChange={e => setPassword(e.target.value)}
@@ -112,6 +117,7 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
         <button
           className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
           type="submit"
+          data-testid="submit-button"
         >
           {mode === 'login' ? 'Login' : 'Register'}
         </button>

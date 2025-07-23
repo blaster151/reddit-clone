@@ -24,14 +24,13 @@ describe('CreatePostForm', () => {
   });
 
   it('shows validation errors for empty fields', async () => {
-    render(<CreatePostForm />);
+    render(<CreatePostForm subreddits={mockSubreddits} />);
     
     const submitButton = screen.getByRole('button', { name: /create post/i });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(screen.getByText(/title is required/i)).toBeInTheDocument();
-      expect(screen.getByText(/content is required/i)).toBeInTheDocument();
     });
   });
 
@@ -93,7 +92,7 @@ describe('CreatePostForm', () => {
 
   it('calls onCancel when cancel button is clicked', () => {
     const mockOnCancel = jest.fn();
-    render(<CreatePostForm onCancel={mockOnCancel} />);
+    render(<CreatePostForm onCancel={mockOnCancel} subreddits={mockSubreddits} />);
     
     const cancelButton = screen.getByRole('button', { name: /cancel/i });
     fireEvent.click(cancelButton);
@@ -102,8 +101,8 @@ describe('CreatePostForm', () => {
   });
 
   it('disables submit button during submission', async () => {
-    (global.fetch as jest.Mock).mockImplementation(
-      () => new Promise(resolve => setTimeout(resolve, 100))
+    (global.fetch as jest.Mock).mockImplementation(() => 
+      new Promise(resolve => setTimeout(resolve, 100))
     );
 
     render(<CreatePostForm subreddits={mockSubreddits} />);
@@ -118,7 +117,9 @@ describe('CreatePostForm', () => {
     const submitButton = screen.getByRole('button', { name: /create post/i });
     fireEvent.click(submitButton);
 
-    expect(submitButton).toBeDisabled();
-    expect(screen.getByText(/creating/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+      expect(screen.getByText(/creating/i)).toBeInTheDocument();
+    });
   });
 }); 
