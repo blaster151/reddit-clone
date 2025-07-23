@@ -71,7 +71,7 @@
 
 ## State Management & Hooks
 - [x] Create custom hook for submitting votes
-- [Dev 1] Create custom hook for authentication state
+- [x] Create custom hook for authentication state
 - [x] Create custom hook for fetching comments
 - [Dev 1] Create custom hook for user vote history
 - [Dev 1] Create custom hook for trending posts/comments
@@ -94,6 +94,22 @@
 - [x] Add tests for search functionality
 - [x] Add tests for real-time features
 - [x] Add performance tests for high-traffic scenarios
+
+### Critical Missing Tests (High Priority)
+- [Dev 1] Add performance and memory leak tests for hooks and components
+- [Dev 1] Add error boundary integration tests with real components
+- [Dev 1] Add search system integration tests (SearchBar + SearchResults)
+- [Dev 2] Add comprehensive API error handling tests (network failures, timeouts, retries)
+- [Dev 2] Add accessibility integration tests (keyboard navigation, screen readers)
+- [Dev 2] Add state management edge case tests (concurrent updates, race conditions)
+
+### Advanced Testing (Medium Priority)
+- [Dev 1] Add component composition tests (complex hierarchies, prop drilling)
+- [Dev 1] Add visual regression tests (snapshots, responsive design)
+- [Dev 2] Add internationalization tests (translations, RTL layouts)
+- [Dev 2] Add end-to-end user flow tests (complete user journeys)
+- [Dev 2] Add load testing for critical user paths
+- [Dev 2] Add security testing (XSS, CSRF, input validation)
 
 ## Miscellaneous
 - [x] Add error boundary component
