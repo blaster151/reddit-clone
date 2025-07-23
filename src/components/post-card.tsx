@@ -3,16 +3,28 @@
 import { Post } from '@/types';
 import { formatRelativeTime, formatNumber } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { ArrowBigUp, ArrowBigDown, MessageCircle, Share } from 'lucide-react';
+import { ArrowBigUp, ArrowBigDown, MessageCircle, Share, Shield } from 'lucide-react';
 import { useVotes } from '@/hooks/useVotes';
 import { useState, useEffect, useRef } from 'react';
+import { ModerationActions } from './moderation-actions';
 
 interface PostCardProps {
   post: Post;
   onVote?: (postId: string, voteType: 'upvote' | 'downvote') => void;
+  isModerator?: boolean;
+  onRemove?: (postId: string, reason: string) => void;
+  onBanUser?: (userId: string, reason: string, isPermanent: boolean) => void;
+  onMuteUser?: (userId: string, reason: string, isPermanent: boolean) => void;
 }
 
-export function PostCard({ post, onVote }: PostCardProps) {
+export function PostCard({ 
+  post, 
+  onVote, 
+  isModerator = false, 
+  onRemove, 
+  onBanUser, 
+  onMuteUser 
+}: PostCardProps) {
   // Integrate useVotes hook
   const {
     upvotes,
@@ -42,6 +54,24 @@ export function PostCard({ post, onVote }: PostCardProps) {
       return () => clearTimeout(timeout);
     }
   }, [score]);
+
+  // Show removed post content
+  if (post.isRemoved) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Shield className="w-4 h-4 text-red-500" />
+          <span className="text-sm text-red-600 font-medium">Post removed by moderator</span>
+        </div>
+        {post.removalReason && (
+          <div className="text-sm text-gray-600 mb-2">Reason: {post.removalReason}</div>
+        )}
+        <div className="text-sm text-gray-500">
+          Removed on {post.removedAt ? formatRelativeTime(post.removedAt) : 'unknown date'}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
@@ -75,10 +105,24 @@ export function PostCard({ post, onVote }: PostCardProps) {
           </Button>
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <span className="font-semibold text-sm text-gray-700">{post.authorId}</span>
-            <span className="text-xs text-gray-400">•</span>
-            <span className="text-xs text-gray-500">{formatRelativeTime(post.createdAt)}</span>
+          <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center gap-2">
+              <span className="font-semibold text-sm text-gray-700">{post.authorId}</span>
+              <span className="text-xs text-gray-400">•</span>
+              <span className="text-xs text-gray-500">{formatRelativeTime(post.createdAt)}</span>
+            </div>
+            {isModerator && (
+              <ModerationActions
+                targetId={post.id}
+                targetType="post"
+                authorId={post.authorId}
+                subredditId={post.subredditId}
+                isModerator={isModerator}
+                onRemove={onRemove}
+                onBanUser={onBanUser}
+                onMuteUser={onMuteUser}
+              />
+            )}
           </div>
           <div className="text-lg font-bold mb-1">{post.title}</div>
           <div className="text-gray-700 mb-2 line-clamp-3">{post.content}</div>
