@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { CommentForm } from '../comment-form';
 
 // Mock the API call
@@ -20,7 +20,10 @@ describe('CommentForm', () => {
     render(<CommentForm postId="post-1" />);
     
     const submitButton = screen.getByRole('button', { name: /post comment/i });
-    fireEvent.click(submitButton);
+    
+    await act(async () => {
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(() => {
       expect(screen.getByText(/content is required/i)).toBeInTheDocument();
@@ -36,12 +39,15 @@ describe('CommentForm', () => {
 
     render(<CommentForm postId="post-1" onSubmit={mockOnSubmit} />);
     
-    fireEvent.change(screen.getByPlaceholderText(/what are your thoughts/i), {
-      target: { value: 'This is a test comment' },
-    });
-
+    const textarea = screen.getByPlaceholderText(/what are your thoughts/i);
     const submitButton = screen.getByRole('button', { name: /post comment/i });
-    fireEvent.click(submitButton);
+    
+    await act(async () => {
+      fireEvent.change(textarea, {
+        target: { value: 'This is a test comment' },
+      });
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/comments/create', {
@@ -64,12 +70,15 @@ describe('CommentForm', () => {
 
     render(<CommentForm postId="post-1" parentCommentId="comment-1" />);
     
-    fireEvent.change(screen.getByPlaceholderText(/what are your thoughts/i), {
-      target: { value: 'This is a reply' },
-    });
-
+    const textarea = screen.getByPlaceholderText(/what are your thoughts/i);
     const submitButton = screen.getByRole('button', { name: /post comment/i });
-    fireEvent.click(submitButton);
+    
+    await act(async () => {
+      fireEvent.change(textarea, {
+        target: { value: 'This is a reply' },
+      });
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/comments/create', {
@@ -89,12 +98,15 @@ describe('CommentForm', () => {
 
     render(<CommentForm postId="post-1" />);
     
-    fireEvent.change(screen.getByPlaceholderText(/what are your thoughts/i), {
-      target: { value: 'Test comment' },
-    });
-
+    const textarea = screen.getByPlaceholderText(/what are your thoughts/i);
     const submitButton = screen.getByRole('button', { name: /post comment/i });
-    fireEvent.click(submitButton);
+    
+    await act(async () => {
+      fireEvent.change(textarea, {
+        target: { value: 'Test comment' },
+      });
+      fireEvent.click(submitButton);
+    });
 
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalled();
@@ -118,15 +130,20 @@ describe('CommentForm', () => {
 
     render(<CommentForm postId="post-1" />);
     
-    fireEvent.change(screen.getByPlaceholderText(/what are your thoughts/i), {
-      target: { value: 'Test comment' },
+    const textarea = screen.getByPlaceholderText(/what are your thoughts/i);
+    const submitButton = screen.getByRole('button', { name: /post comment/i });
+    
+    await act(async () => {
+      fireEvent.change(textarea, {
+        target: { value: 'Test comment' },
+      });
+      fireEvent.click(submitButton);
     });
 
-    const submitButton = screen.getByRole('button', { name: /post comment/i });
-    fireEvent.click(submitButton);
-
-    expect(submitButton).toBeDisabled();
-    expect(screen.getByText(/posting/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(submitButton).toBeDisabled();
+      expect(screen.getByText(/posting/i)).toBeInTheDocument();
+    });
   });
 
   it('uses custom placeholder text', () => {

@@ -101,6 +101,14 @@ export const createCommentSchema = z.object({
   parentCommentId: z.string().uuid().optional(),
 });
 
+// Flexible schema for comment form that only validates content
+export const flexibleCreateCommentSchema = z.object({
+  content: z.string()
+    .min(1, "Content is required")
+    .max(10000, "Content must be at most 10000 characters")
+    .refine((val) => val.trim().length > 0, "Content is required"), // Handle whitespace
+});
+
 export const voteSchemaInput = z.object({
   userId: z.string().uuid(),
   targetId: z.string().uuid(),

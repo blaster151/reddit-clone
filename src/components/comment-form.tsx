@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createCommentSchema, type CreateCommentInput } from '@/lib/validation';
+import { flexibleCreateCommentSchema, type CreateCommentInput } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 
@@ -29,19 +29,15 @@ export function CommentForm({
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<CreateCommentInput>({
-    resolver: zodResolver(createCommentSchema),
-    defaultValues: {
-      postId,
-      parentCommentId,
-    },
+  } = useForm<{ content: string }>({
+    resolver: zodResolver(flexibleCreateCommentSchema),
   });
 
-  const handleFormSubmit = async (data: CreateCommentInput) => {
+  const handleFormSubmit = async (data: { content: string }) => {
     setIsSubmitting(true);
     try {
       const commentData = {
-        ...data,
+        content: data.content,
         postId,
         parentCommentId: parentCommentId || undefined,
       };
@@ -59,7 +55,7 @@ export function CommentForm({
       }
 
       const result = await response.json();
-      onSubmit?.(data);
+      onSubmit?.(commentData as CreateCommentInput);
       reset();
     } catch (error) {
       console.error('Error creating comment:', error);

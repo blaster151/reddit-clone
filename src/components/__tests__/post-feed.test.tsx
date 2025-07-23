@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { PostFeed } from '../post-feed';
-import { usePosts } from '@/hooks/usePosts';
+import { usePostsWithStore } from '@/hooks/usePostsWithStore';
 
-jest.mock('@/hooks/usePosts');
+jest.mock('@/hooks/usePostsWithStore');
 
 const mockPosts = [
   {
@@ -35,25 +35,53 @@ describe('PostFeed', () => {
   });
 
   it('renders loading state', () => {
-    (usePosts as jest.Mock).mockReturnValue({ posts: [], loading: true, error: null });
+    (usePostsWithStore as jest.Mock).mockReturnValue({ 
+      posts: [], 
+      isLoading: true, 
+      error: null,
+      hasMore: false,
+      fetchPosts: jest.fn(),
+      loadMore: jest.fn(),
+    });
     render(<PostFeed />);
     expect(screen.getByText(/loading posts/i)).toBeInTheDocument();
   });
 
   it('renders error state', () => {
-    (usePosts as jest.Mock).mockReturnValue({ posts: [], loading: false, error: 'Failed to fetch posts' });
+    (usePostsWithStore as jest.Mock).mockReturnValue({ 
+      posts: [], 
+      isLoading: false, 
+      error: 'Failed to fetch posts',
+      hasMore: false,
+      fetchPosts: jest.fn(),
+      loadMore: jest.fn(),
+    });
     render(<PostFeed />);
     expect(screen.getByText(/failed to fetch posts/i)).toBeInTheDocument();
   });
 
   it('renders empty state', () => {
-    (usePosts as jest.Mock).mockReturnValue({ posts: [], loading: false, error: null });
+    (usePostsWithStore as jest.Mock).mockReturnValue({ 
+      posts: [], 
+      isLoading: false, 
+      error: null,
+      hasMore: false,
+      fetchPosts: jest.fn(),
+      loadMore: jest.fn(),
+    });
     render(<PostFeed />);
     expect(screen.getByText(/no posts yet/i)).toBeInTheDocument();
   });
 
   it('renders a list of posts', () => {
-    (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts, loading: false, error: null });
+    (usePostsWithStore as jest.Mock).mockReturnValue({ 
+      posts: mockPosts, 
+      isLoading: false, 
+      error: null,
+      hasMore: false,
+      fetchPosts: jest.fn(),
+      loadMore: jest.fn(),
+    });
     render(<PostFeed />);
     expect(screen.getByText('Test Post 1')).toBeInTheDocument();
     expect(screen.getByText('Test Post 2')).toBeInTheDocument();

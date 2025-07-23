@@ -162,6 +162,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
               size="sm"
               onClick={() => handleInputChange('')}
               className="h-6 w-6 p-0"
+              aria-label="Clear search"
             >
               <X className="h-3 w-3" />
             </Button>
@@ -171,6 +172,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
             className={`h-6 px-2 ${showFilters ? 'bg-orange-100 text-orange-600' : ''}`}
+            aria-label="Filter search results"
           >
             <Filter className="h-3 w-3" />
           </Button>
