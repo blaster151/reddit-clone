@@ -45,3 +45,14 @@
 - Implemented HTTP caching for posts and subreddits API endpoints (GET /api/posts, GET /api/subreddits/[id]), with tests verifying Cache-Control headers are set correctly. 
 - Implemented automated accessibility tests for Button and CommentForm components using jest-axe, ensuring no accessibility violations in default and disabled states. 
 - Refactored API route tests to use MSW (Mock Service Worker) for more realistic integration testing, with a demo test for the posts API route mocking /api/posts. 
+- Implemented API endpoints and tests for notifications (GET /api/notifications, POST /api/notifications/mark-read) covering mentions, replies, mod actions, and marking notifications as read. 
+- Implemented optimistic UI updates for voting and commenting via a custom React hook (useOptimisticVote), with unit tests for all state transitions and pending state. 
+- Implemented a performance test for the posts API route, simulating 50 concurrent requests and measuring that all responses complete within 2 seconds. 
+- Implemented tests for API error cases (invalid input, server errors) for posts, comments, and votes endpoints, documenting expected error handling. 
+- Implemented tests for search functionality (POST /api/search), covering edge cases, empty results, special characters, long queries, and case insensitivity. 
+- Implemented tests for vote analytics and trending algorithms (GET /api/analytics/trending-posts, GET /api/analytics/user-engagement), covering edge cases, empty results, and sorting. 
+- Implemented tests for real-time features (GET /api/realtime SSE endpoint), covering event streaming, event types, connection closure, and edge cases. 
+- Implemented pagination and filtering for posts and comments API endpoints, with integration tests for page, pageSize, filtering, and edge cases. 
+- Integrated persistent storage with Prisma for comments, votes, and subreddits, and refactored the comments API route to use the database for comment creation. 
+- Implemented hierarchical, paginated API endpoints for fetching individual comments and comment threads (nested replies), with tests for replies, hasMoreReplies, and cursor-based pagination. 
+- Implemented API endpoints for editing and deleting comments (with permission checks), with tests for author, moderator, forbidden, and not found cases. 

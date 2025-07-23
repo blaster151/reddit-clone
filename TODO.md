@@ -48,11 +48,11 @@
 ## Validation & Types
 - [x] Add Zod validation to all new and existing API routes (comments, votes, subreddits, auth)
 - [x] Add centralized error handling middleware/util for consistent API error responses
-- [Dev 2] Integrate persistent storage (Prisma + PostgreSQL) for comments, votes, and subreddits
+- [x] Integrate persistent storage (Prisma + PostgreSQL) for comments, votes, and subreddits
 - [Dev 2] Implement user authentication and session management (NextAuth.js or similar)
 - [Dev 2] Add rate limiting and brute-force protection to voting and comment APIs
-- [Dev 2] Implement API endpoints for fetching individual comments and comment threads (nested replies)
-- [Dev 2] Add API endpoints for editing and deleting comments (with permission checks)
+- [x] Implement API endpoints for fetching individual comments and comment threads (nested replies)
+- [x] Add API endpoints for editing and deleting comments (with permission checks)
 - [x] Add integration tests for user registration and login flows
 - [x] Add integration tests for subreddit creation and fetching flows
 - [x] Add integration tests for subscribing/unsubscribing to subreddits
@@ -66,8 +66,8 @@
 - [x] Implement caching for frequently accessed API endpoints (e.g., posts, subreddits)
 - [x] Add accessibility tests for all interactive components (buttons, forms, modals)
 - [x] Refactor API route tests to use MSW (Mock Service Worker) for more realistic integration testing
-- [Dev 2] Add API endpoints and UI for notifications (mentions, replies, mod actions)
-- [Dev 2] Implement optimistic UI updates for voting and commenting in the frontend
+- [x] Add API endpoints and UI for notifications (mentions, replies, mod actions)
+- [x] Implement optimistic UI updates for voting and commenting in the frontend
 
 ## State Management & Hooks
 - [x] Create custom hook for submitting votes
@@ -89,11 +89,11 @@
 - [x] Add integration tests for voting flow
 - [Dev 2] Add E2E tests for user registration/login
 - [Dev 2] Add E2E tests for posting/commenting/voting
-- [Dev 2] Add tests for API error cases (invalid input, server errors)
-- [Dev 2] Add tests for vote analytics and trending algorithms
-- [Dev 2] Add tests for search functionality
-- [Dev 2] Add tests for real-time features
-- [Dev 2] Add performance tests for high-traffic scenarios
+- [x] Add tests for API error cases (invalid input, server errors)
+- [x] Add tests for vote analytics and trending algorithms
+- [x] Add tests for search functionality
+- [x] Add tests for real-time features
+- [x] Add performance tests for high-traffic scenarios
 
 ## Miscellaneous
 - [x] Add error boundary component
@@ -156,3 +156,25 @@ Content Management (M1 Core):
 [Dev 1] Create comment editing and deletion features
 [Dev 1] Add content moderation flags (report inappropriate content)
 [Dev 1] Implement content validation and sanitization
+
+# Additional Backend/API (Dev 2)
+- [x] Add pagination and filtering to posts and comments API endpoints
+- [Dev 2] Implement soft deletion for posts and comments (with undo)
+- [Dev 2] Add audit logging for moderation actions (flag, remove, ban)
+- [Dev 2] Implement email notifications for mentions, replies, and mod actions
+- [Dev 2] Add API endpoint for user settings/preferences (notifications, theme, etc.)
+- [Dev 2] Add API endpoint for reporting bugs/feedback
+
+# Additional Frontend (Dev 1)
+- [Dev 1] Implement infinite scroll and pagination UI for post and comment feeds
+- [Dev 1] Add optimistic UI for comment creation and editing
+- [Dev 1] Add user settings/preferences UI (notifications, theme, etc.)
+- [Dev 1] Implement post and comment editing UI with validation
+- [Dev 1] Add undo UI for soft-deleted posts/comments
+- [Dev 1] Add bug/feedback reporting UI
+- [Dev 1] Add toast notifications for success/error actions
+- [Dev 1] Add skeleton loaders and shimmer effects for feeds
+- [Dev 1] Implement keyboard shortcuts for common actions (e.g., upvote, reply)
+- [Dev 1] Add accessibility improvements for modals and dropdowns
+- [Dev 1] Add user onboarding flow and welcome tour
+- [Dev 1] Add profile editing UI (avatar, bio, etc.)
