@@ -17,6 +17,14 @@ model User {
   comments  Comment[]
   votes     Vote[]
   createdSubreddits Subreddit[] @relation("UserCreatedSubreddits")
+  subscribedSubreddits Subreddit[] @relation("UserSubscribedSubreddits")
+  moderatedSubreddits Subreddit[] @relation("UserModeratedSubreddits")
+  bans      Ban[]    @relation("UserBanned")
+  bansIssued Ban[]   @relation("UserIssuedBans")
+  mutes     Mute[]   @relation("UserMuted")
+  mutesIssued Mute[] @relation("UserIssuedMutes")
+  removedPosts Post[] @relation("UserRemovedPosts")
+  removedComments Comment[] @relation("UserRemovedComments")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -28,6 +36,10 @@ model Subreddit {
   creator         User     @relation("UserCreatedSubreddits", fields: [creatorId], references: [id])
   creatorId       String
   posts           Post[]
+  subscribers     User[]   @relation("UserSubscribedSubreddits")
+  moderators      User[]   @relation("UserModeratedSubreddits")
+  bans            Ban[]
+  mutes           Mute[]
   subscriberCount Int      @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -45,6 +57,11 @@ model Post {
   votes       Vote[]
   upvotes     Int       @default(0)
   downvotes   Int       @default(0)
+  isRemoved   Boolean   @default(false)
+  removedBy   User?     @relation("UserRemovedPosts", fields: [removedById], references: [id])
+  removedById String?
+  removedAt   DateTime?
+  removalReason String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -62,6 +79,11 @@ model Comment {
   votes           Vote[]
   upvotes         Int       @default(0)
   downvotes       Int       @default(0)
+  isRemoved       Boolean   @default(false)
+  removedBy       User?     @relation("UserRemovedComments", fields: [removedById], references: [id])
+  removedById     String?
+  removedAt       DateTime?
+  removalReason   String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
@@ -77,4 +99,38 @@ model Vote {
   targetType String
   voteType   String
   createdAt  DateTime @default(now())
+}
+
+model Ban {
+  id          String   @id @default(uuid())
+  user        User     @relation("UserBanned", fields: [userId], references: [id])
+  userId      String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String
+  moderator   User     @relation("UserIssuedBans", fields: [moderatorId], references: [id])
+  moderatorId String
+  reason      String
+  expiresAt   DateTime?
+  isPermanent Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, subredditId])
+}
+
+model Mute {
+  id          String   @id @default(uuid())
+  user        User     @relation("UserMuted", fields: [userId], references: [id])
+  userId      String
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id])
+  subredditId String
+  moderator   User     @relation("UserIssuedMutes", fields: [moderatorId], references: [id])
+  moderatorId String
+  reason      String
+  expiresAt   DateTime?
+  isPermanent Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, subredditId])
 } 

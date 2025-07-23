@@ -1,5 +1,6 @@
 import { useVotes } from '@/hooks/useVotes';
-import { ArrowBigUp, ArrowBigDown } from 'lucide-react';
+import { ArrowBigUp, ArrowBigDown, Shield } from 'lucide-react';
+import { ModerationActions } from './moderation-actions';
 
 interface Comment {
   id: string;
@@ -9,6 +10,10 @@ interface Comment {
   parentCommentId?: string;
   upvotes: number;
   downvotes: number;
+  isRemoved: boolean;
+  removedById?: string;
+  removedAt?: Date;
+  removalReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -16,9 +21,20 @@ interface Comment {
 interface CommentCardProps {
   comment: Comment;
   onVote?: (commentId: string, voteType: 'upvote' | 'downvote') => void;
+  isModerator?: boolean;
+  onRemove?: (commentId: string, reason: string) => void;
+  onBanUser?: (userId: string, reason: string, isPermanent: boolean) => void;
+  onMuteUser?: (userId: string, reason: string, isPermanent: boolean) => void;
 }
 
-export function CommentCard({ comment, onVote }: CommentCardProps) {
+export function CommentCard({ 
+  comment, 
+  onVote, 
+  isModerator = false, 
+  onRemove, 
+  onBanUser, 
+  onMuteUser 
+}: CommentCardProps) {
   const {
     upvotes,
     downvotes,
@@ -35,6 +51,24 @@ export function CommentCard({ comment, onVote }: CommentCardProps) {
       if (onVote && voteType) onVote(comment.id, voteType);
     },
   });
+
+  // Show removed comment content
+  if (comment.isRemoved) {
+    return (
+      <div className="bg-gray-50 border border-gray-200 rounded p-3 mb-2">
+        <div className="flex items-center gap-2 mb-2">
+          <Shield className="w-4 h-4 text-red-500" />
+          <span className="text-sm text-red-600 font-medium">Comment removed by moderator</span>
+        </div>
+        {comment.removalReason && (
+          <div className="text-sm text-gray-600 mb-2">Reason: {comment.removalReason}</div>
+        )}
+        <div className="text-sm text-gray-500">
+          Removed on {comment.removedAt ? new Date(comment.removedAt).toLocaleDateString() : 'unknown date'}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 border border-gray-200 rounded p-3 mb-2">
@@ -59,7 +93,21 @@ export function CommentCard({ comment, onVote }: CommentCardProps) {
           </button>
         </div>
         <div className="flex-1">
-          <div className="text-sm text-gray-700 mb-1">{comment.content}</div>
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-sm text-gray-700">{comment.content}</div>
+            {isModerator && (
+              <ModerationActions
+                targetId={comment.id}
+                targetType="comment"
+                authorId={comment.authorId}
+                subredditId="" // We'll need to pass this from parent
+                isModerator={isModerator}
+                onRemove={onRemove}
+                onBanUser={onBanUser}
+                onMuteUser={onMuteUser}
+              />
+            )}
+          </div>
           <div className="text-xs text-gray-500">by {comment.authorId}</div>
         </div>
       </div>

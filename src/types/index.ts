@@ -3,6 +3,8 @@ export interface User {
   username: string;
   email: string;
   karma: number;
+  subscribedSubreddits?: Subreddit[];
+  moderatedSubreddits?: Subreddit[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -12,6 +14,8 @@ export interface Subreddit {
   name: string;
   description: string;
   creatorId: string;
+  subscribers?: User[];
+  moderators?: User[];
   subscriberCount: number;
   createdAt: Date;
   updatedAt: Date;
@@ -25,6 +29,10 @@ export interface Post {
   subredditId: string;
   upvotes: number;
   downvotes: number;
+  isRemoved: boolean;
+  removedById?: string;
+  removedAt?: Date;
+  removalReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,6 +45,10 @@ export interface Comment {
   parentCommentId?: string;
   upvotes: number;
   downvotes: number;
+  isRemoved: boolean;
+  removedById?: string;
+  removedAt?: Date;
+  removalReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -48,6 +60,30 @@ export interface Vote {
   targetType: 'post' | 'comment';
   voteType: 'upvote' | 'downvote';
   createdAt: Date;
+}
+
+export interface Ban {
+  id: string;
+  userId: string;
+  subredditId: string;
+  moderatorId: string;
+  reason: string;
+  expiresAt?: Date;
+  isPermanent: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface Mute {
+  id: string;
+  userId: string;
+  subredditId: string;
+  moderatorId: string;
+  reason: string;
+  expiresAt?: Date;
+  isPermanent: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export type VoteType = 'upvote' | 'downvote';
