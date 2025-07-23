@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { LoadingSpinner } from './ui/loading-spinner';
+import { RESERVED_SUBREDDIT_NAMES } from '@/lib/constants';
 
 interface CreateSubredditFormProps {
   onClose?: () => void;
@@ -39,7 +40,7 @@ const CATEGORIES = [
   'Television', 'Anime', 'Comics', 'Gaming', 'Programming', 'Other'
 ];
 
-const RESERVED_WORDS = ['admin', 'mod', 'moderator', 'administrator', 'reddit', 'help', 'about', 'contact'];
+const RESERVED_WORDS = RESERVED_SUBREDDIT_NAMES;
 
 export function CreateSubredditForm({ onClose, isModal = false }: CreateSubredditFormProps) {
   const router = useRouter();
@@ -229,29 +230,31 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
               placeholder="Enter community name"
               className={`pr-10 ${errors.name ? 'border-red-500' : nameAvailable === true ? 'border-green-500' : ''}`}
               maxLength={21}
+              aria-label="Community name input"
+              aria-describedby="name-help"
             />
             <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
               {isCheckingName && <LoadingSpinner size="sm" />}
               {!isCheckingName && nameAvailable === true && (
-                <span className="text-green-500 text-xl">✓</span>
+                <span className="text-green-500 text-xl" aria-label="Name available">✓</span>
               )}
               {!isCheckingName && nameAvailable === false && (
-                <span className="text-red-500 text-xl">✗</span>
+                <span className="text-red-500 text-xl" aria-label="Name not available">✗</span>
               )}
             </div>
           </div>
           <div className="flex justify-between items-center mt-1">
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500" aria-live="polite">
               {formData.name.length}/21 characters
             </span>
             {formData.name && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-gray-500" aria-live="polite">
                 URL: reddit.com/r/{formData.name}
               </span>
             )}
           </div>
           {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            <p className="text-red-500 text-sm mt-1" id="name-help">{errors.name}</p>
           )}
           <p className="text-xs text-gray-500 mt-1">
             Community names cannot be changed later. Use 3-21 characters, letters, numbers, and underscores only.
@@ -271,14 +274,16 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
             rows={4}
             maxLength={500}
             className={errors.description ? 'border-red-500' : ''}
+            aria-label="Community description input"
+            aria-describedby="description-help"
           />
           <div className="flex justify-between items-center mt-1">
-            <span className="text-xs text-gray-500">
+            <span className="text-xs text-gray-500" aria-live="polite">
               {formData.description.length}/500 characters
             </span>
           </div>
           {errors.description && (
-            <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+            <p className="text-red-500 text-sm mt-1" id="description-help">{errors.description}</p>
           )}
         </div>
 
@@ -297,6 +302,7 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
                   checked={formData.type === type.value}
                   onChange={(e) => handleInputChange('type', e.target.value)}
                   className="mt-1"
+                  aria-label={`Community type option: ${type.label}`}
                 />
                 <div>
                   <div className="font-medium text-gray-900">{type.label}</div>
@@ -317,16 +323,18 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
             value={formData.category}
             onChange={(e) => handleInputChange('category', e.target.value)}
             className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.category ? 'border-red-500' : ''}`}
+            aria-label="Community category select"
+            aria-describedby="category-help"
           >
             <option value="">Select a category</option>
             {CATEGORIES.map((category) => (
-              <option key={category} value={category}>
+              <option key={category} value={category} aria-label={`Category option: ${category}`}>
                 {category}
               </option>
             ))}
           </select>
           {errors.category && (
-            <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+            <p className="text-red-500 text-sm mt-1" id="category-help">{errors.category}</p>
           )}
         </div>
 
@@ -338,6 +346,7 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
               variant="outline"
               onClick={onClose}
               disabled={isLoading}
+              aria-label="Cancel community creation"
             >
               Cancel
             </Button>
@@ -346,6 +355,7 @@ export function CreateSubredditForm({ onClose, isModal = false }: CreateSubreddi
             type="submit"
             disabled={!isFormValid || isLoading}
             className="min-w-[120px]"
+            aria-label="Submit community creation form"
           >
             {isLoading ? (
               <>

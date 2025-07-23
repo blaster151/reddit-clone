@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { RESERVED_SUBREDDIT_NAMES } from '@/lib/constants';
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,7 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check for reserved words
-    const reservedWords = ['admin', 'mod', 'moderator', 'administrator', 'reddit', 'help', 'about', 'contact', 'login', 'register', 'api'];
+    const reservedWords = RESERVED_SUBREDDIT_NAMES;
     if (reservedWords.includes(name.toLowerCase())) {
       return NextResponse.json({ available: false, error: 'This name is reserved and cannot be used' });
     }

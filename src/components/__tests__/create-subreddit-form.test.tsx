@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { CreateSubredditForm } from '../create-subreddit-form';
 
 // Mock Next.js router
@@ -117,7 +117,7 @@ describe('CreateSubredditForm', () => {
     
     // Fill in required fields
     const nameInput = screen.getByLabelText(/community name/i);
-    const categorySelect = screen.getByLabelText(/category/i);
+    const categorySelect = screen.getByRole('combobox', { name: /category/i });
     
     fireEvent.change(nameInput, { target: { value: 'testcommunity' } });
     fireEvent.change(categorySelect, { target: { value: 'Technology' } });
@@ -157,7 +157,7 @@ describe('CreateSubredditForm', () => {
     // Fill form
     const nameInput = screen.getByLabelText(/community name/i);
     const descriptionTextarea = screen.getByLabelText(/description/i);
-    const categorySelect = screen.getByLabelText(/category/i);
+    const categorySelect = screen.getByRole('combobox', { name: /category/i });
     
     fireEvent.change(nameInput, { target: { value: 'testcommunity' } });
     fireEvent.change(descriptionTextarea, { target: { value: 'Test description' } });
@@ -203,7 +203,7 @@ describe('CreateSubredditForm', () => {
     
     // Fill form
     const nameInput = screen.getByLabelText(/community name/i);
-    const categorySelect = screen.getByLabelText(/category/i);
+    const categorySelect = screen.getByRole('combobox', { name: /category/i });
     
     fireEvent.change(nameInput, { target: { value: 'testcommunity' } });
     fireEvent.change(categorySelect, { target: { value: 'Technology' } });
@@ -234,25 +234,30 @@ describe('CreateSubredditForm', () => {
   });
 
   it('prevents submission when name is not available', async () => {
+    jest.useFakeTimers();
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => ({ available: false, error: 'Name taken' })
+      json: async () => ({ available: false, error: 'This community name is already taken' })
     });
 
     render(<CreateSubredditForm />);
     
     const nameInput = screen.getByLabelText(/community name/i);
-    const categorySelect = screen.getByLabelText(/category/i);
+    const categorySelect = screen.getByRole('combobox', { name: /category/i });
     
-    fireEvent.change(nameInput, { target: { value: 'takenname' } });
-    fireEvent.change(categorySelect, { target: { value: 'Technology' } });
-    
-    await waitFor(() => {
-      expect(screen.getByText(/name taken/i)).toBeInTheDocument();
+    await act(async () => {
+      fireEvent.change(nameInput, { target: { value: 'takenname' } });
+      fireEvent.change(categorySelect, { target: { value: 'Technology' } });
+      jest.advanceTimersByTime(500);
     });
     
-    const submitButton = screen.getByRole('button', { name: /create community/i });
+    await waitFor(() => {
+      expect(screen.getByText(/community name is already taken/i)).toBeInTheDocument();
+    }, { timeout: 2000 });
+    
+    const submitButton = screen.getByRole('button', { name: /create/i });
     expect(submitButton).toBeDisabled();
+    jest.useRealTimers();
   });
 
   it('handles network errors during name check', async () => {

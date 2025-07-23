@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { z } from 'zod';
+import { RESERVED_SUBREDDIT_NAMES } from '@/lib/constants';
 
 const createSubredditSchema = z.object({
   name: z.string().min(3).max(21).regex(/^[a-zA-Z0-9_]+$/, 'Name can only contain letters, numbers, and underscores'),
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     const { name, description, type, category } = validationResult.data;
 
     // Check for reserved words
-    const reservedWords = ['admin', 'mod', 'moderator', 'administrator', 'reddit', 'help', 'about', 'contact', 'login', 'register', 'api'];
+    const reservedWords = RESERVED_SUBREDDIT_NAMES;
     if (reservedWords.includes(name.toLowerCase())) {
       return NextResponse.json({ error: 'This name is reserved and cannot be used' }, { status: 400 });
     }
