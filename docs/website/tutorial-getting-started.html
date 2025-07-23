@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Tutorial: getting-started</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Tutorial: getting-started</h1>
+
+    <section>
+
+<header>
+    
+
+    <h2>getting-started</h2>
+</header>
+
+<article>
+    <h1>Getting Started with Reddit Clone</h1>
+<p>This tutorial will guide you through setting up and running the Reddit Clone project on your local machine.</p>
+<h2>Prerequisites</h2>
+<p>Before you begin, make sure you have the following installed:</p>
+<ul>
+<li><strong>Node.js 18+</strong>: Download from <a href="https://nodejs.org/">nodejs.org</a></li>
+<li><strong>npm or yarn</strong>: Package managers (npm comes with Node.js)</li>
+<li><strong>Git</strong>: Version control system</li>
+<li><strong>PostgreSQL</strong> (optional): Database (you can use SQLite for development)</li>
+</ul>
+<h2>Step 1: Clone the Repository</h2>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/your-username/reddit-clone.git
+cd reddit-clone
+</code></pre>
+<h2>Step 2: Install Dependencies</h2>
+<pre class="prettyprint source lang-bash"><code>npm install
+</code></pre>
+<p>This will install all the required dependencies including:</p>
+<ul>
+<li>Next.js and React</li>
+<li>TypeScript and type definitions</li>
+<li>Tailwind CSS for styling</li>
+<li>Testing libraries (Jest, React Testing Library)</li>
+<li>Development tools (ESLint, Prettier)</li>
+</ul>
+<h2>Step 3: Environment Setup</h2>
+<p>Create a <code>.env.local</code> file in the root directory:</p>
+<pre class="prettyprint source lang-bash"><code>cp .env.example .env.local
+</code></pre>
+<p>Edit the <code>.env.local</code> file with your configuration:</p>
+<pre class="prettyprint source lang-env"><code># Database (use SQLite for development)
+DATABASE_URL=&quot;file:./dev.db&quot;
+
+# Authentication
+NEXTAUTH_SECRET=&quot;your-super-secret-key-here&quot;
+NEXTAUTH_URL=&quot;http://localhost:3000&quot;
+
+# Optional: PostgreSQL for production
+# DATABASE_URL=&quot;postgresql://user:password@localhost:5432/reddit_clone&quot;
+</code></pre>
+<h2>Step 4: Database Setup</h2>
+<p>Initialize the database:</p>
+<pre class="prettyprint source lang-bash"><code># Generate Prisma client
+npx prisma generate
+
+# Run database migrations
+npx prisma migrate dev --name init
+
+# (Optional) Seed the database with sample data
+npx prisma db seed
+</code></pre>
+<h2>Step 5: Start Development Server</h2>
+<pre class="prettyprint source lang-bash"><code>npm run dev
+</code></pre>
+<p>The application will be available at <code>http://localhost:3000</code></p>
+<h2>Step 6: Verify Installation</h2>
+<ol>
+<li>Open your browser and navigate to <code>http://localhost:3000</code></li>
+<li>You should see the Reddit Clone homepage</li>
+<li>Try creating a new account or logging in</li>
+<li>Create a test post to verify everything is working</li>
+</ol>
+<h2>Project Structure</h2>
+<pre class="prettyprint source"><code>reddit-clone/
+├── src/
+│   ├── app/                 # Next.js app directory
+│   │   ├── api/            # API routes
+│   │   ├── globals.css     # Global styles
+│   │   ├── layout.tsx      # Root layout
+│   │   └── page.tsx        # Homepage
+│   ├── components/         # React components
+│   │   ├── ui/            # Reusable UI components
+│   │   └── ...            # Feature components
+│   ├── hooks/             # Custom React hooks
+│   ├── lib/               # Utility functions
+│   └── types/             # TypeScript type definitions
+├── prisma/                # Database schema and migrations
+├── docs/                  # Documentation
+├── tests/                 # Test files
+└── package.json           # Project configuration
+</code></pre>
+<h2>Available Scripts</h2>
+<h3>Development</h3>
+<pre class="prettyprint source lang-bash"><code>npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+</code></pre>
+<h3>Testing</h3>
+<pre class="prettyprint source lang-bash"><code>npm run test         # Run all tests
+npm run test:watch   # Run tests in watch mode
+npm run test:coverage # Run tests with coverage report
+</code></pre>
+<h3>Documentation</h3>
+<pre class="prettyprint source lang-bash"><code>npm run docs:generate # Generate JSDoc documentation
+npm run docs:serve   # Serve documentation locally
+npm run docs:build   # Build documentation for deployment
+</code></pre>
+<h3>Code Quality</h3>
+<pre class="prettyprint source lang-bash"><code>npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint errors automatically
+</code></pre>
+<h2>Next Steps</h2>
+<p>Now that you have the project running, you can:</p>
+<ol>
+<li><strong>Explore the Components</strong>: Check out the components in <code>src/components/</code></li>
+<li><strong>Study the Hooks</strong>: Learn about custom hooks in <code>src/hooks/</code></li>
+<li><strong>Review API Routes</strong>: Examine the API endpoints in <code>src/app/api/</code></li>
+<li><strong>Run Tests</strong>: Execute the test suite to understand functionality</li>
+<li><strong>Read Documentation</strong>: Browse the comprehensive documentation</li>
+</ol>
+<h2>Troubleshooting</h2>
+<h3>Common Issues</h3>
+<p><strong>Port 3000 already in use:</strong></p>
+<pre class="prettyprint source lang-bash"><code># Kill the process using port 3000
+npx kill-port 3000
+# Or use a different port
+npm run dev -- -p 3001
+</code></pre>
+<p><strong>Database connection issues:</strong></p>
+<pre class="prettyprint source lang-bash"><code># Reset the database
+npx prisma migrate reset
+npx prisma generate
+npx prisma migrate dev
+</code></pre>
+<p><strong>TypeScript errors:</strong></p>
+<pre class="prettyprint source lang-bash"><code># Check TypeScript configuration
+npx tsc --noEmit
+</code></pre>
+<p><strong>Dependency issues:</strong></p>
+<pre class="prettyprint source lang-bash"><code># Clear npm cache and reinstall
+npm cache clean --force
+rm -rf node_modules package-lock.json
+npm install
+</code></pre>
+<h3>Getting Help</h3>
+<p>If you encounter issues:</p>
+<ol>
+<li>Check the <a href="https://github.com/your-username/reddit-clone/issues">GitHub Issues</a></li>
+<li>Review the <a href="docs/">Documentation</a></li>
+<li>Run the test suite to verify functionality</li>
+<li>Check the console for error messages</li>
+</ol>
+<h2>Development Workflow</h2>
+<h3>Making Changes</h3>
+<ol>
+<li>Create a new branch for your feature</li>
+<li>Make your changes</li>
+<li>Write tests for new functionality</li>
+<li>Update documentation if needed</li>
+<li>Run the test suite</li>
+<li>Submit a pull request</li>
+</ol>
+<h3>Code Style</h3>
+<p>The project uses:</p>
+<ul>
+<li><strong>TypeScript</strong> for type safety</li>
+<li><strong>ESLint</strong> for code linting</li>
+<li><strong>Prettier</strong> for code formatting</li>
+<li><strong>JSDoc</strong> for documentation</li>
+</ul>
+<h3>Testing</h3>
+<p>Write tests for:</p>
+<ul>
+<li>Component rendering and interactions</li>
+<li>Hook functionality</li>
+<li>API route behavior</li>
+<li>Utility functions</li>
+</ul>
+<p>Example test:</p>
+<pre class="prettyprint source lang-tsx"><code>import { render, screen } from '@testing-library/react';
+import { PostCard } from '@/components/post-card';
+
+describe('PostCard', () => {
+  it('renders post title', () => {
+    const post = { id: '1', title: 'Test Post', content: 'Test content' };
+    render(&lt;PostCard post={post} />);
+    expect(screen.getByText('Test Post')).toBeInTheDocument();
+  });
+});
+</code></pre>
+<h2>Deployment</h2>
+<h3>Vercel (Recommended)</h3>
+<ol>
+<li>Push your code to GitHub</li>
+<li>Connect your repository to Vercel</li>
+<li>Set environment variables in Vercel dashboard</li>
+<li>Deploy automatically</li>
+</ol>
+<h3>Other Platforms</h3>
+<p>The project can be deployed to:</p>
+<ul>
+<li><strong>Netlify</strong>: Static hosting with serverless functions</li>
+<li><strong>Railway</strong>: Full-stack deployment</li>
+<li><strong>DigitalOcean</strong>: App Platform</li>
+<li><strong>AWS</strong>: Elastic Beanstalk or ECS</li>
+</ul>
+<h2>Contributing</h2>
+<p>We welcome contributions! Please:</p>
+<ol>
+<li>Fork the repository</li>
+<li>Create a feature branch</li>
+<li>Make your changes</li>
+<li>Add tests</li>
+<li>Update documentation</li>
+<li>Submit a pull request</li>
+</ol>
+<p>For more information, see the <a href="CONTRIBUTING.md">Contributing Guide</a>.</p>
+<hr>
+<p>Congratulations! You now have the Reddit Clone project running locally. Explore the codebase, run tests, and start building features!</p>
+</article>
+
+</section>
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Tutorials</h3><ul><li><a href="tutorial-getting-started.html">getting-started</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

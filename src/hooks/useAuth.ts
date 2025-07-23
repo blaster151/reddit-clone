@@ -87,11 +87,29 @@ export function useAuth(): UseAuthReturn {
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * Authenticates a user with email and password
-   * 
-   * @param credentials - User's login credentials
-   * @throws {Error} When login fails due to invalid credentials or network issues
-   */
+ * Authenticates a user with email and password
+ * 
+ * @param credentials - User's login credentials
+ * @throws {Error} When login fails due to invalid credentials or network issues
+ * 
+ * @example
+ * ```tsx
+ * const { login } = useAuth();
+ * 
+ * // Login with valid credentials
+ * await login({
+ *   email: 'user@example.com',
+ *   password: 'securepassword123'
+ * });
+ * 
+ * // Handle login errors
+ * try {
+ *   await login({ email: 'invalid@example.com', password: 'wrong' });
+ * } catch (error) {
+ *   console.error('Login failed:', error.message);
+ * }
+ * ```
+ */
   const login = useCallback(async (credentials: LoginCredentials) => {
     setIsLoading(true);
     setError(null);
@@ -123,11 +141,34 @@ export function useAuth(): UseAuthReturn {
   }, []);
 
   /**
-   * Registers a new user account
-   * 
-   * @param data - User registration data
-   * @throws {Error} When registration fails due to validation errors or network issues
-   */
+ * Registers a new user account
+ * 
+ * @param data - User registration data
+ * @throws {Error} When registration fails due to validation errors or network issues
+ * 
+ * @example
+ * ```tsx
+ * const { register } = useAuth();
+ * 
+ * // Register a new user
+ * await register({
+ *   username: 'newuser123',
+ *   email: 'newuser@example.com',
+ *   password: 'securepassword123'
+ * });
+ * 
+ * // Handle registration errors
+ * try {
+ *   await register({
+ *     username: 'existinguser',
+ *     email: 'existing@example.com',
+ *     password: 'password'
+ *   });
+ * } catch (error) {
+ *   console.error('Registration failed:', error.message);
+ * }
+ * ```
+ */
   const register = useCallback(async (data: RegisterData) => {
     setIsLoading(true);
     setError(null);
@@ -159,11 +200,26 @@ export function useAuth(): UseAuthReturn {
   }, []);
 
   /**
-   * Logs out the current user
-   * 
-   * Clears the user session both on the server and in local state.
-   * Even if the server logout fails, the local state is cleared.
-   */
+ * Logs out the current user
+ * 
+ * Clears the user session both on the server and in local state.
+ * Even if the server logout fails, the local state is cleared.
+ * 
+ * @example
+ * ```tsx
+ * const { logout } = useAuth();
+ * 
+ * // Logout user
+ * await logout();
+ * 
+ * // Handle logout errors (optional, since local state is cleared anyway)
+ * try {
+ *   await logout();
+ * } catch (error) {
+ *   console.warn('Server logout failed, but local state cleared');
+ * }
+ * ```
+ */
   const logout = useCallback(async () => {
     setIsLoading(true);
     setError(null);

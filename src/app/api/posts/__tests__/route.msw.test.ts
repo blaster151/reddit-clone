@@ -1,16 +1,13 @@
 import { setupServer } from 'msw/node';
-import { rest, RestRequest, ResponseComposition, RestContext } from 'msw';
+import { http, HttpResponse } from 'msw';
 
 const server = setupServer(
-  rest.get('/api/posts', (req: RestRequest, res: ResponseComposition, ctx: RestContext) => {
-    return res(
-      ctx.status(200),
-      ctx.json({
-        posts: [
-          { id: '1', title: 'Mocked Post', content: 'Mocked content', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
-        ],
-      })
-    );
+  http.get('/api/posts', () => {
+    return HttpResponse.json({
+      posts: [
+        { id: '1', title: 'Mocked Post', content: 'Mocked content', authorId: 'u1', subredditId: 's1', upvotes: 1, downvotes: 0, isRemoved: false, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() },
+      ],
+    });
   })
 );
 

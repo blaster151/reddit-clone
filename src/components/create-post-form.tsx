@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createPostSchema, type CreatePostInput } from '@/lib/validation';
+import { createPostSchema, flexibleCreatePostSchema, type CreatePostInput } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,18 +16,28 @@ interface CreatePostFormProps {
 
 export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePostFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<CreatePostInput>({
-    resolver: zodResolver(createPostSchema),
+    resolver: zodResolver(flexibleCreatePostSchema),
+    defaultValues: {
+      title: '',
+      content: '',
+      subredditId: subreddits.length > 0 ? subreddits[0].id : '',
+    },
+    mode: 'onChange', // Enable real-time validation
   });
 
   const handleFormSubmit = async (data: CreatePostInput) => {
     setIsSubmitting(true);
+    setError(null);
+    
     try {
       // For now, use a mock authorId and subredditId
       const postData = {
@@ -53,14 +63,42 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
       reset();
     } catch (error) {
       console.error('Error creating post:', error);
+      setError('Failed to create post');
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Handle empty subreddits list
+  if (subreddits.length === 0) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Create a Post</h2>
+        <div className="text-center py-8">
+          <p className="text-gray-500 mb-4">No subreddits available</p>
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+            >
+              Go Back
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Create a Post</h2>
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-red-600 text-sm">{error}</p>
+        </div>
+      )}
       
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
         <div>

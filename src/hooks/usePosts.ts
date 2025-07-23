@@ -38,6 +38,16 @@ export function usePosts() {
      * 
      * Sets loading state, makes API request, and updates posts state.
      * Handles errors gracefully and sets appropriate error messages.
+     * 
+     * @example
+     * ```tsx
+     * // This function is called internally by the hook
+     * // Example of what the API response should look like:
+     * const response = await fetch('/api/posts');
+     * const data = await response.json();
+     * // data.posts should be an array of Post objects
+     * setPosts(data.posts || []);
+     * ```
      */
     async function fetchPosts() {
       setLoading(true);

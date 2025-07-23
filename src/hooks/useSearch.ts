@@ -98,7 +98,27 @@ export function useSearch() {
    * 
    * @param searchQuery - The search term to look for
    * @param searchFilters - Optional filters to apply to the search
-   * @throws {Error} When the search API request fails
+   * 
+   * @example
+   * ```tsx
+   * // Basic search
+   * await performSearch('react hooks');
+   * 
+   * // Search with filters
+   * await performSearch('typescript', {
+   *   type: 'post',
+   *   subreddit: 'programming',
+   *   dateRange: 'week',
+   *   sortBy: 'score'
+   * });
+   * 
+   * // Handle search errors
+   * try {
+   *   await performSearch('query');
+   * } catch (error) {
+   *   console.error('Search failed:', error);
+   * }
+   * ```
    */
   const search = useCallback(async (searchQuery: string, searchFilters: SearchFilter) => {
     if (!searchQuery.trim()) {

@@ -9,6 +9,7 @@ const mockComment = {
   postId: 'p1',
   upvotes: 3,
   downvotes: 1,
+  isRemoved: false,
   createdAt: new Date('2024-01-01T10:00:00Z'),
   updatedAt: new Date('2024-01-01T10:00:00Z'),
 };
