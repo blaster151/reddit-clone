@@ -14,11 +14,15 @@ Choose one unimplemented action item from TODO.md [that's assigned to you] and i
 
 ---
 
-Pull from source control. Commit with a descriptive message and push.
+If additional TODOs have emerged, in your view, add to the TODO.md file.
+
+Commit with a descriptive message, pull from remote, and push to remote.
 
 ---
 
-If additional TODOs have emerged in your view, add to the TODO.md file.
+If additional TODOs have emerged, in your view, add to the TODO.md file.
+
+Reassign tasks to even that balance out, while trying to maintain clusters of similar changes under the same developer to reduce the risk of merge conflicts.
 
 ---
 
