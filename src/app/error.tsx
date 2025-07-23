@@ -28,7 +28,7 @@ export default function Error({ error, reset }: ErrorProps) {
         </h1>
         
         <p className="text-gray-600 mb-6">
-          An unexpected error occurred. We've been notified and are working to fix it.
+          An unexpected error occurred. We&apos;ve been notified and are working to fix it.
         </p>
 
         {process.env.NODE_ENV === 'development' && (

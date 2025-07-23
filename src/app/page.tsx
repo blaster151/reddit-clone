@@ -15,6 +15,7 @@ const samplePosts: Post[] = [
     subredditId: 'programming',
     upvotes: 42,
     downvotes: 3,
+    isRemoved: false,
     createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
     updatedAt: new Date(),
   },
@@ -26,6 +27,7 @@ const samplePosts: Post[] = [
     subredditId: 'webdev',
     upvotes: 128,
     downvotes: 1,
+    isRemoved: false,
     createdAt: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
     updatedAt: new Date(),
   },
@@ -37,6 +39,7 @@ const samplePosts: Post[] = [
     subredditId: 'productivity',
     upvotes: 89,
     downvotes: 7,
+    isRemoved: false,
     createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
     updatedAt: new Date(),
   },
@@ -122,7 +125,7 @@ export default function Home() {
                 <li>1. Be respectful and civil</li>
                 <li>2. No spam or self-promotion</li>
                 <li>3. Stay on topic</li>
-                <li>4. Follow Reddit's content policy</li>
+                <li>4. Follow Reddit&apos;s content policy</li>
               </ul>
             </div>
           </div>

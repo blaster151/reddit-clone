@@ -8,7 +8,7 @@ interface ModerationActionsProps {
   targetId: string;
   targetType: 'post' | 'comment';
   authorId: string;
-  subredditId: string;
+  subredditId?: string;
   isModerator: boolean;
   onRemove?: (targetId: string, reason: string) => void;
   onBanUser?: (userId: string, reason: string, isPermanent: boolean) => void;
