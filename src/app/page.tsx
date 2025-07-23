@@ -2,6 +2,7 @@ import { PostCard } from '@/components/post-card';
 import { Post } from '@/types';
 import { Button } from '@/components/ui/button';
 import { SearchBar } from '@/components/search-bar';
+import { PostFeed } from '@/components/post-feed';
 import { Plus } from 'lucide-react';
 
 // Sample data for demonstration
@@ -75,9 +76,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Posts Feed */}
           <div className="lg:col-span-2 space-y-4">
-            {samplePosts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
+            <PostFeed />
           </div>
 
           {/* Sidebar */}

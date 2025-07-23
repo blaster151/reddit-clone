@@ -71,11 +71,11 @@
 
 ## State Management & Hooks
 - [x] Create custom hook for submitting votes
-- [Dev 1] Create custom hook for authentication state
-- [Dev 1] Create custom hook for fetching comments
+- [x] Create custom hook for authentication state
+- [x] Create custom hook for fetching comments
 - [Dev 1] Create custom hook for user vote history
 - [Dev 1] Create custom hook for trending posts/comments
-- [Dev 1] Create custom hook for search functionality
+- [x] Create custom hook for search functionality
 - [Dev 1] Create custom hook for real-time notifications
 - [Dev 1] Create custom hook for user preferences
 
@@ -94,6 +94,22 @@
 - [x] Add tests for search functionality
 - [x] Add tests for real-time features
 - [x] Add performance tests for high-traffic scenarios
+
+### Critical Missing Tests (High Priority)
+- [Dev 1] Add performance and memory leak tests for hooks and components
+- [Dev 1] Add error boundary integration tests with real components
+- [Dev 1] Add search system integration tests (SearchBar + SearchResults)
+- [Dev 2] Add comprehensive API error handling tests (network failures, timeouts, retries)
+- [Dev 2] Add accessibility integration tests (keyboard navigation, screen readers)
+- [Dev 2] Add state management edge case tests (concurrent updates, race conditions)
+
+### Advanced Testing (Medium Priority)
+- [Dev 1] Add component composition tests (complex hierarchies, prop drilling)
+- [Dev 1] Add visual regression tests (snapshots, responsive design)
+- [Dev 2] Add internationalization tests (translations, RTL layouts)
+- [Dev 2] Add end-to-end user flow tests (complete user journeys)
+- [Dev 2] Add load testing for critical user paths
+- [Dev 2] Add security testing (XSS, CSRF, input validation)
 
 ## Miscellaneous
 - [x] Add error boundary component
@@ -178,3 +194,75 @@ Content Management (M1 Core):
 - [Dev 1] Add accessibility improvements for modals and dropdowns
 - [Dev 1] Add user onboarding flow and welcome tour
 - [Dev 1] Add profile editing UI (avatar, bio, etc.)
+
+## Architecture
+- [x] Implement Zustand for global state and to reduce prop drilling
+- [Dev 3] Implement keyboard navigation sitewide
+- [Dev 3] Add comprehensive ARIA labels
+
+# Additional TODOs (Emerging from Current State)
+
+## Zustand Store Integration & Optimization
+- [Dev 1] Integrate Zustand store with all existing components (CommentThread, SubredditPage, PostDetailPage, etc.)
+- [Dev 1] Create useCommentsWithStore hook similar to usePostsWithStore for comment state management
+- [Dev 1] Implement store persistence for user preferences and theme settings
+- [Dev 1] Add store selectors for better performance (memoized selectors)
+- [Dev 1] Implement store middleware for logging and debugging
+- [Dev 1] Add store hydration handling for SSR compatibility
+- [Dev 1] Create store slices for better organization (separate stores for different domains)
+
+## Missing Hook Implementations
+- [Dev 1] Implement useAuth hook for authentication state management
+- [Dev 1] Create useComments hook for comment fetching and management
+- [Dev 1] Implement useUserVoteHistory hook for tracking user voting patterns
+- [Dev 1] Create useTrendingPosts hook for trending content
+- [Dev 1] Implement useRealTimeNotifications hook for live notifications
+- [Dev 1] Create useUserPreferences hook for user settings management
+
+## Component Integration & Refactoring
+- [Dev 1] Refactor PostFeed to use Zustand store instead of local state
+- [Dev 1] Update CommentThread to use store-based comment management
+- [Dev 1] Integrate store-based search functionality across all components
+- [Dev 1] Implement store-based notification system in UI components
+- [Dev 1] Add store-based theme switching across all components
+- [Dev 1] Create store-based sidebar state management
+
+## Performance & Optimization
+- [Dev 1] Implement React.memo for expensive components (PostCard, CommentCard)
+- [Dev 1] Add virtualization for large post/comment lists
+- [Dev 1] Implement lazy loading for images and media content
+- [Dev 1] Add service worker for offline functionality and caching
+- [Dev 1] Optimize bundle size with dynamic imports and code splitting
+- [Dev 1] Implement request deduplication for API calls
+
+## User Experience Enhancements
+- [Dev 1] Add toast notification system using store state
+- [Dev 1] Implement keyboard shortcuts for common actions
+- [Dev 1] Add drag-and-drop functionality for post reordering
+- [Dev 1] Create infinite scroll with intersection observer
+- [Dev 1] Add smooth transitions and animations between states
+- [Dev 1] Implement progressive loading for images and content
+
+## Testing & Quality Assurance
+- [Dev 1] Add integration tests for Zustand store with components
+- [Dev 1] Create performance tests for store operations
+- [Dev 1] Add accessibility tests for all new components
+- [Dev 1] Implement visual regression tests for UI components
+- [Dev 1] Add end-to-end tests for critical user flows
+- [Dev 1] Create stress tests for high-traffic scenarios
+
+## Documentation & Developer Experience
+- [Dev 1] Add comprehensive JSDoc comments to all hooks and components
+- [Dev 1] Create storybook stories for all UI components
+- [Dev 1] Add API documentation with examples
+- [Dev 1] Create development setup guide
+- [Dev 1] Add contribution guidelines and code standards
+- [Dev 1] Implement automated changelog generation
+
+## Security & Compliance
+- [Dev 1] Add input sanitization for all user-generated content
+- [Dev 1] Implement CSRF protection for all forms
+- [Dev 1] Add rate limiting for client-side actions
+- [Dev 1] Create privacy policy and terms of service pages
+- [Dev 1] Implement GDPR compliance features (data export, deletion)
+- [Dev 1] Add security headers and CSP configuration

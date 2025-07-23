@@ -1,15 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PostCard } from './post-card';
-import { usePosts } from '@/hooks/usePosts';
+import { usePostsWithStore } from '@/hooks/usePostsWithStore';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { PostCardSkeleton } from '@/components/ui/skeleton';
 
-export function PostFeed() {
-  const { posts, loading, error } = usePosts();
+interface PostFeedProps {
+  subredditId?: string;
+}
+
+export function PostFeed({ subredditId }: PostFeedProps) {
+  const { 
+    posts, 
+    isLoading, 
+    error, 
+    hasMore, 
+    fetchPosts, 
+    loadMore 
+  } = usePostsWithStore();
+  
   const PAGE_SIZE = 5;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  if (loading) {
+  // Fetch posts on mount and when subredditId changes
+  useEffect(() => {
+    fetchPosts(subredditId);
+  }, [fetchPosts, subredditId]);
+
+  const handleLoadMore = () => {
+    if (hasMore) {
+      loadMore();
+      setVisibleCount(prev => prev + PAGE_SIZE);
+    }
+  };
+
+  if (isLoading && posts.length === 0) {
     return (
       <div className="space-y-4">
         {Array.from({ length: 3 }).map((_, index) => (
@@ -22,12 +46,12 @@ export function PostFeed() {
     );
   }
 
-  if (error) {
+  if (error && posts.length === 0) {
     return (
       <div className="p-8 text-center">
         <div className="text-red-500 mb-2">{error}</div>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => fetchPosts(subredditId)}
           className="text-orange-500 hover:text-orange-600 underline"
         >
           Try again
@@ -48,22 +72,34 @@ export function PostFeed() {
   }
 
   const visiblePosts = posts.slice(0, visibleCount);
-  const hasMore = visibleCount < posts.length;
 
   return (
     <div className="space-y-4">
       {visiblePosts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
-      {hasMore && (
-        <div className="flex justify-center mt-4">
+      
+      {isLoading && posts.length > 0 && (
+        <div className="flex justify-center py-4">
+          <LoadingSpinner text="Loading more posts..." />
+        </div>
+      )}
+      
+      {hasMore && visibleCount >= posts.length && (
+        <div className="flex justify-center py-4">
           <button
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded"
-            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-            data-testid="load-more"
+            onClick={handleLoadMore}
+            disabled={isLoading}
+            className="bg-orange-500 hover:bg-orange-600 disabled:bg-gray-300 text-white font-semibold py-2 px-6 rounded"
           >
-            Load More
+            {isLoading ? 'Loading...' : 'Load More Posts'}
           </button>
+        </div>
+      )}
+      
+      {!hasMore && posts.length > 0 && (
+        <div className="text-center py-4 text-gray-500">
+          No more posts to load
         </div>
       )}
     </div>
