@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { PostCard } from './post-card';
 import { usePostsWithStore } from '@/hooks/usePostsWithStore';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { PostCardSkeleton } from '@/components/ui/skeleton';
+import { FeedSkeleton } from '@/components/ui/skeleton';
 
 /**
  * Props for the PostFeed component
@@ -68,16 +68,7 @@ export function PostFeed({ subredditId }: PostFeedProps) {
   };
 
   if (isLoading && posts.length === 0) {
-    return (
-      <div className="space-y-4">
-        {Array.from({ length: 3 }).map((_, index) => (
-          <PostCardSkeleton key={index} />
-        ))}
-        <div className="flex justify-center py-4">
-          <LoadingSpinner text="Loading posts..." />
-        </div>
-      </div>
-    );
+    return <FeedSkeleton count={3} type="post" />;
   }
 
   if (error && posts.length === 0) {
@@ -109,7 +100,7 @@ export function PostFeed({ subredditId }: PostFeedProps) {
 
   return (
     <div className="space-y-4">
-      {visiblePosts.map((post) => (
+      {visiblePosts.map((post: any) => (
         <PostCard key={post.id} post={post} />
       ))}
       

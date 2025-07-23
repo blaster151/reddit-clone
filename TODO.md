@@ -189,9 +189,9 @@ Content Management (M1 Core):
 - [Dev 1] Add undo UI for soft-deleted posts/comments
 - [Dev 1] Add bug/feedback reporting UI
 - [Dev 2] Add toast notifications for success/error actions
-- [Dev 2] Add skeleton loaders and shimmer effects for feeds
-- [Dev 2] Implement keyboard shortcuts for common actions (e.g., upvote, reply)
-- [Dev 2] Add accessibility improvements for modals and dropdowns
+- [x] Add skeleton loaders and shimmer effects for feeds
+- [x] Implement keyboard shortcuts for common actions (e.g., upvote, reply)
+- [x] Add accessibility improvements for modals and dropdowns
 - [Dev 3] Add user onboarding flow and welcome tour
 - [Dev 3] Add profile editing UI (avatar, bio, etc.)
 

@@ -7,6 +7,7 @@ import { createPostSchema, flexibleCreatePostSchema, type CreatePostInput } from
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/useToast';
 
 interface CreatePostFormProps {
   onSubmit?: (data: CreatePostInput) => void;
@@ -16,7 +17,7 @@ interface CreatePostFormProps {
 
 export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePostFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { showSuccess, showError } = useToast();
 
   const {
     register,
@@ -25,19 +26,17 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
     reset,
     setValue,
   } = useForm<CreatePostInput>({
-    resolver: zodResolver(flexibleCreatePostSchema),
+    resolver: zodResolver(flexibleCreatePostSchema) as any,
     defaultValues: {
       title: '',
       content: '',
       subredditId: subreddits.length > 0 ? subreddits[0].id : '',
     },
-    mode: 'onChange', // Enable real-time validation
+    mode: 'onChange',
   });
 
   const handleFormSubmit = async (data: CreatePostInput) => {
     setIsSubmitting(true);
-    setError(null);
-    
     try {
       // For now, use a mock authorId and subredditId
       const postData = {
@@ -59,11 +58,12 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
       }
 
       const result = await response.json();
+      showSuccess('Post created successfully!');
       onSubmit?.(data);
       reset();
     } catch (error) {
       console.error('Error creating post:', error);
-      setError('Failed to create post');
+      showError('Failed to create post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -94,13 +94,7 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Create a Post</h2>
       
-      {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
-          <p className="text-red-600 text-sm">{error}</p>
-        </div>
-      )}
-      
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(handleFormSubmit as any)} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Title

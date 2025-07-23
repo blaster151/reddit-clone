@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { flexibleCreateCommentSchema, type CreateCommentInput } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/useToast';
 
 interface CommentFormProps {
   postId: string;
@@ -23,6 +24,7 @@ export function CommentForm({
   placeholder = "What are your thoughts?" 
 }: CommentFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showSuccess, showError } = useToast();
 
   const {
     register,
@@ -55,10 +57,12 @@ export function CommentForm({
       }
 
       const result = await response.json();
+      showSuccess('Comment posted successfully!');
       onSubmit?.(commentData as CreateCommentInput);
       reset();
     } catch (error) {
       console.error('Error creating comment:', error);
+      showError('Failed to post comment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
