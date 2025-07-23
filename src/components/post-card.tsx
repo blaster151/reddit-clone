@@ -9,6 +9,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ModerationActions } from './moderation-actions';
 import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
 import { generateAccessibleLabel, generateDescribedBy } from '@/components/ui/accessibility';
+import { useRedditShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 /**
  * Props for the PostCard component
@@ -82,6 +83,20 @@ export function PostCard({
 
   const [flash, setFlash] = useState(false);
   const prevScore = useRef(score);
+
+  // Keyboard shortcuts for post actions
+  useRedditShortcuts({
+    upvote: () => submitVote('upvote'),
+    downvote: () => submitVote('downvote'),
+    reply: () => {
+      // Focus on reply button or open reply form
+      const replyButton = document.querySelector(`[data-post-id="${post.id}"] [data-action="reply"]`) as HTMLElement;
+      if (replyButton) replyButton.click();
+    }
+  }, {
+    target: null, // Listen globally for shortcuts (null defaults to document)
+    enabled: true
+  });
 
   // Keyboard navigation for voting buttons
   const { handleKeyDown } = useKeyboardNavigation({
@@ -236,6 +251,8 @@ export function PostCard({
               className="flex items-center gap-1 hover:text-gray-700 transition-colors"
               aria-label={commentLabel}
               onClick={() => console.log('View comments')}
+              data-post-id={post.id}
+              data-action="reply"
             >
               <MessageCircle className="w-4 h-4" aria-hidden="true" />
               <span className="hidden sm:inline">0 comments</span>

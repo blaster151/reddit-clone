@@ -1,6 +1,9 @@
 Dev 1
 
-- Scaffolded a TypeScript-first Next.js Reddit clone: set up project with Tailwind, ESLint, Zod validation, reusable UI components, type definitions, utility functions, and connected/pushed to a new GitHub repository. 
+- Scaffolded a TypeScript-first Next.js Reddit clone: set up project with Tailwind, ESLint, Zod validation, reusable UI components, type definitions, utility functions, and connected/pushed to a new GitHub repository.
+- Implemented comprehensive skeleton loader system with shimmer effects for improved loading states, including base Skeleton, ShimmerSkeleton, PostCardSkeleton, CommentSkeleton, and FeedSkeleton components with full accessibility support and comprehensive unit tests.
+- Implemented comprehensive keyboard shortcuts system with Reddit-like shortcuts (k/j for voting, r for reply, Ctrl+Enter for submit, etc.), including useKeyboardShortcuts hook, KeyboardShortcutsHelp overlay component, and integration with PostCard component for improved user experience and accessibility.
+- Implemented comprehensive accessibility improvements for modals and dropdowns, including Modal and ConfirmModal components with proper focus management, keyboard navigation, ARIA attributes, and body scroll prevention, plus Dropdown, DropdownItem, DropdownDivider, and DropdownHeader components with full accessibility support and comprehensive unit tests. 
 - Added unit tests for the sanitizeInput utility function in src/lib/__tests__/utils.test.ts to ensure input sanitization works as expected. 
 - Implemented the usePosts custom hook for fetching posts with loading and error state, and added a unit test for it using React Testing Library and MSW. 
 - Implemented a basic /api/posts API route that returns a static array of posts for frontend and hook integration. 

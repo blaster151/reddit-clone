@@ -7,6 +7,7 @@ import { createPostSchema, type CreatePostInput } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/useToast';
 
 interface CreatePostFormProps {
   onSubmit?: (data: CreatePostInput) => void;
@@ -16,6 +17,7 @@ interface CreatePostFormProps {
 
 export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePostFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showSuccess, showError } = useToast();
 
   const {
     register,
@@ -49,10 +51,12 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
       }
 
       const result = await response.json();
+      showSuccess('Post created successfully!');
       onSubmit?.(data);
       reset();
     } catch (error) {
       console.error('Error creating post:', error);
+      showError('Failed to create post. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

@@ -36,9 +36,12 @@ interface UIState {
 interface Notification {
   id: string;
   type: 'success' | 'error' | 'info' | 'warning';
+  title?: string;
   message: string;
   timestamp: Date;
   read: boolean;
+  duration?: number;
+  persistent?: boolean;
 }
 
 // Main store interface
@@ -178,7 +181,9 @@ export const useAppStore = create<AppStore>()(
             ...notification,
             id: Math.random().toString(36).substr(2, 9),
             timestamp: new Date(),
-            read: false
+            read: false,
+            duration: notification.duration || 5000,
+            persistent: notification.persistent || false
           },
           ...state.notifications
         ]
