@@ -7,6 +7,8 @@ import { ArrowBigUp, ArrowBigDown, MessageCircle, Share, Shield } from 'lucide-r
 import { useVotes } from '@/hooks/useVotes';
 import { useState, useEffect, useRef } from 'react';
 import { ModerationActions } from './moderation-actions';
+import { useKeyboardNavigation } from '@/hooks/useKeyboardNavigation';
+import { generateAccessibleLabel, generateDescribedBy } from '@/components/ui/accessibility';
 
 /**
  * Props for the PostCard component
@@ -36,6 +38,8 @@ interface PostCardProps {
  * - Moderation actions for moderators
  * - Visual feedback for vote changes
  * - Special display for removed posts
+ * - Mobile-responsive design with touch-friendly interactions
+ * - Keyboard navigation and accessibility features
  * 
  * @param props - Component props
  * @returns JSX element representing a post card
@@ -79,6 +83,21 @@ export function PostCard({
   const [flash, setFlash] = useState(false);
   const prevScore = useRef(score);
 
+  // Keyboard navigation for voting buttons
+  const { handleKeyDown } = useKeyboardNavigation({
+    itemsCount: 2, // upvote and downvote buttons
+    onEnter: (index) => {
+      if (index === 0) submitVote('upvote');
+      else if (index === 1) submitVote('downvote');
+    },
+    shortcuts: {
+      'ArrowUp': () => submitVote('upvote'),
+      'ArrowDown': () => submitVote('downvote'),
+      'KeyU': () => submitVote('upvote'),
+      'KeyD': () => submitVote('downvote'),
+    }
+  });
+
   /**
    * Effect to trigger flash animation when score changes
    */
@@ -91,12 +110,22 @@ export function PostCard({
     }
   }, [score]);
 
+  // Generate accessible labels
+  const upvoteLabel = generateAccessibleLabel('upvote', 'post', `by ${post.authorId}`);
+  const downvoteLabel = generateAccessibleLabel('downvote', 'post', `by ${post.authorId}`);
+  const commentLabel = generateAccessibleLabel('view', 'comments', `for post by ${post.authorId}`);
+  const shareLabel = generateAccessibleLabel('share', 'post', `by ${post.authorId}`);
+
   // Show removed post content
   if (post.isRemoved) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-4">
+      <div 
+        className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4"
+        role="article"
+        aria-label={`Removed post by ${post.authorId}`}
+      >
         <div className="flex items-center gap-2 mb-2">
-          <Shield className="w-4 h-4 text-red-500" />
+          <Shield className="w-4 h-4 text-red-500 flex-shrink-0" aria-hidden="true" />
           <span className="text-sm text-red-600 font-medium">Post removed by moderator</span>
         </div>
         {post.removalReason && (
@@ -110,68 +139,127 @@ export function PostCard({
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors">
-      <div className="flex items-start gap-4">
-        <div className="flex flex-col items-center mr-2">
+    <article 
+      className="bg-white border border-gray-200 rounded-lg p-3 sm:p-4 hover:border-gray-300 transition-colors"
+      role="article"
+      aria-labelledby={`post-title-${post.id}`}
+      aria-describedby={`post-content-${post.id}`}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+    >
+      <div className="flex items-start gap-3 sm:gap-4">
+        {/* Voting Section - Mobile Optimized */}
+        <div className="flex flex-col items-center mr-2 sm:mr-3 flex-shrink-0" role="group" aria-label="Voting controls">
           <Button
-            aria-label="upvote"
+            aria-label={upvoteLabel}
             size="icon"
-            className={`mb-1 ${userVote === 'upvote' ? 'text-orange-500' : ''}`}
+            className={`mb-1 h-8 w-8 sm:h-10 sm:w-10 ${userVote === 'upvote' ? 'text-orange-500' : ''}`}
             onClick={() => submitVote('upvote')}
             disabled={isSubmitting}
+            aria-pressed={userVote === 'upvote'}
+            aria-describedby={generateDescribedBy(post.id, 'upvote')}
           >
-            <ArrowBigUp />
+            <ArrowBigUp className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </Button>
           <div
-            className={`font-bold text-center min-w-[2rem] transition-colors duration-300 ${
+            className={`font-bold text-center min-w-[2rem] transition-colors duration-300 text-sm sm:text-base ${
               flash ? 'bg-yellow-200 animate-pulse' : ''
             }`}
             data-testid="post-score"
+            role="status"
+            aria-live="polite"
+            aria-label={`Score: ${formatNumber(score)}`}
           >
             {formatNumber(score)}
           </div>
           <Button
-            aria-label="downvote"
+            aria-label={downvoteLabel}
             size="icon"
-            className={`mt-1 ${userVote === 'downvote' ? 'text-blue-500' : ''}`}
+            className={`mt-1 h-8 w-8 sm:h-10 sm:w-10 ${userVote === 'downvote' ? 'text-blue-500' : ''}`}
             onClick={() => submitVote('downvote')}
             disabled={isSubmitting}
+            aria-pressed={userVote === 'downvote'}
+            aria-describedby={generateDescribedBy(post.id, 'downvote')}
           >
-            <ArrowBigDown />
+            <ArrowBigDown className="h-4 w-4 sm:h-5 sm:w-5" aria-hidden="true" />
           </Button>
         </div>
-        <div className="flex-1">
-          <div className="flex items-center justify-between mb-1">
-            <div className="flex items-center gap-2">
+
+        {/* Content Section */}
+        <div className="flex-1 min-w-0">
+          {/* Header with metadata and moderation */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-semibold text-sm text-gray-700">{post.authorId}</span>
-              <span className="text-xs text-gray-400">•</span>
-              <span className="text-xs text-gray-500">{formatRelativeTime(post.createdAt)}</span>
+              <span className="text-xs text-gray-400 hidden sm:inline" aria-hidden="true">•</span>
+              <time 
+                className="text-xs text-gray-500" 
+                dateTime={post.createdAt.toISOString()}
+                aria-label={`Posted ${formatRelativeTime(post.createdAt)}`}
+              >
+                {formatRelativeTime(post.createdAt)}
+              </time>
             </div>
             {isModerator && (
-              <ModerationActions
-                targetId={post.id}
-                targetType="post"
-                authorId={post.authorId}
-                subredditId={post.subredditId}
-                isModerator={isModerator}
-                onRemove={onRemove}
-                onBanUser={onBanUser}
-                onMuteUser={onMuteUser}
-              />
+              <div className="flex-shrink-0">
+                <ModerationActions
+                  targetId={post.id}
+                  targetType="post"
+                  authorId={post.authorId}
+                  subredditId={post.subredditId}
+                  isModerator={isModerator}
+                  onRemove={onRemove}
+                  onBanUser={onBanUser}
+                  onMuteUser={onMuteUser}
+                />
+              </div>
             )}
           </div>
-          <div className="text-lg font-bold mb-1">{post.title}</div>
-          <div className="text-gray-700 mb-2 line-clamp-3">{post.content}</div>
-          <div className="flex items-center gap-4 text-xs text-gray-500">
-            <span className="flex items-center gap-1">
-              <MessageCircle className="w-4 h-4" /> 0
-            </span>
-            <span className="flex items-center gap-1">
-              <Share className="w-4 h-4" /> Share
-            </span>
+
+          {/* Title and Content */}
+          <h2 
+            id={`post-title-${post.id}`}
+            className="text-base sm:text-lg font-bold mb-2 line-clamp-2 sm:line-clamp-none"
+          >
+            {post.title}
+          </h2>
+          <div 
+            id={`post-content-${post.id}`}
+            className="text-gray-700 mb-3 line-clamp-3 sm:line-clamp-none text-sm sm:text-base"
+          >
+            {post.content}
+          </div>
+
+          {/* Action Bar */}
+          <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-500" role="group" aria-label="Post actions">
+            <button 
+              className="flex items-center gap-1 hover:text-gray-700 transition-colors"
+              aria-label={commentLabel}
+              onClick={() => console.log('View comments')}
+            >
+              <MessageCircle className="w-4 h-4" aria-hidden="true" />
+              <span className="hidden sm:inline">0 comments</span>
+              <span className="sm:hidden">0</span>
+            </button>
+            <button 
+              className="flex items-center gap-1 hover:text-gray-700 transition-colors"
+              aria-label={shareLabel}
+              onClick={() => console.log('Share post')}
+            >
+              <Share className="w-4 h-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Share</span>
+            </button>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Hidden descriptions for screen readers */}
+      <div id={generateDescribedBy(post.id, 'upvote')} className="sr-only">
+        Upvote this post. Current score is {formatNumber(score)}.
+      </div>
+      <div id={generateDescribedBy(post.id, 'downvote')} className="sr-only">
+        Downvote this post. Current score is {formatNumber(score)}.
+      </div>
+    </article>
   );
 } 

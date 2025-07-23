@@ -29,6 +29,7 @@ interface SearchBarProps {
  * - Loading states and error handling
  * - Keyboard navigation support
  * - Click outside to close functionality
+ * - Mobile-responsive design with touch-friendly interactions
  * 
  * @param props - Component props including placeholder, className, and result selection callback
  * @returns JSX element representing the search bar with dropdown
@@ -102,7 +103,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
           value={query}
           onChange={(e) => handleInputChange(e.target.value)}
           placeholder={placeholder}
-          className="pl-10 pr-20 bg-gray-100 border-gray-200 focus:bg-white"
+          className="pl-10 pr-20 bg-gray-100 border-gray-200 focus:bg-white text-sm sm:text-base"
           onFocus={() => setIsDropdownOpen(query.length > 0)}
         />
         <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center gap-1">
@@ -112,26 +113,26 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
               variant="ghost"
               size="sm"
               onClick={() => handleInputChange('')}
-              className="h-6 w-6 p-0"
+              className="h-6 w-6 p-0 sm:h-8 sm:w-8"
             >
-              <X className="h-3 w-3" />
+              <X className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           )}
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
-            className={`h-6 px-2 ${showFilters ? 'bg-orange-100 text-orange-600' : ''}`}
+            className={`h-6 px-2 sm:h-8 sm:px-3 ${showFilters ? 'bg-orange-100 text-orange-600' : ''}`}
           >
-            <Filter className="h-3 w-3" />
+            <Filter className="h-3 w-3 sm:h-4 sm:w-4" />
           </Button>
         </div>
       </div>
 
-      {/* Filters Panel */}
+      {/* Filters Panel - Mobile Responsive */}
       {showFilters && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50">
-          <div className="grid grid-cols-2 gap-4">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg p-3 sm:p-4 z-50">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
               <select
@@ -183,9 +184,9 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
         </div>
       )}
 
-      {/* Search Results Dropdown */}
+      {/* Search Results Dropdown - Mobile Responsive */}
       {isDropdownOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-96 overflow-y-auto z-50">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-80 sm:max-h-96 overflow-y-auto z-50">
           {loading ? (
             <div className="p-4 text-center">
               <LoadingSpinner text="Searching..." />
@@ -196,33 +197,33 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
                 <div
                   key={result.id}
                   onClick={() => handleResultClick(result)}
-                  className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                  className="px-3 sm:px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
                         <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">
                           {result.type}
                         </span>
                         <span className="text-sm text-gray-500">by u/{result.authorId}</span>
                         {result.subredditId && (
                           <>
-                            <span className="text-gray-400">•</span>
+                            <span className="text-gray-400 hidden sm:inline">•</span>
                             <span className="text-sm text-gray-500">r/{result.subredditId}</span>
                           </>
                         )}
                       </div>
                       {result.title && (
-                        <div className="font-medium text-gray-900 mb-1 line-clamp-1">
+                        <div className="font-medium text-gray-900 mb-1 line-clamp-1 text-sm sm:text-base">
                           {result.title}
                         </div>
                       )}
                       <div className="text-sm text-gray-700 line-clamp-2">
                         {result.content}
                       </div>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-2 mt-1 text-xs text-gray-500 flex-wrap">
                         <span>Score: {result.score}</span>
-                        <span>•</span>
+                        <span className="hidden sm:inline">•</span>
                         <span>{new Date(result.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
@@ -231,7 +232,7 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
               ))}
             </div>
           ) : query && !loading ? (
-            <div className="p-4 text-center text-gray-500">
+            <div className="p-4 text-center text-gray-500 text-sm sm:text-base">
               No results found for &quot;{query}&quot;
             </div>
           ) : null}
