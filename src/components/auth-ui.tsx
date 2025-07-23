@@ -1,10 +1,36 @@
 import { useState } from 'react';
 
+/**
+ * Props for the AuthUI component
+ */
 interface AuthUIProps {
+  /** Optional callback function called when user attempts to login */
   onLogin?: (username: string, password: string) => void;
+  /** Optional callback function called when user attempts to register */
   onRegister?: (username: string, email: string, password: string) => void;
 }
 
+/**
+ * Authentication UI component for user login and registration
+ * 
+ * This component provides a complete authentication interface with:
+ * - Toggle between login and registration modes
+ * - Form validation for required fields
+ * - Error handling and display
+ * - Responsive design with Tailwind CSS
+ * - Accessibility features (labels, autocomplete)
+ * 
+ * @param props - Component props including optional callback functions
+ * @returns JSX element representing the authentication form
+ * 
+ * @example
+ * ```tsx
+ * <AuthUI 
+ *   onLogin={(username, password) => handleLogin(username, password)}
+ *   onRegister={(username, email, password) => handleRegister(username, email, password)}
+ * />
+ * ```
+ */
 export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [username, setUsername] = useState('');
@@ -12,6 +38,14 @@ export function AuthUI({ onLogin, onRegister }: AuthUIProps) {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Handles form submission for both login and registration
+   * 
+   * Validates required fields and calls the appropriate callback function.
+   * Clears any previous errors before validation.
+   * 
+   * @param e - Form submission event
+   */
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);

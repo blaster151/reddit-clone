@@ -9,11 +9,39 @@ import { useSearch, SearchResult } from '@/hooks/useSearch';
 import { Button } from '@/components/ui/button';
 import { Filter, SortAsc, SortDesc } from 'lucide-react';
 
+/**
+ * Props for the SearchResults component
+ */
 interface SearchResultsProps {
+  /** Initial search query to pre-populate the search */
   initialQuery?: string;
+  /** Optional callback when a search result is selected */
   onResultSelect?: (result: SearchResult) => void;
 }
 
+/**
+ * Comprehensive search results page component
+ * 
+ * This component provides a full-featured search results interface with:
+ * - Search results display for both posts and comments
+ * - Advanced filtering options (type, date range, subreddit, author)
+ * - Sorting options (relevance, date, score)
+ * - Loading states with skeleton components
+ * - Error handling with retry functionality
+ * - Empty states for no results
+ * - Responsive design with Tailwind CSS
+ * 
+ * @param props - Component props including initial query and result selection callback
+ * @returns JSX element representing the search results page
+ * 
+ * @example
+ * ```tsx
+ * <SearchResults 
+ *   initialQuery="react hooks"
+ *   onResultSelect={(result) => navigateToResult(result)}
+ * />
+ * ```
+ */
 export function SearchResults({ initialQuery = '', onResultSelect }: SearchResultsProps) {
   const { query, setQuery, results, loading, error, filters, updateFilters } = useSearch();
   const [showFilters, setShowFilters] = useState(false);
@@ -25,14 +53,31 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
     }
   });
 
+  /**
+   * Updates search filters
+   * 
+   * @param key - Filter key to update
+   * @param value - New filter value
+   */
   const handleFilterChange = (key: keyof typeof filters, value: any) => {
     updateFilters({ [key]: value });
   };
 
+  /**
+   * Updates the sort order for search results
+   * 
+   * @param sortBy - New sort order (relevance, date, score)
+   */
   const handleSortChange = (sortBy: string) => {
     updateFilters({ sortBy: sortBy as any });
   };
 
+  /**
+   * Renders individual search results as either PostCard or Comment components
+   * 
+   * @param result - Search result to render
+   * @returns JSX element representing the search result
+   */
   const renderResult = (result: SearchResult) => {
     if (result.type === 'post') {
       return (
@@ -46,6 +91,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
             subredditId: result.subredditId || '',
             upvotes: result.score,
             downvotes: 0,
+            isRemoved: false,
             createdAt: result.createdAt,
             updatedAt: result.createdAt,
           }}
@@ -62,6 +108,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
               postId: result.postId || '',
               upvotes: result.score,
               downvotes: 0,
+              isRemoved: false,
               createdAt: result.createdAt,
               updatedAt: result.createdAt,
             }}

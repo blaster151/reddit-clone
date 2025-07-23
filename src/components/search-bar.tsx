@@ -7,18 +7,49 @@ import { Button } from '@/components/ui/button';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { useSearch, SearchFilter, SearchType } from '@/hooks/useSearch';
 
+/**
+ * Props for the SearchBar component
+ */
 interface SearchBarProps {
+  /** Placeholder text for the search input */
   placeholder?: string;
+  /** Additional CSS classes for styling */
   className?: string;
+  /** Optional callback when a search result is selected */
   onResultSelect?: (result: any) => void;
 }
 
+/**
+ * Advanced search bar component with dropdown results and filters
+ * 
+ * This component provides a comprehensive search interface with:
+ * - Real-time search with debouncing
+ * - Dropdown search results with rich previews
+ * - Advanced filtering options (type, date range, subreddit, author)
+ * - Loading states and error handling
+ * - Keyboard navigation support
+ * - Click outside to close functionality
+ * 
+ * @param props - Component props including placeholder, className, and result selection callback
+ * @returns JSX element representing the search bar with dropdown
+ * 
+ * @example
+ * ```tsx
+ * <SearchBar 
+ *   placeholder="Search posts and comments..."
+ *   onResultSelect={(result) => navigateToResult(result)}
+ * />
+ * ```
+ */
 export function SearchBar({ placeholder = "Search Reddit", className = "", onResultSelect }: SearchBarProps) {
   const { query, setQuery, results, loading, filters, updateFilters } = useSearch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Effect to handle clicking outside the search bar to close dropdown
+   */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
@@ -30,17 +61,35 @@ export function SearchBar({ placeholder = "Search Reddit", className = "", onRes
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  /**
+   * Handles input value changes and manages dropdown visibility
+   * 
+   * @param value - New input value
+   */
   const handleInputChange = (value: string) => {
     setQuery(value);
     setIsDropdownOpen(value.length > 0);
   };
 
+  /**
+   * Handles selection of a search result
+   * 
+   * Calls the onResultSelect callback and closes the dropdown
+   * 
+   * @param result - Selected search result
+   */
   const handleResultClick = (result: any) => {
     onResultSelect?.(result);
     setIsDropdownOpen(false);
     setQuery('');
   };
 
+  /**
+   * Updates search filters
+   * 
+   * @param key - Filter key to update
+   * @param value - New filter value
+   */
   const handleFilterChange = (key: keyof SearchFilter, value: any) => {
     updateFilters({ [key]: value });
   };

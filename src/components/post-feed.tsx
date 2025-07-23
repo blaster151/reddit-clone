@@ -4,10 +4,37 @@ import { usePostsWithStore } from '@/hooks/usePostsWithStore';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { PostCardSkeleton } from '@/components/ui/skeleton';
 
+/**
+ * Props for the PostFeed component
+ */
 interface PostFeedProps {
+  /** Optional subreddit ID to filter posts by specific subreddit */
   subredditId?: string;
 }
 
+/**
+ * Post feed component for displaying a paginated list of posts
+ * 
+ * This component provides a complete post feed interface with:
+ * - Paginated post display with load more functionality
+ * - Loading states with skeleton components
+ * - Error handling with retry functionality
+ * - Empty state with call-to-action
+ * - Subreddit filtering support
+ * - Responsive design with Tailwind CSS
+ * 
+ * @param props - Component props including optional subreddit ID
+ * @returns JSX element representing the post feed
+ * 
+ * @example
+ * ```tsx
+ * // Display all posts
+ * <PostFeed />
+ * 
+ * // Display posts from specific subreddit
+ * <PostFeed subredditId="react" />
+ * ```
+ */
 export function PostFeed({ subredditId }: PostFeedProps) {
   const { 
     posts, 
@@ -21,11 +48,18 @@ export function PostFeed({ subredditId }: PostFeedProps) {
   const PAGE_SIZE = 5;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  // Fetch posts on mount and when subredditId changes
+  /**
+   * Effect to fetch posts on mount and when subredditId changes
+   */
   useEffect(() => {
     fetchPosts(subredditId);
   }, [fetchPosts, subredditId]);
 
+  /**
+   * Handles loading more posts when user clicks load more button
+   * 
+   * Increases the visible count and triggers the load more action
+   */
   const handleLoadMore = () => {
     if (hasMore) {
       loadMore();

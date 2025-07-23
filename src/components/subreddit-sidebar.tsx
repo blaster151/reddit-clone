@@ -1,16 +1,48 @@
 import { useState } from 'react';
 
+/**
+ * Subreddit data structure
+ */
 interface Subreddit {
+  /** Unique identifier for the subreddit */
   id: string;
+  /** Display name of the subreddit */
   name: string;
+  /** Description or tagline of the subreddit */
   description: string;
 }
 
+/**
+ * Props for the SubredditSidebar component
+ */
 interface SubredditSidebarProps {
+  /** Array of subreddits to display in the sidebar */
   subreddits: Subreddit[];
+  /** Optional callback function when create subreddit button is clicked */
   onCreateSubreddit?: () => void;
 }
 
+/**
+ * Sidebar component for displaying and managing subreddits
+ * 
+ * This component provides a navigation sidebar with:
+ * - List of available subreddits with selection state
+ * - Empty state when no subreddits exist
+ * - Create community button for new subreddit creation
+ * - Hover and selection visual feedback
+ * - Responsive design with Tailwind CSS
+ * 
+ * @param props - Component props including subreddits array and create callback
+ * @returns JSX element representing the subreddit sidebar
+ * 
+ * @example
+ * ```tsx
+ * <SubredditSidebar 
+ *   subreddits={subredditList}
+ *   onCreateSubreddit={() => openCreateSubredditModal()}
+ * />
+ * ```
+ */
 export function SubredditSidebar({ subreddits, onCreateSubreddit }: SubredditSidebarProps) {
   const [selected, setSelected] = useState<string | null>(null);
 
