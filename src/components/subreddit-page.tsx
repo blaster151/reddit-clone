@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { PostCard } from './post-card';
 import { ModeratorPanel } from './moderator-panel';
 import { Button } from '@/components/ui/button';
-import { Shield, Users, Bell, BellOff } from 'lucide-react';
+import { Shield, Bell, BellOff } from 'lucide-react';
 
 interface Subreddit {
   id: string;

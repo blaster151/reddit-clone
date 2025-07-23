@@ -46,6 +46,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
             subredditId: result.subredditId || '',
             upvotes: result.score,
             downvotes: 0,
+            isRemoved: false,
             createdAt: result.createdAt,
             updatedAt: result.createdAt,
           }}
@@ -62,6 +63,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
               postId: result.postId || '',
               upvotes: result.score,
               downvotes: 0,
+              isRemoved: false,
               createdAt: result.createdAt,
               updatedAt: result.createdAt,
             }}
@@ -109,7 +111,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
             </h1>
             {query && (
               <p className="text-gray-600">
-                {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
+                {results.length} result{results.length !== 1 ? 's' : ''} for &quot;{query}&quot;
               </p>
             )}
           </div>
@@ -200,7 +202,7 @@ export function SearchResults({ initialQuery = '', onResultSelect }: SearchResul
         </div>
       ) : query ? (
         <div className="bg-white border border-gray-200 rounded-lg p-8 text-center">
-          <div className="text-gray-400 mb-4">No results found for "{query}"</div>
+          <div className="text-gray-400 mb-4">No results found for &quot;{query}&quot;</div>
           <div className="text-sm text-gray-500">
             Try adjusting your search terms or filters
           </div>

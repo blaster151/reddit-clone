@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Shield, Users, Ban, MicOff, Settings, UserPlus, UserMinus } from 'lucide-react';
+import { Shield, Users, Ban, MicOff, UserPlus, UserMinus } from 'lucide-react';
 
 interface User {
   id: string;
@@ -40,7 +40,6 @@ interface ModeratorPanelProps {
 }
 
 export function ModeratorPanel({
-  subredditId,
   moderators,
   bannedUsers,
   mutedUsers,
