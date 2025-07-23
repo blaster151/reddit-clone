@@ -80,6 +80,7 @@ export function Comment({
     targetType: 'comment',
     initialUpvotes: comment.upvotes,
     initialDownvotes: comment.downvotes,
+    initialUserVote: initialUserVote, // Pass the initial vote state
     onVoteChange: (voteType) => {
       if (onVote && voteType) onVote(comment.id, voteType);
     },
@@ -89,6 +90,21 @@ export function Comment({
 
   /**
    * Handles reply button click
+   * 
+   * @example
+   * ```tsx
+   * // Call the onReply callback with the comment ID
+   * const handleReply = () => {
+   *   if (onReply) {
+   *     onReply(comment.id);
+   *   }
+   * };
+   * 
+   * // Usage in JSX
+   * <button onClick={handleReply}>
+   *   Reply
+   * </button>
+   * ```
    */
   const handleReply = () => {
     if (onReply) {
@@ -98,6 +114,19 @@ export function Comment({
 
   /**
    * Toggles the expanded state of the comment
+   * 
+   * @example
+   * ```tsx
+   * // Toggle between expanded and collapsed states
+   * const toggleExpanded = () => {
+   *   setIsExpanded(!isExpanded);
+   * };
+   * 
+   * // Usage in JSX
+   * <button onClick={toggleExpanded}>
+   *   {isExpanded ? 'Collapse' : 'Expand'}
+   * </button>
+   * ```
    */
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
@@ -105,6 +134,19 @@ export function Comment({
 
   /**
    * Toggles the visibility of reply comments
+   * 
+   * @example
+   * ```tsx
+   * // Toggle between showing and hiding replies
+   * const toggleReplies = () => {
+   *   setShowReplies(!showReplies);
+   * };
+   * 
+   * // Usage in JSX
+   * <button onClick={toggleReplies}>
+   *   {showReplies ? 'Hide Replies' : 'Show Replies'}
+   * </button>
+   * ```
    */
   const toggleReplies = () => {
     setShowReplies(!showReplies);

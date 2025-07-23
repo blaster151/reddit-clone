@@ -20,6 +20,7 @@ const mockPost: Post = {
   subredditId: 'subreddit-1',
   upvotes: 10,
   downvotes: 2,
+  isRemoved: false,
   createdAt: new Date(),
   updatedAt: new Date(),
 };
@@ -31,6 +32,7 @@ const mockComment: Comment = {
   postId: 'post-1',
   upvotes: 5,
   downvotes: 1,
+  isRemoved: false,
   createdAt: new Date(),
   updatedAt: new Date(),
 };

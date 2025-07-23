@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z, ZodError } from 'zod';
 
+/**
+ * Zod schema for validating search request data.
+ * Defines the structure and validation rules for search queries.
+ */
 const searchSchema = z.object({
   query: z.string().min(1),
   type: z.enum(['post', 'comment', 'all']).default('all'),
@@ -12,7 +16,10 @@ const searchSchema = z.object({
   }).optional(),
 });
 
-// Mock data for demonstration
+/**
+ * Mock post data for demonstration purposes.
+ * In a real application, this would be fetched from a database.
+ */
 const mockPosts = [
   {
     id: 'post-1',
@@ -49,6 +56,10 @@ const mockPosts = [
   },
 ];
 
+/**
+ * Mock comment data for demonstration purposes.
+ * In a real application, this would be fetched from a database.
+ */
 const mockComments = [
   {
     id: 'comment-1',
@@ -72,6 +83,19 @@ const mockComments = [
   },
 ];
 
+/**
+ * Searches through posts and comments based on the provided query and filters.
+ * 
+ * @param query - The search query string to match against content
+ * @param type - The type of content to search: 'post', 'comment', or 'all'
+ * @param filters - Optional filters to apply to the search results
+ * @param filters.subreddit - Filter results by subreddit ID
+ * @param filters.author - Filter results by author ID
+ * @param filters.dateRange - Filter results by date range
+ * @param filters.sortBy - Sort results by relevance, date, or score
+ * 
+ * @returns Array of search results with metadata
+ */
 function searchContent(query: string, type: string, filters?: any) {
   const lowerQuery = query.toLowerCase();
   let results: any[] = [];
@@ -145,6 +169,79 @@ function searchContent(query: string, type: string, filters?: any) {
   return results;
 }
 
+/**
+ * POST /api/search
+ * 
+ * Performs a full-text search across posts and comments with advanced filtering and sorting options.
+ * Validates input using Zod schema and returns relevant search results.
+ * 
+ * @param req - NextRequest object containing the search parameters in the request body
+ * @param req.body - JSON object containing search data
+ * @param req.body.query - The search query string (required, minimum 1 character)
+ * @param req.body.type - The type of content to search: 'post', 'comment', or 'all' (optional, defaults to 'all')
+ * @param req.body.filters - Optional filters to apply to search results
+ * @param req.body.filters.subreddit - Filter results by subreddit ID (optional)
+ * @param req.body.filters.author - Filter results by author ID (optional)
+ * @param req.body.filters.dateRange - Filter results by date range: 'day', 'week', 'month', 'year', 'all' (optional)
+ * @param req.body.filters.sortBy - Sort results by: 'relevance', 'date', 'score' (optional, defaults to 'relevance')
+ * 
+ * @example
+ * ```typescript
+ * // Basic search
+ * const response = await fetch('/api/search', {
+ *   method: 'POST',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({
+ *     query: 'programming'
+ *   })
+ * });
+ * 
+ * // Advanced search with filters
+ * const response = await fetch('/api/search', {
+ *   method: 'POST',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({
+ *     query: 'TypeScript',
+ *     type: 'post',
+ *     filters: {
+ *       subreddit: 'programming',
+ *       author: 'user123',
+ *       dateRange: 'week',
+ *       sortBy: 'score'
+ *     }
+ *   })
+ * });
+ * ```
+ * 
+ * @returns Promise<NextResponse> - JSON response with search results and metadata
+ * 
+ * @response
+ * ```json
+ * {
+ *   "results": [
+ *     {
+ *       "id": "post-1",
+ *       "type": "post",
+ *       "title": "What's your favorite programming language and why?",
+ *       "content": "I've been coding for a few years now...",
+ *       "authorId": "user1",
+ *       "subredditId": "programming",
+ *       "score": 39,
+ *       "createdAt": "2024-01-01T08:00:00.000Z"
+ *     }
+ *   ],
+ *   "total": 1,
+ *   "query": "TypeScript",
+ *   "filters": {
+ *     "subreddit": "programming",
+ *     "sortBy": "score"
+ *   }
+ * }
+ * ```
+ * 
+ * @throws {ZodError} - If validation fails (400 Bad Request)
+ * @throws {Error} - If there's an internal server error (500 Internal Server Error)
+ */
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "docs:generate": "jsdoc -c jsdoc.config.js",
+    "docs:serve": "jsdoc -c jsdoc.config.js --serve",
+    "docs:build": "jsdoc -c jsdoc.config.js -d docs/website"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -28,20 +33,22 @@
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
-    "@types/jest": "^30.0.0",
+    "@types/jest": "^29.5.12",
     "@types/jest-axe": "^3.5.9",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@types/uuid": "^10.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "15.4.2",
-    "jest": "^30.0.5",
-    "jest-axe": "^10.0.0",
+    "@types/node": "^20.11.19",
+    "@types/react": "^18.2.57",
+    "@types/react-dom": "^18.2.19",
+    "@types/uuid": "^9.0.8",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "14.1.0",
+    "jest": "^29.7.0",
+    "jest-axe": "^9.0.0",
     "jest-environment-jsdom": "^30.0.5",
-    "msw": "^2.10.4",
+    "jsdoc": "^4.0.2",
+    "msw": "^2.2.3",
+    "react-testing-library": "^14.2.1",
     "tailwindcss": "^4",
-    "ts-jest": "^29.4.0",
-    "typescript": "^5"
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.3.3"
   }
 }

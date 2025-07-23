@@ -34,6 +34,11 @@ Redistribute open tasks equally between available developers in TODO.md. Pull fr
 
 ---
 
+
+Choose three test suites to run each with a 10000ms timeout. When it's done, evaluate the output and address any issues.
+The style that you found works best is (this is just an example):
+   npx jest src/components/__tests__/search-bar.test.tsx --testTimeout=10000 --verbose
+
 ##### Try in Future
 
 ---

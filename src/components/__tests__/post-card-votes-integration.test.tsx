@@ -10,6 +10,7 @@ const mockPost = {
   subredditId: 'sub1',
   upvotes: 10,
   downvotes: 2,
+  isRemoved: false,
   createdAt: new Date('2024-01-01T10:00:00Z'),
   updatedAt: new Date('2024-01-01T10:00:00Z'),
 };
@@ -64,6 +65,7 @@ describe('PostCard useVotes integration', () => {
     let score = 8;
     const submitVote = jest.fn(() => {
       score = 9;
+      return Promise.resolve();
     });
     jest.spyOn(useVotesModule, 'useVotes').mockImplementation(() => ({
       upvotes: score + 2,

@@ -2,10 +2,14 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { Comment } from '../comment';
 import { Comment as CommentType } from '@/types';
 
+// Mock fetch globally
+global.fetch = jest.fn();
+
 // Mock the utils functions
 jest.mock('@/lib/utils', () => ({
   formatRelativeTime: jest.fn(() => '2h ago'),
   formatNumber: jest.fn((num: number) => num.toString()),
+  cn: jest.fn((...classes: string[]) => classes.filter(Boolean).join(' ')),
 }));
 
 // Mock the Button component
@@ -15,6 +19,11 @@ jest.mock('@/components/ui/button', () => ({
       {children}
     </button>
   ),
+}));
+
+// Mock the LoadingSpinner component
+jest.mock('@/components/ui/loading-spinner', () => ({
+  LoadingSpinner: ({ size }: any) => <div className={`loading-spinner-${size}`}>Loading...</div>,
 }));
 
 // Mock lucide-react icons
@@ -32,6 +41,7 @@ const mockComment: CommentType = {
   postId: 'post-1',
   upvotes: 15,
   downvotes: 3,
+  isRemoved: false,
   createdAt: new Date('2024-01-01T10:00:00Z'),
   updatedAt: new Date('2024-01-01T10:00:00Z'),
 };
@@ -43,6 +53,18 @@ const mockEditedComment: CommentType = {
 };
 
 describe('Comment Component', () => {
+  beforeEach(() => {
+    // Mock fetch to return successful response
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true }),
+    });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('Rendering', () => {
     it('renders comment with basic information', () => {
       render(<Comment comment={mockComment} />);
@@ -83,24 +105,30 @@ describe('Comment Component', () => {
   });
 
   describe('Voting', () => {
-    it('calls onVote when upvote button is clicked', () => {
+    it('calls onVote when upvote button is clicked', async () => {
       const onVote = jest.fn();
       render(<Comment comment={mockComment} onVote={onVote} />);
       
       const upvoteButton = screen.getByLabelText('Upvote comment');
       fireEvent.click(upvoteButton);
       
-      expect(onVote).toHaveBeenCalledWith('comment-1', 'upvote');
+      // Wait for the vote to be processed
+      await waitFor(() => {
+        expect(onVote).toHaveBeenCalledWith('comment-1', 'upvote');
+      });
     });
 
-    it('calls onVote when downvote button is clicked', () => {
+    it('calls onVote when downvote button is clicked', async () => {
       const onVote = jest.fn();
       render(<Comment comment={mockComment} onVote={onVote} />);
       
       const downvoteButton = screen.getByLabelText('Downvote comment');
       fireEvent.click(downvoteButton);
       
-      expect(onVote).toHaveBeenCalledWith('comment-1', 'downvote');
+      // Wait for the vote to be processed
+      await waitFor(() => {
+        expect(onVote).toHaveBeenCalledWith('comment-1', 'downvote');
+      });
     });
 
     it('does not call onVote when callback is not provided', () => {
@@ -114,15 +142,27 @@ describe('Comment Component', () => {
     });
 
     it('applies upvoted styling when user has upvoted', () => {
-      render(<Comment comment={mockComment} userVote="upvote" />);
-      
+      render(
+        <Comment 
+          comment={mockComment} 
+          userVote="upvote"
+          onVote={jest.fn()}
+        />
+      );
+
       const upvoteButton = screen.getByLabelText('Upvote comment');
       expect(upvoteButton).toHaveClass('text-orange-500');
     });
 
     it('applies downvoted styling when user has downvoted', () => {
-      render(<Comment comment={mockComment} userVote="downvote" />);
-      
+      render(
+        <Comment 
+          comment={mockComment} 
+          userVote="downvote"
+          onVote={jest.fn()}
+        />
+      );
+
       const downvoteButton = screen.getByLabelText('Downvote comment');
       expect(downvoteButton).toHaveClass('text-blue-500');
     });

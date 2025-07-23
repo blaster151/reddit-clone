@@ -6,6 +6,7 @@ import { PostFeed } from '@/components/post-feed';
 import { Plus, Menu } from 'lucide-react';
 import { SkipLink } from '@/components/ui/accessibility';
 import { NotificationBell } from '@/components/notification-bell';
+import { CreateCommunityButton } from '@/components/create-community-button';
 
 // Sample data for demonstration
 const samplePosts: Post[] = [
@@ -78,12 +79,20 @@ export default function Home() {
               </Button>
               <h1 className="text-xl font-bold text-orange-500">reddit</h1>
             </div>
-            <Button 
-              className="bg-orange-500 hover:bg-orange-600 px-3 py-1.5 text-sm"
-              aria-label="Create new post"
-            >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-            </Button>
+            <div className="flex items-center gap-2">
+              <CreateCommunityButton 
+                variant="outline"
+                size="sm"
+                showText={false}
+                className="px-3 py-1.5"
+              />
+              <Button 
+                className="bg-orange-500 hover:bg-orange-600 px-3 py-1.5 text-sm"
+                aria-label="Create new post"
+              >
+                <Plus className="h-4 w-4" aria-hidden="true" />
+              </Button>
+            </div>
           </div>
 
           {/* Desktop Header */}
@@ -102,6 +111,12 @@ export default function Home() {
                 maxNotifications={10}
                 enableRealtime={true}
                 websocketUrl="ws://localhost:3001/notifications"
+              />
+              <CreateCommunityButton 
+                variant="outline"
+                size="sm"
+                showText={false}
+                className="mr-2"
               />
               <Button 
                 className="bg-orange-500 hover:bg-orange-600"

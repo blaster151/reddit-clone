@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createPostSchema, type CreatePostInput } from '@/lib/validation';
+import { createPostSchema, flexibleCreatePostSchema, type CreatePostInput } from '@/lib/validation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,8 +24,15 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<CreatePostInput>({
-    resolver: zodResolver(createPostSchema),
+    resolver: zodResolver(flexibleCreatePostSchema) as any,
+    defaultValues: {
+      title: '',
+      content: '',
+      subredditId: subreddits.length > 0 ? subreddits[0].id : '',
+    },
+    mode: 'onChange',
   });
 
   const handleFormSubmit = async (data: CreatePostInput) => {
@@ -62,11 +69,32 @@ export function CreatePostForm({ onSubmit, onCancel, subreddits = [] }: CreatePo
     }
   };
 
+  // Handle empty subreddits list
+  if (subreddits.length === 0) {
+    return (
+      <div className="bg-white border border-gray-200 rounded-lg p-6">
+        <h2 className="text-xl font-semibold text-gray-900 mb-4">Create a Post</h2>
+        <div className="text-center py-8">
+          <p className="text-gray-500 mb-4">No subreddits available</p>
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+            >
+              Go Back
+            </Button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-white border border-gray-200 rounded-lg p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Create a Post</h2>
       
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(handleFormSubmit as any)} className="space-y-4">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Title
