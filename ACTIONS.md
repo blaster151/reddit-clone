@@ -84,3 +84,4 @@ Dev 2
 Dev 3
 
 - Implemented useComments custom hook for fetching and managing comments with comprehensive functionality including pagination, sorting, CRUD operations, error handling, and loading states, along with unit tests covering core functionality and edge cases.
+- Implemented useAuth custom hook for authentication state management with comprehensive functionality including login, register, logout, user session management, automatic authentication check on mount, error handling, and loading states, along with comprehensive unit tests covering all authentication flows and edge cases.
