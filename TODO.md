@@ -72,7 +72,7 @@
 ## State Management & Hooks
 - [x] Create custom hook for submitting votes
 - [Dev 1] Create custom hook for authentication state
-- [Dev 1] Create custom hook for fetching comments
+- [x] Create custom hook for fetching comments
 - [Dev 1] Create custom hook for user vote history
 - [Dev 1] Create custom hook for trending posts/comments
 - [x] Create custom hook for search functionality

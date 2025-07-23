@@ -1,3 +1,5 @@
+Dev 1
+
 - Scaffolded a TypeScript-first Next.js Reddit clone: set up project with Tailwind, ESLint, Zod validation, reusable UI components, type definitions, utility functions, and connected/pushed to a new GitHub repository. 
 - Added unit tests for the sanitizeInput utility function in src/lib/__tests__/utils.test.ts to ensure input sanitization works as expected. 
 - Implemented the usePosts custom hook for fetching posts with loading and error state, and added a unit test for it using React Testing Library and MSW. 
@@ -36,6 +38,8 @@
 - Implemented centralized API error handling (ApiError class, handleApiError function) and refactored comments/votes API routes to use it. Added unit tests for error handler covering ApiError, ZodError, and generic errors. 
 - Implemented integration tests for user registration and login flows (POST /api/auth/register, POST /api/auth/login) covering valid input, missing fields, invalid email, and short password cases. 
 - Implemented integration tests for subreddit creation and fetching flows (POST /api/subreddits/create, GET /api/subreddits/[id]) covering valid input, missing fields, invalid name, long description, valid id, and not found cases. 
+Dev 2
+
 - Implemented integration tests for subscribing/unsubscribing to subreddits (POST /api/subreddits/subscribe, POST /api/subreddits/unsubscribe) covering valid input and missing fields. 
 - Implemented API endpoints and integration tests for fetching user profiles and user activity (GET /api/users/[id], GET /api/users/[id]/activity) covering valid and invalid user IDs. 
 - Implemented moderation tools: comment/report flagging (POST /api/moderation/flag), comment removal (POST /api/moderation/remove-comment), and user bans (POST /api/moderation/ban-user), with integration tests for valid input and error cases. 
@@ -76,3 +80,7 @@
 - Implemented Zustand global state management to reduce prop drilling, including a comprehensive store with user, posts, comments, and UI state management, selector hooks for better performance, integration with existing components (PostFeed), and comprehensive unit tests covering all state management functions and edge cases.
 - Enhanced database schema with comprehensive moderation system: added moderator relationships between users and subreddits, Ban and Mute models for user restrictions, removal tracking for posts and comments, and updated TypeScript types and Zod validation schemas to support all moderation actions including banning users, muting users, removing posts/comments, and managing moderators.
 - Implemented comprehensive UI components for moderation system: created ModerationActions component with remove, ban, and mute functionality, updated PostCard and CommentCard components to display removed content and moderation tools, created ModeratorPanel component with tabs for managing moderators, bans, and mutes, and enhanced SubredditPage with moderator panel, subscription buttons, and moderator status indicators.
+
+Dev 3
+
+- Implemented useComments custom hook for fetching and managing comments with comprehensive functionality including pagination, sorting, CRUD operations, error handling, and loading states, along with unit tests covering core functionality and edge cases.
