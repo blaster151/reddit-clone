@@ -1,11 +1,43 @@
 import { cn } from '@/lib/utils';
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 
+/**
+ * Props for the Button component
+ */
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant of the button */
   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+  /** Size variant of the button */
   size?: 'default' | 'sm' | 'lg' | 'icon';
 }
 
+/**
+ * Reusable Button component with multiple variants and sizes
+ * 
+ * This component provides a consistent button interface across the application
+ * with support for different visual styles, sizes, and accessibility features.
+ * 
+ * @param props - Button props including variant, size, and standard button attributes
+ * @param ref - Forwarded ref to the underlying button element
+ * @returns JSX element representing a styled button
+ * 
+ * @example
+ * ```tsx
+ * // Default button
+ * <Button onClick={handleClick}>Click me</Button>
+ * 
+ * // Destructive button
+ * <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+ * 
+ * // Icon button
+ * <Button size="icon" variant="ghost">
+ *   <Icon />
+ * </Button>
+ * 
+ * // Large outline button
+ * <Button variant="outline" size="lg">Large Button</Button>
+ * ```
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = 'default', size = 'default', ...props }, ref) => {
     return (

@@ -1,14 +1,54 @@
 import { useState, useCallback } from 'react';
 import { VoteType, VoteTarget } from '@/types';
 
+/**
+ * Props for the useVotes hook
+ */
 interface UseVotesProps {
+  /** ID of the target (post or comment) to vote on */
   targetId: string;
+  /** Type of target (post or comment) */
   targetType: VoteTarget;
+  /** Initial number of upvotes */
   initialUpvotes?: number;
+  /** Initial number of downvotes */
   initialDownvotes?: number;
+  /** Optional callback when vote changes */
   onVoteChange?: (voteType: VoteType | null) => void;
 }
 
+/**
+ * Custom hook for managing voting functionality on posts and comments
+ * 
+ * This hook provides a complete voting system including:
+ * - Upvoting and downvoting with optimistic updates
+ * - Vote state management and persistence
+ * - Loading states during vote submission
+ * - Automatic vote count calculations
+ * 
+ * @param props - Configuration options for the voting system
+ * @returns Object containing vote state and submission function
+ * 
+ * @example
+ * ```tsx
+ * function PostCard({ post }) {
+ *   const { upvotes, downvotes, score, userVote, submitVote } = useVotes({
+ *     targetId: post.id,
+ *     targetType: 'post',
+ *     initialUpvotes: post.upvotes,
+ *     initialDownvotes: post.downvotes,
+ *   });
+ *   
+ *   return (
+ *     <div>
+ *       <button onClick={() => submitVote('upvote')}>Upvote</button>
+ *       <span>{score}</span>
+ *       <button onClick={() => submitVote('downvote')}>Downvote</button>
+ *     </div>
+ *   );
+ * }
+ * ```
+ */
 export function useVotes({
   targetId,
   targetType,
@@ -21,6 +61,15 @@ export function useVotes({
   const [userVote, setUserVote] = useState<VoteType | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  /**
+   * Submits a vote to the API with optimistic updates
+   * 
+   * Performs optimistic updates for better UX, then syncs with the server.
+   * If the server request fails, the optimistic update is reverted.
+   * 
+   * @param voteType - The type of vote to submit (upvote, downvote, or null to remove)
+   * @throws {Error} When the API request fails
+   */
   const submitVote = useCallback(async (voteType: VoteType) => {
     setIsSubmitting(true);
     
@@ -83,14 +132,21 @@ export function useVotes({
     }
   }, [targetId, targetType, upvotes, downvotes, userVote, initialUpvotes, initialDownvotes, onVoteChange]);
 
+  /** Calculated score (upvotes - downvotes) */
   const score = upvotes - downvotes;
 
   return {
+    /** Current number of upvotes */
     upvotes,
+    /** Current number of downvotes */
     downvotes,
+    /** Calculated score (upvotes - downvotes) */
     score,
+    /** Current user's vote on this target */
     userVote,
+    /** Whether a vote submission is in progress */
     isSubmitting,
+    /** Function to submit a vote */
     submitVote,
   };
 } 

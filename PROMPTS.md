@@ -10,7 +10,7 @@ Come up with a list of small actions that would bring the project closer to its 
 
 ##### **3x**
 
-Choose one unimplemented action item from TODO.md [that's assigned to you] and implement it, accompanying with unit test(s) if appropriate. Update TODO.md to check off the item you implemented. Update ACTIONS.md with a line item about what you did. Do not prompt me at all.
+Choose one unimplemented action item from TODO.md [that's assigned to you] and implement it, accompanying with unit test(s) if appropriate. Update TODO.md to check off the item you implemented. Update ACTIONS.md with a line item about what you did (underneath the dev section representing you). Do not prompt me at all.
 
 ---
 
